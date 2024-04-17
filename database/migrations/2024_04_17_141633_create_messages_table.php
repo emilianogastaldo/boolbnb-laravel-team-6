@@ -29,9 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('messages', function (Blueprint $table) {
-            $table->dropForeingIdFor(Flat::class);
-        });
+        // Schema::table('messages', function (Blueprint $table) {
+        //     $table->dropForeignIdFor(Flat::class);
+        // });
         Schema::dropIfExists('messages');
     }
 };

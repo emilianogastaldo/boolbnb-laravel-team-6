@@ -37,9 +37,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('flats', function (Blueprint $table) {
-            $table->dropForeingIdFor(User::class);
-        });
+        // Schema::table('flats', function (Blueprint $table) {
+        //     $table->dropForeignIdFor(User::class);
+        // });
         Schema::dropIfExists('flats');
     }
 };
