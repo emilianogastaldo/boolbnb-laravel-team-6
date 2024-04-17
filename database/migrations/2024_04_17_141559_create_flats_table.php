@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Prompts\Table;
 
 return new class extends Migration
 {
@@ -13,7 +15,20 @@ return new class extends Migration
     {
         Schema::create('flats', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->text('description');
+            $table->string('address');
+            $table->tinyInteger('bed');
+            $table->tinyInteger('bathroom');
+            $table->smallInteger('sq_m');
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
+            $table->string('image')->nullable();
+            $table->boolean('is_visible');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -22,6 +37,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('flats', function (Blueprint $table) {
+            $table->dropForeingIdFor(User::class);
+        });
         Schema::dropIfExists('flats');
     }
 };
