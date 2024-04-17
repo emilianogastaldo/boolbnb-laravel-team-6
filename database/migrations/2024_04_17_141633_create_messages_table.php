@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Flat;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,18 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Flat::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('first_name');
             $table->string('last_name');
-            $table->date('birth_date');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('email_sender');
+            $table->text('text');
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        // Schema::table('messages', function (Blueprint $table) {
+        //     $table->dropForeignIdFor(Flat::class);
+        // });
+        Schema::dropIfExists('messages');
     }
 };
