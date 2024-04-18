@@ -138,7 +138,7 @@ class FlatSeeder extends Seeder
 
         foreach ($flats as $flat) {
             $new_flat = new Flat();
-            $new_flat->fill();
+            $new_flat->fill($flat);
             $new_flat->save();
 
         }
