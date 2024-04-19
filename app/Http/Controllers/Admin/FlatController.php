@@ -11,10 +11,13 @@ class FlatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $flats = Flat::all();
-        return view('admin.flats.index', compact('flats'));
+        // recupero il termine della ricerca dalla request
+        $search = $request->query('search');
+        // aggiungo il termine alla query
+        $flats = Flat::where('title', 'LIKE', "%$search%")->get();
+        return view('admin.flats.index', compact('flats', 'search'));
     }
 
     /**
