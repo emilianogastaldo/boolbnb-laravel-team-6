@@ -60,8 +60,27 @@ class FlatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Flat $flat)
     {
-        //
+        $flat->delete();
+        return to_route('admin.flats.index')->with('message', "$flat->title eliminato con successo");
+    }
+
+    // funzione per la soft delete
+    public function trash(){
+        $flats = Flat::onlyTrashed()->get();
+        return view('admin.flats.trash', compact('flats'));
+    }
+
+    // Funzione la strong delete
+    public function drop(Flat $flat){
+        $flat->forceDelete();
+        return to_route('admin.flats.index')->with('type', 'warning')->with('message', "$flat->title eliminato definitivamente");
+    }
+
+    // Funzione per il restore
+    public function restore(Flat $flat){
+        $flat->restore();
+        return to_route('admin.flats.index')->with('type', 'info')->with('message', "L'appartamento $flat->title è stato ripristinato");
     }
 }

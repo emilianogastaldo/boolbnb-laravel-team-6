@@ -30,7 +30,19 @@ Route::middleware('auth')->group(function () {
 Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function () {
 
     Route::get('/', AdminHomeController::class)->middleware(['auth', 'verified'])->name('home');
+
+    // Rotta per la soft delete
+    Route::get('/flats/trash', [FlatController::class, 'trash'])->name('flats.trash');
+
+    // Rotta per la strong delete
+    Route::delete('/flats/{flat}/drop', [FlatController::class, 'drop'])->name('flats.drop')->withTrashed();
+
+    //  Rotta per il restore
+    Route::patch('/flats/{flat}/restore', [FlatController::class, 'restore'])->name('flats.restore')->withTrashed();
+    
+    // Rotta per le crud
     Route::resource('flats', FlatController::class);
 });
+
 
 require __DIR__ . '/auth.php';
