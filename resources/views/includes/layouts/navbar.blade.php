@@ -15,7 +15,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.flats.index') }}">{{ __('Flats') }}</a>
+                    <a class="nav-link" href="{{route('admin.flats.index') }}">{{ __('Appartamenti') }}</a>
                 </li>
             
             </ul>

@@ -66,7 +66,7 @@ class FlatController extends Controller
     public function destroy(Flat $flat)
     {
         $flat->delete();
-        return to_route('admin.flats.index')->with('message', "$flat->title eliminato con successo");
+        return to_route('admin.flats.index')->with('message', "$flat->title eliminato con successo")->with('type', 'danger');
     }
 
 

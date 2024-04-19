@@ -11,8 +11,7 @@
   </div>
 </form>
 
-<table class="table table-dark table-striped my-3">
-
+  <table class="table table-dark table-striped my-3">
     <thead>
       <tr>
         <th scope="col">Titolo</th>
@@ -28,7 +27,7 @@
 
             {{-- Add flat Button --}}
             <a href="{{route('admin.flats.create')}}" class="btn btn-sm btn-success">
-                <i class="fas fa-plus me-2"></i>New Flat
+                <i class="fas fa-plus me-2"></i>Nuovo
             </a>
           </div>
         </th>
