@@ -10,7 +10,7 @@ class Flat extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['title', 'description', 'address', 'bed', 'bathroom', 'sq_m', 'latitude', 'longitude', 'image', 'is_visible'];
+    protected $fillable = ['title', 'description', 'room', 'address', 'bed', 'bathroom', 'sq_m', 'latitude', 'longitude', 'image', 'is_visible'];
 
     // Relazione con l'utente
     public function user()

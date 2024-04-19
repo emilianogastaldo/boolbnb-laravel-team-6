@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flat;
+use Illuminate\Support\Arr;
 
 class FlatController extends Controller
 {
@@ -33,7 +34,19 @@ class FlatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // $request->validate();
+        $data = $request->all();
+        // dd($data);
+
+        $new_flat = new Flat();
+        $new_flat->fill($data);
+        $new_flat->is_visible = Arr::exists($data, 'is_visible');
+        $new_flat['latitude'] = 0;
+        $new_flat['longitude'] = 0;
+        $new_flat->save();
+
+        return to_route('admin.flats.index')->with('message', 'Pogretto creato con successo')->with('type', 'success');
     }
 
     /**
