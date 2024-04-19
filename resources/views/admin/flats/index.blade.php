@@ -3,8 +3,8 @@
 @if (session('message'))
 <strong>{{session('message')}}</strong>
  @endif
-<a href="{{route('admin.flats.trash')}}"><i class="fas fa-trash-can"></i></a>
 <table class="table table-dark table-striped container my-5">
+    {{-- Thead --}}
     <thead>
       <tr>
         <th scope="col">Titolo</th>
@@ -13,9 +13,20 @@
         <th scope="col">Dimensioni</th>
         <th scope="col">Bagni</th>
         <th scope="col">Stanze</th>
-        <th></th>
+        <th>
+          <div class="d-flex align-items-center justify-content-end gap-3">
+            {{-- Go to trash page button --}}
+            <a href="{{route('admin.flats.trash')}}"><i class="fas fa-trash-can"></i></a>
+
+            {{-- Add flat Button --}}
+            <a href="{{route('admin.flats.create')}}" class="btn btn-sm btn-success">
+                <i class="fas fa-plus me-2"></i>New Flat
+            </a>
+          </div>
+        </th>
       </tr>
     </thead>
+    {{-- Tbody --}}
     <tbody>
       @forelse ($flats as $flat)
       <tr>
@@ -27,11 +38,23 @@
         <td>{{$flat->bathroom}}</td>
         <td>
             <div class="d-flex justify-content-end gap-3">
-                <a href="{{route('admin.flats.show', $flat->id)}}"><i class="fa-solid fa-eye"></i></a>
+                {{-- Show Button --}}
+                <a href="{{route('admin.flats.show', $flat->id)}}" class="btn btn-sm btn-primary">
+                  <i class="fas fa-eye"></i>
+                </a>
+
+                {{-- Edit Button --}}
+                <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-sm btn-warning">
+                  <i class="fas fa-pencil"></i>
+                </a>
+
+                {{-- Delete Button --}}
                 <form action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
                   @csrf
                   @method('DELETE')
-                  <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                  <button class="btn btn-sm btn-danger" type="submit">
+                    <i class="fas fa-trash-can"></i>
+                  </button>
                 </form>
             </div>
         </td>
