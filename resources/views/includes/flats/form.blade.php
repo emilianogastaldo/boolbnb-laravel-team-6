@@ -6,6 +6,7 @@
     <form action="{{route('admin.flats.store')}}" enctype="multipart/form-data" method="POST"> 
 @endif
     @csrf
+    {{-- @dd($flat) --}}
     <div class="row my-3 g-4">
         {{-- Input per il titolo della casa --}}
         <div class="col-6">
@@ -83,15 +84,18 @@
         {{-- Input descrizione dell'appartamento --}}
         <div class="col-12">
             <div class="form-floating">
-                <textarea class="form-control" placeholder="" id="description" name="description" style="height: 150px">{{old('description', $flat->description)}}</textarea>
+                <textarea class="form-control @error('sq_m') is-invalid @elseif(old('sq_m', '')) is-valid @enderror" placeholder="" id="description" name="description" style="height: 150px">{{old('description', $flat->description)}}</textarea>
                 <label for="description">Scrivi una descrizione dell'appartamento <span class="text-danger"> * </span></label>
+                @error('description')
+                <div class="invalid-feedback">{{$message}}</div>
+                @enderror
             </div>        
         </div>
 
         {{-- Input bozza o pubblico --}}
         <div class="col">
             <div class="form-check form-switch form-check-reverse">
-                <input class="form-check-input" type="checkbox" name="is_visible" id="is_visible">
+                <input class="form-check-input" type="checkbox" name="is_visible" id="is_visible" value="{{old('is_visible', $flat->is_visible)}}">
                 <label class="form-check-label" for="is_visible">Pubblicato</label>
             </div>
         </div>
