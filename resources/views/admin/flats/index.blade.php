@@ -7,12 +7,12 @@
 <table class="table table-dark table-striped container my-5">
     <thead>
       <tr>
-        <th scope="col">TITOLO</th>
-        <th scope="col">DESCRIZIONE</th>
-        <th scope="col">INDIRIZZO</th>
-        <th scope="col">DIMENSIONI</th>
-        <th scope="col">NUMERO BAGNI</th>
-        <th scope="col">NUMERO STANZE</th>
+        <th scope="col">Titolo</th>
+        <th scope="col">Descrizione</th>
+        <th scope="col">Indirizzo</th>
+        <th scope="col">Dimensioni</th>
+        <th scope="col">Bagni</th>
+        <th scope="col">Stanze</th>
         <th></th>
       </tr>
     </thead>

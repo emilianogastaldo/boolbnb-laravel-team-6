@@ -44,7 +44,7 @@ class FlatController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Flat $flat)
     {
         //
     }
@@ -52,7 +52,7 @@ class FlatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Flat $flat)
     {
         //
     }
@@ -66,20 +66,30 @@ class FlatController extends Controller
         return to_route('admin.flats.index')->with('message', "$flat->title eliminato con successo");
     }
 
-    // funzione per la soft delete
-    public function trash(){
+
+    /**
+     * Funzione per implementare la soft delete
+     */
+    public function trash()
+    {
         $flats = Flat::onlyTrashed()->get();
         return view('admin.flats.trash', compact('flats'));
     }
 
-    // Funzione la strong delete
-    public function drop(Flat $flat){
+    /**
+     * Funzione per implementare la strong delete
+     */
+    public function drop(Flat $flat)
+    {
         $flat->forceDelete();
         return to_route('admin.flats.index')->with('type', 'warning')->with('message', "$flat->title eliminato definitivamente");
     }
 
-    // Funzione per il restore
-    public function restore(Flat $flat){
+    /**
+     * Funzione per implementare il restore del flat trashed
+     */
+    public function restore(Flat $flat)
+    {
         $flat->restore();
         return to_route('admin.flats.index')->with('type', 'info')->with('message', "L'appartamento $flat->title è stato ripristinato");
     }
