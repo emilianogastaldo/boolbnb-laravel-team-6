@@ -26,7 +26,8 @@ class FlatController extends Controller
      */
     public function create()
     {
-        return view('admin.flats.create');
+        $flat = new Flat();
+        return view('admin.flats.create', compact('flat'));
     }
 
     /**
@@ -35,7 +36,30 @@ class FlatController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validate();
+        $request->validate(
+            [
+                'title' => 'required|string',
+                'room' => 'required|min:1|numeric',
+                'bed' => 'required|min:1|numeric',
+                'bathroom' => 'required|min:1|numeric',
+                'sq_m' => 'required|min:0|numeric',
+            ],
+            [
+                'title.required' => 'Devi inserire un nome alla casa',
+                'room.required' => 'Devi inserire almeno una stanza',
+                'room.min' => 'Devi inserire almeno una stanza',
+                'room.numeric' => 'Il valore inserito deve essere un numero',
+                'bed.required' => 'Devi inserire almeno un posto letto',
+                'bed.min' => 'Devi inserire almeno un posto letto',
+                'bed.numeric' => 'Il valore inserito deve essere un numero',
+                'bathroom.required' => 'Devi inserire almeno un bagno',
+                'bathroom.min' => 'Devi inserire almeno un bagno',
+                'bathroom.numeric' => 'Il valore inserito deve essere un numero',
+                'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
+                'sq_m.min' => 'Devo essere maggiore di 0',
+                'sq_m.numeric' => 'Il valore inserito deve essere un numero',
+            ]
+        );
         $data = $request->all();
         // dd($data);
 
