@@ -47,7 +47,10 @@
         @include('includes.layouts.navbar')
 
         <!-- Main -->
-        <main class="container">
+        <main class="container py-3">
+            {{-- Alerts --}}
+            @include('includes.alerts')
+
             {{-- Content --}}
             @yield('content')
         </main>

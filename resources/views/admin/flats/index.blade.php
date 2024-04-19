@@ -12,6 +12,7 @@
 </form>
 
 <table class="table table-dark table-striped my-3">
+
     <thead>
       <tr>
         <th scope="col">Titolo</th>
