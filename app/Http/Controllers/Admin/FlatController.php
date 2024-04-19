@@ -42,6 +42,7 @@ class FlatController extends Controller
                 'title' => 'required|string',
                 'description' => 'required|string',
                 'room' => 'required|min:1|numeric',
+                'image' => 'required|image|mimes:png,jpg',
                 'bed' => 'required|min:1|numeric',
                 'bathroom' => 'required|min:1|numeric',
                 'sq_m' => 'required|min:0|numeric',
@@ -52,6 +53,9 @@ class FlatController extends Controller
                 'room.required' => 'Devi inserire almeno una stanza',
                 'room.min' => 'Devi inserire almeno una stanza',
                 'room.numeric' => 'Il valore inserito deve essere un numero',
+                'image.required' => 'Devi caricare un\'immagine',
+                'image.image' => 'Carica una immagine',
+                'image.mimes' => 'Si supportano solo le immagini con estensione .png o .jpg',
                 'bed.required' => 'Devi inserire almeno un posto letto',
                 'bed.min' => 'Devi inserire almeno un posto letto',
                 'bed.numeric' => 'Il valore inserito deve essere un numero',
@@ -64,23 +68,17 @@ class FlatController extends Controller
             ]
         );
         $data = $request->all();
-        dd($data);
 
         $new_flat = new Flat();
-
-        // if (Arr::exists($data, 'image')) {
-        //     // Recupero l'estensione del file
-        //     $extension = $data['image']->extension();
-        //     $img_url = Storage::putFileAs('project_images', $data['image'], "{$data['title']}-{$new_flat->id}.$extension");
-        //     $data['image'] = $img_url;
-        // }
         $data['latitude'] = 0;
         $data['longitude'] = 0;
 
+        // Non faccio controlli poiché l'immagine è obbligatoria, quindi avrò per forza il dato dell'immagine
+        $data['image'] = Storage::putFile('flat_images', $data['image']);
 
         $new_flat->fill($data);
+        // Do il valore booleano alla visibilità
         $new_flat->is_visible = Arr::exists($data, 'is_visible');
-
         $new_flat->save();
 
         return to_route('admin.flats.index')->with('message', 'Pogretto creato con successo')->with('type', 'success');
@@ -111,6 +109,7 @@ class FlatController extends Controller
             [
                 'title' => 'required|string',
                 'room' => 'required|min:1|max:255|numeric',
+                'image' => 'required|image|mimes:png,jpg',
                 'bed' => 'required|min:1|max:255|numeric',
                 'bathroom' => 'required|min:1|max:255|numeric',
                 'sq_m' => 'required|min:0|max:65535|numeric',
@@ -121,6 +120,9 @@ class FlatController extends Controller
                 'room.min' => 'Devi inserire almeno una stanza',
                 'room.max' => 'Puoi inserire massimo 255',
                 'room.numeric' => 'Il valore inserito deve essere un numero',
+                'image.required' => 'Devi caricare un\'immagine',
+                'image.image' => 'Carica una immagine',
+                'image.mimes' => 'Si supportano solo le immagini con estensione .png o .jpg',
                 'bed.required' => 'Devi inserire almeno un posto letto',
                 'bed.min' => 'Devi inserire almeno un posto letto',
                 'bed.max' => 'Puoi inserire massimo 255',
@@ -136,8 +138,14 @@ class FlatController extends Controller
             ]
         );
         $data = $request->all();
+
+        // Cancello e metto la nuova immagine
+        Storage::delete($flat->image);
+        $data['image'] = Storage::putFile('flat_images', $data['image']);
+
         $flat->update($data);
-        return to_route('admin.flats.index');
+
+        return to_route('admin.flats.show', compact('flat'));
     }
 
     /**
@@ -173,6 +181,8 @@ class FlatController extends Controller
      */
     public function restore(Flat $flat)
     {
+        // Cancello l'immagine dallo Storage
+        if ($flat->image) Storage::delete($flat->image);
         $flat->restore();
         return to_route('admin.flats.index')->with('type', 'info')->with('message', "L'appartamento $flat->title è stato ripristinato");
     }

@@ -75,9 +75,12 @@
         
         {{-- Input aggiunta immagine --}}
         <div class="col-12">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="image" name="image" value="{{old('image', $flat->image)}}" placeholder="">    
-                <label for="image">Aggiungi url immagine<span class="text-danger"> * </span></label>
+            <div class="form-group">
+                <label for="image">Carica un'immagine (che sia .png o .jpg) <span class="text-danger"> * </span></label>
+                <input id="image" class="form-control my-2 @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" type="file" name="image" value="{{old('image', $flat->image)}}">
+                @error('image')
+                <div class="invalid-feedback">{{$message}}</div>
+                @enderror
             </div>
         </div>
 
