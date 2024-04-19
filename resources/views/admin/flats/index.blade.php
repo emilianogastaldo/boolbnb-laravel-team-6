@@ -4,10 +4,6 @@
 
 @section('content')
 
- @if (session('message'))  
-  <strong>{{session('message')}}</strong>
- @endif
-
 <table class="table table-dark table-striped container my-5">
     {{-- Thead --}}
     <thead>
