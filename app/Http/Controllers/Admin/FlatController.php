@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flat;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class FlatController extends Controller
 {
@@ -39,13 +40,15 @@ class FlatController extends Controller
         $request->validate(
             [
                 'title' => 'required|string',
+                'description' => 'required|string',
                 'room' => 'required|min:1|numeric',
                 'bed' => 'required|min:1|numeric',
                 'bathroom' => 'required|min:1|numeric',
                 'sq_m' => 'required|min:0|numeric',
             ],
             [
-                'title.required' => 'Devi inserire un nome alla casa',
+                'title.required' => 'Devi inserire un nome all\'appartamento',
+                'description.required' => 'Devi inserire una descrizione all\'appartamento',
                 'room.required' => 'Devi inserire almeno una stanza',
                 'room.min' => 'Devi inserire almeno una stanza',
                 'room.numeric' => 'Il valore inserito deve essere un numero',
@@ -61,13 +64,23 @@ class FlatController extends Controller
             ]
         );
         $data = $request->all();
-        // dd($data);
+        dd($data);
 
         $new_flat = new Flat();
+
+        // if (Arr::exists($data, 'image')) {
+        //     // Recupero l'estensione del file
+        //     $extension = $data['image']->extension();
+        //     $img_url = Storage::putFileAs('project_images', $data['image'], "{$data['title']}-{$new_flat->id}.$extension");
+        //     $data['image'] = $img_url;
+        // }
+        $data['latitude'] = 0;
+        $data['longitude'] = 0;
+
+
         $new_flat->fill($data);
         $new_flat->is_visible = Arr::exists($data, 'is_visible');
-        $new_flat['latitude'] = 0;
-        $new_flat['longitude'] = 0;
+
         $new_flat->save();
 
         return to_route('admin.flats.index')->with('message', 'Pogretto creato con successo')->with('type', 'success');
@@ -94,7 +107,7 @@ class FlatController extends Controller
      */
     public function update(Request $request, Flat $flat)
     {
-        $data = $request->validate(
+        $request->validate(
             [
                 'title' => 'required|string',
                 'room' => 'required|min:1|max:255|numeric',
@@ -122,7 +135,7 @@ class FlatController extends Controller
                 'sq_m.max' => 'Puoi inserire massimo 65535',
             ]
         );
-
+        $data = $request->all();
         $flat->update($data);
         return to_route('admin.flats.index');
     }
