@@ -19,6 +19,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Splendido appartamento completamente arredato in una zona tranquilla e ben collegata.',
                 'address' => 'Via del Corso, 00186 Roma RM',
                 'bed' => 3,
+                'room' => 2,
                 'bathroom' => 2,
                 'sq_m' => 110,
                 'latitude' => 41.8919300,
@@ -31,6 +32,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Appartamento di design con una spaziosa terrazza da cui si gode una vista mozzafiato sulla città.',
                 'address' => 'Piazza di Spagna, 00187 Roma, RM',
                 'bed' => 2,
+                'room' => 2,
                 'bathroom' => 1,
                 'sq_m' => 90,
                 'latitude' => 41.9064800,
@@ -43,6 +45,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Accogliente appartamento situato a pochi passi dal centro storico, ideale per una coppia o una piccola famiglia.',
                 'address' => 'Via Condotti, 00187 Roma RM',
                 'bed' => 1,
+                'room' => 2,
                 'bathroom' => 1,
                 'sq_m' => 60,
                 'latitude' =>  41.9064800,
@@ -55,6 +58,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Appartamento luminoso e spazioso con un bellissimo giardino privato, perfetto per chi ama la tranquillità.',
                 'address' => 'Piazza Navona, 00186 Roma RM',
                 'bed' => 4,
+                'room' => 2,
                 'bathroom' => 2,
                 'sq_m' => 130,
                 'latitude' => 41.8991700,
@@ -67,6 +71,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Elegante appartamento di lusso situato nel centro storico della città, con servizi di alta qualità e finiture di pregio.',
                 'address' => 'Viale Trastevere, 00153 Roma RM',
                 'bed' => 2,
+                'room' => 2,
                 'bathroom' => 2,
                 'sq_m' => 100,
                 'latitude' => 41.8797200,
@@ -79,6 +84,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Appartamento con affaccio sul verde di un tranquillo parco cittadino, ideale per chi ama la natura e la tranquillità.',
                 'address' => 'Via Appia Antica, 00179 Roma RM',
                 'bed' => 3,
+                'room' => 2,
                 'bathroom' => 2,
                 'sq_m' => 95,
                 'latitude' =>  41.8733300,
@@ -91,6 +97,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Appartamento completamente ristrutturato con stile e attenzione ai dettagli, situato in una zona ben servita e tranquilla.',
                 'address' => 'Piazza Venezia, 00186 Roma RM',
                 'bed' => 2,
+                'room' => 2,
                 'bathroom' => 1,
                 'sq_m' => 75,
                 'latitude' => 41.8955600,
@@ -103,6 +110,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Appartamento con una grande terrazza da cui si gode una magnifica vista sul fiume, ideale per serate estive.',
                 'address' => 'Via Veneto, 00187 Roma RM',
                 'bed' => 3,
+                'room' => 2,
                 'bathroom' => 2,
                 'sq_m' => 110,
                 'latitude' => 41.9064800,
@@ -115,6 +123,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Ampio appartamento con una cucina moderna e ben attrezzata, ideale per chi ama cucinare e ricevere ospiti.',
                 'address' => 'Piazza del Popolo, 00187 Roma RM',
                 'bed' => 4,
+                'room' => 2,
                 'bathroom' => 3,
                 'sq_m' => 150,
                 'latitude' => 41.9100000,
@@ -127,6 +136,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Appartamento situato in una posizione privilegiata con una vista panoramica sulla città, luminoso e ben ventilato.',
                 'address' => 'Via dei Fori Imperiali, 00186 Roma RM',
                 'bed' => 2,
+                'room' => 2,
                 'bathroom' => 2,
                 'sq_m' => 85,
                 'latitude' => 41.8927800,
@@ -140,7 +150,6 @@ class FlatSeeder extends Seeder
             $new_flat = new Flat();
             $new_flat->fill($flat);
             $new_flat->save();
-
         }
     }
 }
