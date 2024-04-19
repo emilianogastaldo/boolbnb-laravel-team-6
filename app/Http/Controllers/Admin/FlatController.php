@@ -97,25 +97,29 @@ class FlatController extends Controller
         $data = $request->validate(
             [
                 'title' => 'required|string',
-                'room' => 'required|min:1|numeric',
-                'bed' => 'required|min:1|numeric',
-                'bathroom' => 'required|min:1|numeric',
-                'sq_m' => 'required|min:0|numeric',
+                'room' => 'required|min:1|max:255|numeric',
+                'bed' => 'required|min:1|max:255|numeric',
+                'bathroom' => 'required|min:1|max:255|numeric',
+                'sq_m' => 'required|min:0|max:65535|numeric',
             ],
             [
                 'title.required' => 'Devi inserire un nome alla casa',
                 'room.required' => 'Devi inserire almeno una stanza',
                 'room.min' => 'Devi inserire almeno una stanza',
+                'room.max' => 'Puoi inserire massimo 255',
                 'room.numeric' => 'Il valore inserito deve essere un numero',
                 'bed.required' => 'Devi inserire almeno un posto letto',
                 'bed.min' => 'Devi inserire almeno un posto letto',
+                'bed.max' => 'Puoi inserire massimo 255',
                 'bed.numeric' => 'Il valore inserito deve essere un numero',
                 'bathroom.required' => 'Devi inserire almeno un bagno',
                 'bathroom.min' => 'Devi inserire almeno un bagno',
+                'bathroom.max' => 'Puoi inserire massimo 255',
                 'bathroom.numeric' => 'Il valore inserito deve essere un numero',
                 'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
+                'sq_m.max' => 'Puoi inserire massimo 65535',
             ]
         );
 

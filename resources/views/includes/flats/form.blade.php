@@ -31,7 +31,7 @@
         <div class="col-3">
             {{-- stanze --}}
             <div class="form-floating">
-                <input type="number" min="1" class="form-control @error('room') is-invalid @elseif(old('room', '')) is-valid @enderror" id="room" name="room" value="{{old('room', $flat->room)}}" placeholder="">
+                <input type="number" min="1" max="255" class="form-control @error('room') is-invalid @elseif(old('room', '')) is-valid @enderror" id="room" name="room" value="{{old('room', $flat->room)}}" placeholder="">
                 <label for="room" class="form-label">Inserisci numero stanze<span class="text-danger"> * </span></label>
                 @error('room')
                 <div class="invalid-feedback">{{$message}}</div>
@@ -42,7 +42,7 @@
         <div class="col-3">
             {{-- letti --}}
             <div class="form-floating">
-                <input type="number" min="1" class="form-control @error('bed') is-invalid @elseif(old('bed', '')) is-valid @enderror" id="bed" name="bed" value="{{old('bed', $flat->bed)}}" placeholder="">
+                <input type="number" min="1" max="255" class="form-control @error('bed') is-invalid @elseif(old('bed', '')) is-valid @enderror" id="bed" name="bed" value="{{old('bed', $flat->bed)}}" placeholder="">
                 <label for="bed" class="form-label">Inserisci posti letto<span class="text-danger"> * </span></label>
                 @error('bed')
                 <div class="invalid-feedback">{{$message}}</div>
@@ -53,7 +53,7 @@
         <div class="col-3">
             {{-- bagni --}}
             <div class="form-floating">
-                <input type="number" min="1" class="form-control @error('bathroom') is-invalid @elseif(old('bathroom', '')) is-valid @enderror" id="bathroom" name="bathroom" value="{{old('bathroom', $flat->bathroom)}}" placeholder="">
+                <input type="number" min="1" max="255" class="form-control @error('bathroom') is-invalid @elseif(old('bathroom', '')) is-valid @enderror" id="bathroom" name="bathroom" value="{{old('bathroom', $flat->bathroom)}}" placeholder="">
                 <label for="bathroom" class="form-label">Inserisci numero bagni<span class="text-danger"> * </span></label>
                 @error('bathroom')
                 <div class="invalid-feedback">{{$message}}</div>
@@ -64,7 +64,7 @@
         <div class="col-3">
             {{-- metratura --}}
             <div class="form-floating">
-                <input type="number" min="0" class="form-control @error('sq_m') is-invalid @elseif(old('sq_m', '')) is-valid @enderror" id="sq_m" name="sq_m" value="{{old('sq_m', $flat->sq_m)}}" placeholder="Inserisci metratura">
+                <input type="number" min="0" max="65535" class="form-control @error('sq_m') is-invalid @elseif(old('sq_m', '')) is-valid @enderror" id="sq_m" name="sq_m" value="{{old('sq_m', $flat->sq_m)}}" placeholder="Inserisci metratura">
                 <label for="sq-m">Metratura in m<sup>2</sup> <span class="text-danger"> * </span></label>
                 @error('sq_m')
                 <div class="invalid-feedback">{{$message}}</div>
