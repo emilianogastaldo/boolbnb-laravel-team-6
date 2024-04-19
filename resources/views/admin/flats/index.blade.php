@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Flats')
+@section('title', 'Lista appartamenti')
 
 @section('content')
 
@@ -18,8 +18,9 @@
         <th scope="col">Descrizione</th>
         <th scope="col">Indirizzo</th>
         <th scope="col">Dimensioni</th>
-        <th scope="col">Bagni</th>
         <th scope="col">Stanze</th>
+        <th scope="col">Bagni</th>
+        <th scope="col">Posti letto</th>
         <th>
           <div class="d-flex align-items-center justify-content-end gap-3">
             {{-- Go to trash page button --}}
@@ -41,8 +42,9 @@
         <td>{{$flat->description}}</td>
         <td>{{$flat->address}}</td>
         <td>{{$flat->sq_m}}</td>
-        <td>{{$flat->bed}}</td>
+        <td>{{$flat->room}}</td>
         <td>{{$flat->bathroom}}</td>
+        <td>{{$flat->bed}}</td>
         <td>
             <div class="d-flex justify-content-end gap-3">
                 {{-- Show Button --}}

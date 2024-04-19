@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('address');
-            $table->tinyInteger('bed');
-            $table->tinyInteger('bathroom');
-            $table->smallInteger('sq_m');
+            $table->unsignedTinyInteger('room');
+            $table->unsignedTinyInteger('bed');
+            $table->unsignedTinyInteger('bathroom');
+            $table->unsignedSmallInteger('sq_m');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->string('image')->nullable();
