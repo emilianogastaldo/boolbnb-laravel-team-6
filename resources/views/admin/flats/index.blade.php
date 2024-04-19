@@ -4,12 +4,14 @@
 
 @section('content')
 
- @if (session('message'))  
-  <strong>{{session('message')}}</strong>
- @endif
+<form class="d-flex justify-content-end align-items-center" action="{{ route('admin.flats.index') }}" method="GET">
+  <div class="input-group w-25 p-3">
+    <input type="search" name="search" class="form-control" placeholder="Cerca..." value="{{ $search }}" autofocus>
+    <button type="submit" class="input-group-text" id="basic-addon2"><i class="fas fa-magnifying-glass"></i></button>
+  </div>
+</form>
 
-<table class="table table-dark table-striped container my-5">
-    {{-- Thead --}}
+<table class="table table-dark table-striped my-3">
     <thead>
       <tr>
         <th scope="col">Titolo</th>
