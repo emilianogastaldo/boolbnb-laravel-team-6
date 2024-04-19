@@ -12,6 +12,12 @@ class Flat extends Model
     use SoftDeletes;
     protected $fillable = ['title', 'description', 'room', 'address', 'bed', 'bathroom', 'sq_m', 'latitude', 'longitude', 'image', 'is_visible'];
 
+    // Funzione per stampare l'immagine
+    public function printImage()
+    {
+        return asset('storage/' . $this->image);
+    }
+
     // Relazione con l'utente
     public function user()
     {
