@@ -1,14 +1,7 @@
 @extends('layouts.app')
 @section('content')
-
-<form class="d-flex justify-content-end align-items-center" action="{{ route('admin.flats.index') }}" method="GET">
-  <div class="input-group w-25 p-3">
-    <input type="search" name="search" class="form-control" placeholder="Cerca..." value="{{ $search }}" autofocus>
-    <button type="submit" class="input-group-text" id="basic-addon2"><i class="fas fa-magnifying-glass"></i></button>
-  </div>
-</form>
-
-<table class="table table-dark table-striped my-3">
+<table class="table table-dark table-striped container my-5">
+    {{-- Thead --}}
     <thead>
       <tr>
         <th scope="col">Titolo</th>
@@ -20,6 +13,7 @@
         <th></th>
       </tr>
     </thead>
+    {{-- Tbody --}}
     <tbody>
       @forelse ($flats as $flat)
       <tr>
@@ -31,17 +25,27 @@
         <td>{{$flat->bathroom}}</td>
         <td>
             <div class="d-flex justify-content-end gap-3">
+                {{-- Show --}}
                 <a href="{{route('admin.flats.show', $flat->id)}}"><i class="fa-solid fa-eye"></i></a>
-                <form action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
+                {{-- Edit --}}
+                <a href="{{route('admin.flats.edit', $flat->id)}}"><i class="fa-solid fa-pencil"></i></a>
+                {{-- Drop --}}
+                <form action="{{route('admin.flats.drop', $flat->id)}}" method="POST">                           
                   @csrf
                   @method('DELETE')
                   <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                </form>
+                {{-- Restore --}}
+                <form action="{{route('admin.flats.restore', $flat->id)}}" method="POST">                           
+                  @csrf
+                  @method('PATCH')
+                  <button type="submit"><i class="fas fa-arrow-rotate-left"></i></button>
                 </form>
             </div>
         </td>
        </tr>
       @empty
-          <h1>NON CI SONO APPARTAMENTI</h1>
+          <h1>Non ci sono appartamenti</h1>
       @endforelse
     </tbody>
   </table>
