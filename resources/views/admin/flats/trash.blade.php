@@ -1,4 +1,7 @@
 @extends('layouts.app')
+
+@section('title', 'Cestino')
+
 @section('content')
 <table class="table table-dark table-striped container my-5">
     {{-- Thead --}}
