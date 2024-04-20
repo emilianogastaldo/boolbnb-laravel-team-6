@@ -31,6 +31,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('flats', function (Blueprint $table){
+            $table->string('slug')->unique()->after('title');
+        });
     }
 
     /**
