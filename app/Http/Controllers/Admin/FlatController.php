@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Flat;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
 class FlatController extends Controller
 {
@@ -70,8 +71,14 @@ class FlatController extends Controller
         $data = $request->all();
 
         $new_flat = new Flat();
-        $data['latitude'] = 0;
-        $data['longitude'] = 0;
+
+        // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
+        $response = Http::withoutVerifying()->get('https://api.tomtom.com/search/2/geocode/Via%20Daniele%20Manin%2C%2053%20Roma%20.json?storeResult=false&countrySet=IT&view=Unified&key=7HTi0jsdt2LOACuuEHuHjOPmcdLsmvEw'); //! QUERY DI PROVA 
+        $flat_infos = $response->json();
+
+        // Riassegnamento dei campi latitude e longitute con le informazioni ottenute dalla chiamata
+        $data['latitude'] = $flat_infos['results'][0]['position']['lat'];
+        $data['longitude'] = $flat_infos['results'][0]['position']['lon'];
 
         // Non faccio controlli poiché l'immagine è obbligatoria, quindi avrò per forza il dato dell'immagine
         $data['image'] = Storage::putFile('flat_images', $data['image']);
