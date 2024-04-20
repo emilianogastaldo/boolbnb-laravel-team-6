@@ -13,7 +13,11 @@ class FlatController extends Controller
      */
     public function index()
     {
-        //
+        // query per la pagina iniziale
+        $flats = Flat::select('id', 'title', 'slug', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->paginate(5);
+
+        return response()->json($flats);
+
     }
 
     /**
@@ -35,9 +39,13 @@ class FlatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+        $flat = Flat::select('*')->whereSlug($slug)->first();
+
+        if(!$flat) return response (null, 404);
+
+        return response()->json($flat);
     }
 
     /**
