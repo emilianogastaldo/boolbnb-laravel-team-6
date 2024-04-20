@@ -109,7 +109,7 @@ class FlatController extends Controller
             [
                 'title' => 'required|string',
                 'room' => 'required|min:1|max:255|numeric',
-                'image' => 'required|image|mimes:png,jpg',
+                'image' => 'nullable|image|mimes:png,jpg',
                 'bed' => 'required|min:1|max:255|numeric',
                 'bathroom' => 'required|min:1|max:255|numeric',
                 'sq_m' => 'required|min:0|max:65535|numeric',
@@ -120,7 +120,7 @@ class FlatController extends Controller
                 'room.min' => 'Devi inserire almeno una stanza',
                 'room.max' => 'Puoi inserire massimo 255',
                 'room.numeric' => 'Il valore inserito deve essere un numero',
-                'image.required' => 'Devi caricare un\'immagine',
+                // 'image.required' => 'Devi caricare un\'immagine',
                 'image.image' => 'Carica una immagine',
                 'image.mimes' => 'Si supportano solo le immagini con estensione .png o .jpg',
                 'bed.required' => 'Devi inserire almeno un posto letto',
@@ -140,8 +140,10 @@ class FlatController extends Controller
         $data = $request->all();
 
         // Cancello e metto la nuova immagine
-        Storage::delete($flat->image);
-        $data['image'] = Storage::putFile('flat_images', $data['image']);
+        if (Arr::exists($data, 'image')) {
+            Storage::delete($flat->image);
+            $data['image'] = Storage::putFile('flat_images', $data['image']);
+        }
 
         $flat->update($data);
 
