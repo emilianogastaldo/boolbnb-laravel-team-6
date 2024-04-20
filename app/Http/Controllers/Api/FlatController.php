@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Flat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Flat;
 
 class FlatController extends Controller
 {
