@@ -29,8 +29,9 @@ class FlatController extends Controller
     public function create()
     {
         $flat = new Flat();
-        $service = Service::all();
-        return view('admin.flats.create', compact('flat', 'service'));
+        $services = Service::all();
+        $prev_service = $flat->services->pluck('id')->toArray();
+        return view('admin.flats.create', compact('flat', 'services', 'prev_service'));
     }
 
     /**
@@ -68,22 +69,25 @@ class FlatController extends Controller
                 'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
-                
+                'service.exists' => 'I tag selezionati non sono validi'                
             ]
         );
         $data = $request->all();
 
-        $new_flat = new Flat();
+        $flat = new Flat();
         $data['latitude'] = 0;
         $data['longitude'] = 0;
 
         // Non faccio controlli poiché l'immagine è obbligatoria, quindi avrò per forza il dato dell'immagine
         $data['image'] = Storage::putFile('flat_images', $data['image']);
 
-        $new_flat->fill($data);
+        $flat->fill($data);
         // Do il valore booleano alla visibilità
-        $new_flat->is_visible = Arr::exists($data, 'is_visible');
-        $new_flat->save();
+        $flat->is_visible = Arr::exists($data, 'is_visible');
+        $flat->save();
+        if(Arr::exists($data, 'service')){
+            $flat->services()->attach($data['service']);
+        }
 
         return to_route('admin.flats.index')->with('message', 'Pogretto creato con successo')->with('type', 'success');
     }
@@ -101,7 +105,9 @@ class FlatController extends Controller
      */
     public function edit(Flat $flat)
     {
-        return view('admin.flats.edit', compact('flat'));
+        $prev_service = $flat->services->pluck('id')->toArray();
+        $services = Service::all();
+        return view('admin.flats.edit', compact('flat', 'services', 'prev_service'));
     }
 
     /**
@@ -117,6 +123,7 @@ class FlatController extends Controller
                 'bed' => 'required|min:1|max:255|numeric',
                 'bathroom' => 'required|min:1|max:255|numeric',
                 'sq_m' => 'required|min:0|max:65535|numeric',
+                'service' => 'nullable|exists:services,id'
             ],
             [
                 'title.required' => 'Devi inserire un nome alla casa',
@@ -139,6 +146,7 @@ class FlatController extends Controller
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
                 'sq_m.max' => 'Puoi inserire massimo 65535',
+                'service.exists' => 'I tag selezionati non sono validi'
             ]
         );
         $data = $request->all();
@@ -150,7 +158,11 @@ class FlatController extends Controller
         }
 
         $flat->update($data);
-
+        if(Arr::exists($data, 'service')){
+            $flat->services()->sync($data['service']);
+        } elseif(!Arr::exists($data, 'service') && count($flat->service)){
+            $flat->services()->detach();
+        }
         return to_route('admin.flats.show', compact('flat'));
     }
 

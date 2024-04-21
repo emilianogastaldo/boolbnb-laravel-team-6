@@ -101,6 +101,17 @@
                 <label class="form-check-label" for="is_visible">Pubblicato</label>
             </div>
         </div>
+
+        {{-- Checkbox per i servizi --}}
+        <div class="mb-3">
+            @foreach ($services as $service)
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
+                <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="service[]" @if(in_array($service->id, old('service', $prev_service))) checked @endif>
+            </div>
+            @endforeach
+        </div>
+
     </div>
     <button class="btn btn-success">Salva</button>
     <a class="btn btn-primary" href="{{route('admin.flats.index')}}">Torna indietro</a>

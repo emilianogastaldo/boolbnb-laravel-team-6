@@ -33,7 +33,7 @@ return new class extends Migration
         });
 
         Schema::table('flats', function (Blueprint $table){
-            $table->string('slug')->unique()->after('title');
+            $table->string('slug')->nullable()->after('title');
         });
     }
 
