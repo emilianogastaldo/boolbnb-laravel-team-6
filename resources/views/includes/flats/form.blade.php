@@ -97,7 +97,8 @@
         {{-- Input bozza o pubblico --}}
         <div class="col">
             <div class="form-check form-switch form-check-reverse">
-                <input class="form-check-input" type="checkbox" name="is_visible" id="is_visible" value="{{old('is_visible', $flat->is_visible)}}">
+                {{-- @dd($flat->is_visible) --}}
+                <input class="form-check-input" type="checkbox" role="switch" name="is_visible" id="is_visible" value="" @if (old('is_visible', $flat->is_visible)) checked @endif>
                 <label class="form-check-label" for="is_visible">Pubblicato</label>
             </div>
         </div>

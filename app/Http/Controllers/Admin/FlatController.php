@@ -47,6 +47,7 @@ class FlatController extends Controller
                 'bed' => 'required|min:1|numeric',
                 'bathroom' => 'required|min:1|numeric',
                 'sq_m' => 'required|min:0|numeric',
+                'is_visible' => 'nullable|boolean'
             ],
             [
                 'title.required' => 'Devi inserire un nome all\'appartamento',
@@ -83,9 +84,9 @@ class FlatController extends Controller
         // Non faccio controlli poiché l'immagine è obbligatoria, quindi avrò per forza il dato dell'immagine
         $data['image'] = Storage::putFile('flat_images', $data['image']);
 
-        $new_flat->fill($data);
         // Do il valore booleano alla visibilità
-        $new_flat->is_visible = Arr::exists($data, 'is_visible');
+        $data['is_visible'] = Arr::exists($data, 'is_visible');
+        $new_flat->fill($data);
         $new_flat->save();
 
         return to_route('admin.flats.index')->with('message', 'Pogretto creato con successo')->with('type', 'success');
@@ -120,6 +121,7 @@ class FlatController extends Controller
                 'bed' => 'required|min:1|max:255|numeric',
                 'bathroom' => 'required|min:1|max:255|numeric',
                 'sq_m' => 'required|min:0|max:65535|numeric',
+                'is_visible' => 'nullable|boolean'
             ],
             [
                 'title.required' => 'Devi inserire un nome alla casa',
@@ -145,13 +147,13 @@ class FlatController extends Controller
             ]
         );
         $data = $request->all();
-
+        // dd(Arr::exists($data, 'is_visible'));
         // Cancello e metto la nuova immagine
         if (Arr::exists($data, 'image')) {
             Storage::delete($flat->image);
             $data['image'] = Storage::putFile('flat_images', $data['image']);
         }
-
+        $data['is_visible'] = Arr::exists($data, 'is_visible');
         $flat->update($data);
 
         return to_route('admin.flats.show', compact('flat'));
