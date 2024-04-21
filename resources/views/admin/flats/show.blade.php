@@ -19,6 +19,7 @@
     <div class="d-flex justify-content-between">
         {{-- Go Back Button --}}
         <a href="{{route('admin.flats.index')}}" class="btn btn-secondary">Torna Indietro</a>
+        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-secondary">MODIFICA</a>
     </div>
 </div>   
 @endsection

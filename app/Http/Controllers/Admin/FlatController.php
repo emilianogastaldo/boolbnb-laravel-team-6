@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Flat;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Service;
 
 class FlatController extends Controller
 {
@@ -28,7 +29,8 @@ class FlatController extends Controller
     public function create()
     {
         $flat = new Flat();
-        return view('admin.flats.create', compact('flat'));
+        $service = Service::all();
+        return view('admin.flats.create', compact('flat', 'service'));
     }
 
     /**
@@ -46,6 +48,7 @@ class FlatController extends Controller
                 'bed' => 'required|min:1|numeric',
                 'bathroom' => 'required|min:1|numeric',
                 'sq_m' => 'required|min:0|numeric',
+                'service' => 'nullable|exists:services,id'
             ],
             [
                 'title.required' => 'Devi inserire un nome all\'appartamento',
@@ -65,6 +68,7 @@ class FlatController extends Controller
                 'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
+                
             ]
         );
         $data = $request->all();
