@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flat;
+use App\Models\Service;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 
@@ -29,7 +31,8 @@ class FlatController extends Controller
     public function create()
     {
         $flat = new Flat();
-        return view('admin.flats.create', compact('flat'));
+        $services = Service::all();
+        return view('admin.flats.create', compact('flat', 'services'));
     }
 
     /**
@@ -47,7 +50,8 @@ class FlatController extends Controller
                 'bed' => 'required|min:1|numeric',
                 'bathroom' => 'required|min:1|numeric',
                 'sq_m' => 'required|min:0|numeric',
-                'is_visible' => 'nullable|boolean'
+                'is_visible' => 'nullable|boolean',
+                'services' => 'nullable|exists:services,id',
             ],
             [
                 'title.required' => 'Devi inserire un nome all\'appartamento',
@@ -69,8 +73,9 @@ class FlatController extends Controller
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
             ]
         );
+        // Recupro i dati dopo averli validati
         $data = $request->all();
-
+        // Creo il nuovo appartamento che andrò a riempire
         $new_flat = new Flat();
 
         // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
@@ -86,8 +91,16 @@ class FlatController extends Controller
 
         // Do il valore booleano alla visibilità
         $data['is_visible'] = Arr::exists($data, 'is_visible');
+
+        // Inserico come autore l'utente attualmente loggato
+        $new_flat->user_id = Auth::id();
+
+        // Fillo il resto dei dati e salvo
         $new_flat->fill($data);
         $new_flat->save();
+
+        // creo la realzione tra progetto e tecnologia
+        if (Arr::exists($data, 'services')) $new_flat->services()->attach($data['services']);
 
         return to_route('admin.flats.index')->with('message', 'Pogretto creato con successo')->with('type', 'success');
     }
@@ -105,7 +118,12 @@ class FlatController extends Controller
      */
     public function edit(Flat $flat)
     {
-        return view('admin.flats.edit', compact('flat'));
+        // Recupero tutti i servizi possibili
+        $services = Service::all();
+        // Recupero i servizi che ci sono già
+        $old_services = $flat->services->pluck('id')->toArray();
+
+        return view('admin.flats.edit', compact('flat', 'services', 'old_services'));
     }
 
     /**
@@ -147,14 +165,21 @@ class FlatController extends Controller
             ]
         );
         $data = $request->all();
-        // dd(Arr::exists($data, 'is_visible'));
+
         // Cancello e metto la nuova immagine
         if (Arr::exists($data, 'image')) {
             Storage::delete($flat->image);
             $data['image'] = Storage::putFile('flat_images', $data['image']);
         }
+
+        // Riassegno l'essere visibile o meno
         $data['is_visible'] = Arr::exists($data, 'is_visible');
+
         $flat->update($data);
+
+        // Aggiorno il legame tra progetti e tecnologie
+        if (Arr::exists($data, 'services')) $flat->services()->sync($data['services']);
+        elseif (!Arr::exists($data, 'services') && $flat->has('services')) $flat->services()->detach();
 
         return to_route('admin.flats.show', compact('flat'));
     }
