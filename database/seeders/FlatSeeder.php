@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Flat;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class FlatSeeder extends Seeder
 {
@@ -149,6 +150,7 @@ class FlatSeeder extends Seeder
         foreach ($flats as $flat) {
             $new_flat = new Flat();
             $new_flat->fill($flat);
+            $new_flat->slug =  Str::slug($flat['title']);
             $new_flat->save();
         }
     }

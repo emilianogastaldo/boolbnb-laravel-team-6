@@ -14,11 +14,18 @@
         {{-- Image --}}
         <img src="{{asset('storage/' . $flat->image)}}" alt="{{$flat->title}}" class="img-fluid">
     </figure>
+    {{-- servizi --}}
+    @forelse($flat->services as $service)
+    <span>{{ $service->name }}: <i class="{{$service->icon}}" style="color: {{$service->color}}"></i></span>
+    @empty
+    <h5>Nessun Servizio</h5>
+    @endforelse
     {{-- <h2>{{$flat->latitude}}</h2>
     <h2>{{$flat->longitude}}</h2> DA DECOMMENTARE QUANDO SARANNO IMPLEMNETATE --}}
     <div class="d-flex justify-content-between">
         {{-- Go Back Button --}}
         <a href="{{route('admin.flats.index')}}" class="btn btn-secondary">Torna Indietro</a>
+        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-secondary">MODIFICA</a>
     </div>
 </div>   
 @endsection

@@ -104,17 +104,17 @@
                 <label class="form-check-label" for="is_visible">Pubblicato</label>
             </div>
         </div>
-        <div class="col-12">
-            {{-- Input delle tecnologie --}}        
-            <p class="m-0">Seleziona i servizi che il tuo appartamento avrà:</p class="m-0">
+
+        {{-- Checkbox per i servizi --}}
+        <div class="mb-3">
             @foreach ($services as $service)
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if (in_array($service->id, old('services', $old_services ?? []))) checked @endif>
-                <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>                    
+                <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
+                <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
             </div>
             @endforeach
-        
         </div>
+
     </div>
     <button class="btn btn-success">Salva</button>
     <a class="btn btn-primary" href="{{route('admin.flats.index')}}">Torna indietro</a>

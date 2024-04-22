@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
+use App\Models\Service;
 
 class FlatController extends Controller
 {
@@ -32,7 +33,7 @@ class FlatController extends Controller
     {
         $flat = new Flat();
         $services = Service::all();
-        return view('admin.flats.create', compact('flat', 'services'));
+        return view('admin.flats.create', compact('flat', 'services', 'prev_service'));
     }
 
     /**
@@ -71,10 +72,12 @@ class FlatController extends Controller
                 'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
+                'services.exists' => 'I tag selezionati non sono validi'                
             ]
         );
         // Recupro i dati dopo averli validati
         $data = $request->all();
+      
         // Creo il nuovo appartamento che andrò a riempire
         $new_flat = new Flat();
 
@@ -87,7 +90,6 @@ class FlatController extends Controller
         $data['longitude'] = $flat_infos['results'][0]['position']['lon'];
         $data['address'] = $flat_infos['results'][0]['address']['freeformAddress'];
 
-
         // Non faccio controlli poiché l'immagine è obbligatoria, quindi avrò per forza il dato dell'immagine
         $data['image'] = Storage::putFile('flat_images', $data['image']);
 
@@ -95,12 +97,11 @@ class FlatController extends Controller
         $data['is_visible'] = Arr::exists($data, 'is_visible');
 
         // Inserico come autore l'utente attualmente loggato
-        $new_flat->user_id = Auth::id();
+        $new_flat->user_id = Auth::id();        
 
-        // Fillo il resto dei dati e salvo
-        $new_flat->fill($data);
-        $new_flat->save();
-
+        $flat->fill($data);      
+        $flat->save();
+       
         // creo la realzione tra progetto e tecnologia
         if (Arr::exists($data, 'services')) $new_flat->services()->attach($data['services']);
 
@@ -120,12 +121,9 @@ class FlatController extends Controller
      */
     public function edit(Flat $flat)
     {
-        // Recupero tutti i servizi possibili
+        $prev_service = $flat->services->pluck('id')->toArray();
         $services = Service::all();
-        // Recupero i servizi che ci sono già
-        $old_services = $flat->services->pluck('id')->toArray();
-
-        return view('admin.flats.edit', compact('flat', 'services', 'old_services'));
+        return view('admin.flats.edit', compact('flat', 'services', 'prev_service'));
     }
 
     /**
@@ -141,7 +139,8 @@ class FlatController extends Controller
                 'bed' => 'required|min:1|max:255|numeric',
                 'bathroom' => 'required|min:1|max:255|numeric',
                 'sq_m' => 'required|min:0|max:65535|numeric',
-                'is_visible' => 'nullable|boolean'
+                'is_visible' => 'nullable|boolean',
+                'services' => 'nullable|exists:services,id'
             ],
             [
                 'title.required' => 'Devi inserire un nome alla casa',
@@ -164,6 +163,7 @@ class FlatController extends Controller
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
                 'sq_m.max' => 'Puoi inserire massimo 65535',
+                'services.exists' => 'I tag selezionati non sono validi'
             ]
         );
         $data = $request->all();
@@ -191,7 +191,6 @@ class FlatController extends Controller
         // Aggiorno il legame tra progetti e tecnologie
         if (Arr::exists($data, 'services')) $flat->services()->sync($data['services']);
         elseif (!Arr::exists($data, 'services') && $flat->has('services')) $flat->services()->detach();
-
         return to_route('admin.flats.show', compact('flat'));
     }
 
