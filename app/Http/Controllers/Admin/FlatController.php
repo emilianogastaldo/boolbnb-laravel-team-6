@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
-use App\Models\Service;
+
 
 class FlatController extends Controller
 {
@@ -33,7 +33,7 @@ class FlatController extends Controller
     {
         $flat = new Flat();
         $services = Service::all();
-        return view('admin.flats.create', compact('flat', 'services', 'prev_service'));
+        return view('admin.flats.create', compact('flat', 'services'));
     }
 
     /**
@@ -72,12 +72,12 @@ class FlatController extends Controller
                 'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
-                'services.exists' => 'I tag selezionati non sono validi'                
+                'services.exists' => 'I tag selezionati non sono validi'
             ]
         );
         // Recupro i dati dopo averli validati
         $data = $request->all();
-      
+
         // Creo il nuovo appartamento che andrò a riempire
         $new_flat = new Flat();
 
@@ -97,11 +97,11 @@ class FlatController extends Controller
         $data['is_visible'] = Arr::exists($data, 'is_visible');
 
         // Inserico come autore l'utente attualmente loggato
-        $new_flat->user_id = Auth::id();        
+        $new_flat->user_id = Auth::id();
 
-        $flat->fill($data);      
-        $flat->save();
-       
+        $new_flat->fill($data);
+        $new_flat->save();
+
         // creo la realzione tra progetto e tecnologia
         if (Arr::exists($data, 'services')) $new_flat->services()->attach($data['services']);
 
@@ -121,9 +121,9 @@ class FlatController extends Controller
      */
     public function edit(Flat $flat)
     {
-        $prev_service = $flat->services->pluck('id')->toArray();
+        $prev_services = $flat->services->pluck('id')->toArray();
         $services = Service::all();
-        return view('admin.flats.edit', compact('flat', 'services', 'prev_service'));
+        return view('admin.flats.edit', compact('flat', 'services', 'prev_services'));
     }
 
     /**
