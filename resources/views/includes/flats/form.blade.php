@@ -120,26 +120,23 @@
     <a class="btn btn-primary" href="{{route('admin.flats.index')}}">Torna indietro</a>
 </form>
 
-<script>
-    // import { services } from '@tomtom-international/web-sdk-services';
-    // import SearchBox from '@tomtom-international/web-sdk-plugin-searchbox';
-
+<script type="module">
+    // Ricerca TomTom
     const ricerca = document.getElementById('ricerca');
     const options = {
-    searchOptions: {
-        key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
-        language: "en-GB",
-        countrySet: "IT",
-        limit: 5,
-    },
-    autocompleteOptions: {
-        key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
-        language: "en-GB",
-    },
-    
+        searchOptions: {
+            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+            language: "en-GB",
+            countrySet: "IT",
+            limit: 5,
+        },
+        autocompleteOptions: {
+            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+            language: "en-GB",
+        },    
     };
     const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
-
     const searchBoxHTML = ttSearchBox.getSearchBoxHTML()
+    
     ricerca.appendChild(searchBoxHTML);
 </script>
