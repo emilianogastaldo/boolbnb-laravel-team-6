@@ -20,12 +20,14 @@
                         @enderror
                     </div>
                 </div>
+
                 {{-- Input per la via della casa --}}
                 <div class="col-12">                    
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
                         <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> * </span></label>
                     </div>
+                    <div id="ricerca"></div>
                 </div>
 
                 {{-- Input di stanze, letti, bagni, metratura, --}}
@@ -117,3 +119,27 @@
     <button class="btn btn-success">Salva</button>
     <a class="btn btn-primary" href="{{route('admin.flats.index')}}">Torna indietro</a>
 </form>
+
+<script>
+    // import { services } from '@tomtom-international/web-sdk-services';
+    // import SearchBox from '@tomtom-international/web-sdk-plugin-searchbox';
+
+    const ricerca = document.getElementById('ricerca');
+    const options = {
+    searchOptions: {
+        key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+        language: "en-GB",
+        countrySet: "IT",
+        limit: 5,
+    },
+    autocompleteOptions: {
+        key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+        language: "en-GB",
+    },
+    
+    };
+    const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
+
+    const searchBoxHTML = ttSearchBox.getSearchBoxHTML()
+    ricerca.appendChild(searchBoxHTML);
+</script>
