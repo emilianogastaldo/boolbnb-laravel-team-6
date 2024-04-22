@@ -20,12 +20,14 @@
                         @enderror
                     </div>
                 </div>
+
                 {{-- Input per la via della casa --}}
                 <div class="col-12">                    
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
                         <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> * </span></label>
                     </div>
+                    <div id="ricerca"></div>
                 </div>
 
                 {{-- Input di stanze, letti, bagni, metratura, --}}
@@ -97,7 +99,8 @@
         {{-- Input bozza o pubblico --}}
         <div class="col">
             <div class="form-check form-switch form-check-reverse">
-                <input class="form-check-input" type="checkbox" name="is_visible" id="is_visible" value="{{old('is_visible', $flat->is_visible)}}">
+                {{-- @dd($flat->is_visible) --}}
+                <input class="form-check-input" type="checkbox" role="switch" name="is_visible" id="is_visible" value="" @if (old('is_visible', $flat->is_visible)) checked @endif>
                 <label class="form-check-label" for="is_visible">Pubblicato</label>
             </div>
         </div>
@@ -107,7 +110,7 @@
             @foreach ($services as $service)
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
-                <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="service[]" @if(in_array($service->id, old('service', $prev_service))) checked @endif>
+                <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
             </div>
             @endforeach
         </div>
@@ -116,3 +119,24 @@
     <button class="btn btn-success">Salva</button>
     <a class="btn btn-primary" href="{{route('admin.flats.index')}}">Torna indietro</a>
 </form>
+
+<script type="module">
+    // Ricerca TomTom
+    const ricerca = document.getElementById('ricerca');
+    const options = {
+        searchOptions: {
+            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+            language: "en-GB",
+            countrySet: "IT",
+            limit: 5,
+        },
+        autocompleteOptions: {
+            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+            language: "en-GB",
+        },    
+    };
+    const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
+    const searchBoxHTML = ttSearchBox.getSearchBoxHTML()
+    
+    ricerca.appendChild(searchBoxHTML);
+</script>
