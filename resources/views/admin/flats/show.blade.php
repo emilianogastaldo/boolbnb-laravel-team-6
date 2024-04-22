@@ -14,6 +14,12 @@
         {{-- Image --}}
         <img src="{{asset('storage/' . $flat->image)}}" alt="{{$flat->title}}" class="img-fluid">
     </figure>
+    {{-- servizi --}}
+    @forelse($flat->services as $service)
+    <span>{{ $service->name }}</span>
+    @empty
+    <h5>Nessun Servizio</h5>
+    @endforelse
     {{-- <h2>{{$flat->latitude}}</h2>
     <h2>{{$flat->longitude}}</h2> DA DECOMMENTARE QUANDO SARANNO IMPLEMNETATE --}}
     <div class="d-flex justify-content-between">
