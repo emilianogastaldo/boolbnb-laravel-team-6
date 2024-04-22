@@ -16,7 +16,7 @@
     </figure>
     {{-- servizi --}}
     @forelse($flat->services as $service)
-    <span>{{ $service->name }}</span>
+    <span>{{ $service->name }}: {{$service->icon}}</span>
     @empty
     <h5>Nessun Servizio</h5>
     @endforelse
