@@ -21,13 +21,14 @@
                     </div>
                 </div>
 
-                {{-- Input per la via della casa --}}
                 <div class="col-12">                    
-                    <div class="form-floating mb-3">
+                    {{-- Input per la via della casa --}}
+                    <div class="form-floating mb-3 d-none">
                         <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
                         <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> * </span></label>
                     </div>
-                    <div id="ricerca"></div>
+                    {{-- SearchBox --}}
+                    <div id="ricerca" class="form-floating mb-3"></div>
                 </div>
 
                 {{-- Input di stanze, letti, bagni, metratura, --}}
@@ -136,7 +137,17 @@
         },    
     };
     const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
-    const searchBoxHTML = ttSearchBox.getSearchBoxHTML()
+    const searchBoxHTML = ttSearchBox.getSearchBoxHTML();
     
     ricerca.appendChild(searchBoxHTML);
+
+    // Aggiorna il valore dell'input quando viene selezionato un indirizzo nella searchbox
+    ttSearchBox.on('tomtom.searchbox.resultselected', (e) => {
+        const addressInput = document.getElementById('address');
+        addressInput.value = e.data.result.address.freeformAddress;
+    });
+
+    //? TODO Mettere un placeholder e tenere l'old 
+
+    //! AddEventListener non funziona con gli oggetti di eventi personalizzati come 'tomtom.searchbox.resultselected' si deve usare .on
 </script>
