@@ -14,7 +14,7 @@
         </div>
         <div class="carousel-inner">
             @forelse ($flats as $flat)   
-            <div class="carousel-item @if($flat->id == ) active @endif">
+            <div class="carousel-item active">
             <div class="card">
             <div class="card-body">
                 <figure>
