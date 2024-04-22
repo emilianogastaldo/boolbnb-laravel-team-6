@@ -24,7 +24,7 @@
                 {{-- Input per la via della casa --}}
                 <div class="col-12">                    
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
+                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
                         <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> * </span></label>
                     </div>
                     <div id="ricerca"></div>
