@@ -71,19 +71,29 @@
             </div>
         </div>
 
-        {{-- Input immagine --}}
+        {{-- Image --}}
         <div class="col-6">
-            <div class="form-group">
-                <input id="image" class="form-control mb-2 @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" type="file" name="image" value="{{old('image', $flat->image)}}">
-                <label for="image">Carica un'immagine (che sia .png o .jpg) <span class="text-danger"> * </span></label>
-                @error('image')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
-            </div>
+                <!-- Input Change image -->
+                <div class="input-group @if(!$flat->image) d-none @endif" id="previous-image-field">
+                    <button class="btn btn-outline-secondary" type="button" id="change-image-button">Cambia Immagine</button>
+                    <input type="text" class="form-control" value="{{old('image', $flat->image)}}" disabled>
+                </div>
+                <!-- Input Select image -->
+                <input type="file" name="image" class="form-control @if($flat->image) d-none @endif @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" id="image" placeholder="http:// or https://">
 
-            <div class="mt-3">
-                <img src="{{old('image', $flat->image) ? $flat->printImage() : 'https://marcolanci.it/boolean/assets/placeholder.png'}}" alt="{{ $flat->image ? $flat->title : 'preview'}}" class="img-fluid" id="preview">
-            </div>
+                {{-- Label --}}
+                <label class="mt-2" for="image">Carica un'immagine (che sia .png o .jpg) <span class="text-danger"> * </span></label>
+
+                {{-- Error --}}
+                @error('image')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                @enderror
+                {{-- Preview --}}
+                <div class="mt-3">
+                    <img src="{{asset('storage/' . old('image', $flat->image) ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" alt="{{$flat->title}}" id="preview" class="img-fluid">
+                </div>
         </div>
 
         {{-- Input descrizione dell'appartamento --}}
