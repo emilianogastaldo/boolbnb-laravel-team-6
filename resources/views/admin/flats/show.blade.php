@@ -4,28 +4,35 @@
 
 @section('content')
 <div class="container">
-    <h1>{{$flat->title}}</h1>
-    <p>{{$flat->description}}</p>
-    <h2>{{$flat->address}}</h2>
-    <h2>Numero stanze: {{$flat->bed}}</h2>
-    <h2>Numero bagni: {{$flat->bathroom}}</h2>
-    <h2>Metratura: {{$flat->sq_m}}</h2>
-    <figure>
-        {{-- Image --}}
-        <img src="{{asset('storage/' . $flat->image)}}" alt="{{$flat->title}}" class="img-fluid">
-    </figure>
-    {{-- servizi --}}
-    @forelse($flat->services as $service)
-    <span>{{ $service->name }}: <i class="{{$service->icon}}" style="color: {{$service->color}}"></i></span>
-    @empty
-    <h5>Nessun Servizio</h5>
-    @endforelse
-    {{-- <h2>{{$flat->latitude}}</h2>
-    <h2>{{$flat->longitude}}</h2> DA DECOMMENTARE QUANDO SARANNO IMPLEMNETATE --}}
+    <div class="d-flex gap-5 mb-4">
+        <div class="card text-center flex-shrink-0" style="width: 50%;">
+            <img src="{{asset('storage/' . $flat->image)}}" class="card-img-top" alt="{{$flat->title}}">
+            <div class="card-body">
+              <h1 class="card-title">{{$flat->title}}</h1>
+              <p class="card-text">{{$flat->description}}</p>
+              {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+            </div>
+        </div>
+        <div>
+            <h4>{{$flat->address}}</h4>
+            <h5>Numero stanze: {{$flat->bed}}</h5>
+            <h5>Numero bagni: {{$flat->bathroom}}</h5>
+            <h5>Metratura: {{$flat->sq_m}}</h5>
+            {{-- servizi --}}
+            <h5>Servizi offerti:</h5>
+            @forelse($flat->services as $service)
+            <span class="">{{ $service->name }}:</span>
+            <i class="{{$service->icon}} me-2 ms-1" style="color: {{$service->color}}"></i>
+            @empty
+            <h5>Nessun Servizio</h5>
+            @endforelse
+        </div>
+    </div>
     <div class="d-flex justify-content-between">
         {{-- Go Back Button --}}
-        <a href="{{route('admin.flats.index')}}" class="btn btn-secondary">Torna Indietro</a>
-        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-secondary">MODIFICA</a>
+        <a href="{{route('admin.flats.index')}}" class="btn index">Torna Indietro</a>
+        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn edit">MODIFICA</a>
     </div>
 </div>   
+
 @endsection

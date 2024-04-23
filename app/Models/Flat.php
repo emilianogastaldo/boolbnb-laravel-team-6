@@ -49,4 +49,8 @@ class Flat extends Model
     {
         return $this->belongsToMany(Service::class);
     }
+    public function abstract()
+    {
+        return substr($this->description, 0, 50);
+    }
 }

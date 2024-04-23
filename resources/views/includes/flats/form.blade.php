@@ -21,13 +21,14 @@
                     </div>
                 </div>
 
-                {{-- Input per la via della casa --}}
                 <div class="col-12">                    
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
+                    {{-- Input per la via della casa --}}
+                    <div class="form-floating mb-3 d-none">
+                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
                         <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> * </span></label>
                     </div>
-                    <div id="ricerca"></div>
+                    {{-- SearchBox --}}
+                    <div id="ricerca" class="form-floating mb-3"></div>
                 </div>
 
                 {{-- Input di stanze, letti, bagni, metratura, --}}
@@ -70,19 +71,29 @@
             </div>
         </div>
 
-        {{-- Input immagine --}}
+        {{-- Image --}}
         <div class="col-6">
-            <div class="form-group">
-                <input id="image" class="form-control mb-2 @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" type="file" name="image" value="{{old('image', $flat->image)}}">
-                <label for="image">Carica un'immagine (che sia .png o .jpg) <span class="text-danger"> * </span></label>
-                @error('image')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
-            </div>
+                <!-- Input Change image -->
+                <div class="input-group @if(!$flat->image) d-none @endif" id="previous-image-field">
+                    <button class="btn btn-outline-secondary" type="button" id="change-image-button">Cambia Immagine</button>
+                    <input type="text" class="form-control" value="{{old('image', $flat->image)}}" disabled>
+                </div>
+                <!-- Input Select image -->
+                <input type="file" name="image" class="form-control @if($flat->image) d-none @endif @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" id="image" placeholder="http:// or https://">
 
-            <div class="mt-3">
-                <img src="{{old('image', $flat->image) ? $flat->printImage() : 'https://marcolanci.it/boolean/assets/placeholder.png'}}" alt="{{ $flat->image ? $flat->title : 'preview'}}" class="img-fluid" id="preview">
-            </div>
+                {{-- Label --}}
+                <label class="mt-2" for="image">Carica un'immagine (che sia .png o .jpg) <span class="text-danger"> * </span></label>
+
+                {{-- Error --}}
+                @error('image')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                @enderror
+                {{-- Preview --}}
+                <div class="mt-3">
+                    <img src="{{asset('storage/' . old('image', $flat->image) ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" alt="{{$flat->title}}" id="preview" class="img-fluid">
+                </div>
         </div>
 
         {{-- Input descrizione dell'appartamento --}}
@@ -136,7 +147,17 @@
         },    
     };
     const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
-    const searchBoxHTML = ttSearchBox.getSearchBoxHTML()
+    const searchBoxHTML = ttSearchBox.getSearchBoxHTML();
     
     ricerca.appendChild(searchBoxHTML);
+
+    // Aggiorna il valore dell'input quando viene selezionato un indirizzo nella searchbox
+    ttSearchBox.on('tomtom.searchbox.resultselected', (e) => {
+        const addressInput = document.getElementById('address');
+        addressInput.value = e.data.result.address.freeformAddress;
+    });
+
+    //? TODO Mettere un placeholder e tenere l'old 
+
+    //! AddEventListener non funziona con gli oggetti di eventi personalizzati come 'tomtom.searchbox.resultselected' si deve usare .on
 </script>
