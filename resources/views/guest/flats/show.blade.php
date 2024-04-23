@@ -14,9 +14,9 @@
                 <address>{{ $flat->address }}</address>
                 <p>{{ $flat->description }}</p>
                 <h5>Metratura: {{ $flat->sq_m }} m²</h5>
-                <h5>Stanze: {{ $flat->room }} m²</h5>
-                <h5>Bagni: {{ $flat->bathroom }} m²</h5>
-                <h5>Posti letto: {{ $flat->bed }} m²</h5>
+                <h5>Stanze: {{ $flat->room }}</h5>
+                <h5>Bagni: {{ $flat->bathroom }}</h5>
+                <h5>Posti letto: {{ $flat->bed }}</h5>
             </div>
         </div>
     </div>
