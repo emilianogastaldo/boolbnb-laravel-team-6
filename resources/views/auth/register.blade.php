@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Registrati') }}</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" novalidate>
+                    <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         {{-- First Name --}}
