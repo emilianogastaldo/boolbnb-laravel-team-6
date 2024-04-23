@@ -21,7 +21,7 @@
                     </figure>
                     <div>
                         <h2>{{ $flat->title }}</h2>
-                        <p>{{ $flat->abstract() }}...</p>
+                        <p>{{ $flat->abstractGuest() }}...</p>
                     </div>
                 </div>
                 <div class="text-end">

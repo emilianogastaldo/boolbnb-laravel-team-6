@@ -49,4 +49,8 @@ class Flat extends Model
     {
         return substr($this->description, 0, 25);
     }
+    public function abstractGuest()
+    {
+        return substr($this->description, 0, 50);
+    }
 }
