@@ -18,12 +18,6 @@ class Flat extends Model
         return asset('storage/' . $this->image);
     }
 
-    // funzione per stampare un abstract della descrizione
-    public function abstract()
-    {
-        return substr($this->description, 0, 25);
-    }
-
     // Relazione con l'utente
     public function user()
     {
@@ -49,8 +43,10 @@ class Flat extends Model
     {
         return $this->belongsToMany(Service::class);
     }
+
+    // Funzione per stampare un abstract della descrizione
     public function abstract()
     {
-        return substr($this->description, 0, 50);
+        return substr($this->description, 0, 25);
     }
 }
