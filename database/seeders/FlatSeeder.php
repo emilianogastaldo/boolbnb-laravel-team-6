@@ -28,7 +28,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 110,
                 'latitude' => 41.8919300,
                 'longitude' =>  12.5113300,
-                'image' => 'img/appartamento1.jpg',
+                'image' => 'flat_img/appartamento1.jpg',
                 'is_visible' => true,
             ],
             [
@@ -41,7 +41,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 90,
                 'latitude' => 41.9064800,
                 'longitude' => 12.4823200,
-                'image' => 'img/appartamento2.jpg',
+                'image' => 'flat_img/appartamento2.jpg',
                 'is_visible' => true,
             ],
             [
@@ -54,7 +54,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 60,
                 'latitude' =>  41.9064800,
                 'longitude' =>  12.4823200,
-                'image' => 'img/appartamento3.jpg',
+                'image' => 'flat_img/appartamento3.jpg',
                 'is_visible' => true,
             ],
             [
@@ -67,7 +67,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 130,
                 'latitude' => 41.8991700,
                 'longitude' => 12.4730600,
-                'image' => 'img/appartamento4.jpg',
+                'image' => 'flat_img/appartamento4.jpg',
                 'is_visible' => true,
             ],
             [
@@ -80,7 +80,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 100,
                 'latitude' => 41.8797200,
                 'longitude' => 12.4694400,
-                'image' => 'img/appartamento5.jpg',
+                'image' => 'flat_img/appartamento5.jpg',
                 'is_visible' => true,
             ],
             [
@@ -93,7 +93,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 95,
                 'latitude' =>  41.8733300,
                 'longitude' => 12.5158300,
-                'image' => 'img/appartamento6.jpg',
+                'image' => 'flat_img/appartamento6.jpg',
                 'is_visible' => true,
             ],
             [
@@ -106,7 +106,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 75,
                 'latitude' => 41.8955600,
                 'longitude' => 12.4822200,
-                'image' => 'img/appartamento7.jpg',
+                'image' => 'flat_img/appartamento7.jpg',
                 'is_visible' => true,
             ],
             [
@@ -119,7 +119,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 110,
                 'latitude' => 41.9064800,
                 'longitude' => 12.4823200,
-                'image' => 'img/appartamento8.jpg',
+                'image' => 'flat_img/appartamento8.jpg',
                 'is_visible' => true,
             ],
             [
@@ -132,7 +132,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 150,
                 'latitude' => 41.9100000,
                 'longitude' => 12.4761100,
-                'image' => 'img/appartamento9.jpg',
+                'image' => 'flat_img/appartamento9.jpg',
                 'is_visible' => true,
             ],
             [
@@ -145,7 +145,7 @@ class FlatSeeder extends Seeder
                 'sq_m' => 85,
                 'latitude' => 41.8927800,
                 'longitude' => 12.4858300,
-                'image' => 'img/appartamento10.jpg',
+                'image' => 'flat_images/48UndcDkyPskQGM051s7PdpGitIzSw3RxaD1UWuz.jpg',
                 'is_visible' => true,
             ],
         ];

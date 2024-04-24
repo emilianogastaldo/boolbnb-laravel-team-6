@@ -6,7 +6,7 @@
 <div class="container">
     <div class="d-flex gap-5 mb-4">
         <div class="card text-center flex-shrink-0" style="width: 50%;">
-            <img src="{{asset('storage/' . $flat->image)}}" class="card-img-top" alt="{{$flat->title}}">
+            <img src="{{$flat->printImage()}}" class="card-img-top" alt="{{$flat->title}}">
             <div class="card-body">
               <h1 class="card-title">{{$flat->title}}</h1>
               <p class="card-text">{{$flat->description}}</p>

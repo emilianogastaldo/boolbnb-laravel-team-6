@@ -100,6 +100,11 @@ class FlatController extends Controller
         $data['longitude'] = $flat_infos['results'][0]['position']['lon'];
         $data['address'] = $flat_infos['results'][0]['address']['freeformAddress'];
 
+        // Do il valore booleano alla visibilità
+        $data['is_visible'] = Arr::exists($data, 'is_visible');
+
+        $new_flat->fill($data);
+
         $new_flat->slug = Str::slug($data['title']);
 
         if (Arr::exists($data, 'image')) {
@@ -111,13 +116,10 @@ class FlatController extends Controller
             $new_flat->image = $img_url;
         }
 
-        // Do il valore booleano alla visibilità
-        $data['is_visible'] = Arr::exists($data, 'is_visible');
 
         // Inserico come autore l'utente attualmente loggato
         $new_flat->user_id = Auth::id();
 
-        $new_flat->fill($data);
         $new_flat->save();
 
         // Creo la relazione tra progetto e tecnologia
@@ -205,7 +207,7 @@ class FlatController extends Controller
             $extension = $data['image']->extension();
 
             // Cancello l'immagine
-            Storage::delete($flat->image);
+            // Storage::delete($flat->image);
 
             // Creo l'url per visualizzare l'immagine con asset
             $img_url = Storage::putFileAs('flat_images', $data['image'], "$flat->slug.$extension");
