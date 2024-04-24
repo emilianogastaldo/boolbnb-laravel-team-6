@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Flat;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class FlatSeeder extends Seeder
@@ -147,10 +149,14 @@ class FlatSeeder extends Seeder
             ],
         ];
 
+        $user_ids = User::pluck('id')->toArray();
+
+
         foreach ($flats as $flat) {
             $new_flat = new Flat();
             $new_flat->fill($flat);
-            $new_flat->slug =  Str::slug($flat['title']);
+            $new_flat->user_id = Arr::random($user_ids);
+            $new_flat->slug = Str::slug($flat['title']);
             $new_flat->save();
         }
     }
