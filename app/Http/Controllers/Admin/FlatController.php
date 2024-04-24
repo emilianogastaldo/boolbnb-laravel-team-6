@@ -53,7 +53,7 @@ class FlatController extends Controller
                 'bathroom' => 'required|min:1|numeric',
                 'sq_m' => 'required|min:0|numeric',
                 'is_visible' => 'nullable|boolean',
-                'services' => 'nullable|exists:services,id',
+                'services' => 'required|exists:services,id',
             ],
             [
                 'title.required' => 'Devi inserire un nome all\'appartamento',
@@ -73,7 +73,8 @@ class FlatController extends Controller
                 'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
-                'services.exists' => 'I tag selezionati non sono validi'
+                'services.exists' => 'I tag selezionati non sono validi',
+                'services.required' => 'Devi selezionare almeno un servizio'
             ]
         );
         // Recupro i dati dopo averli validati
@@ -91,8 +92,9 @@ class FlatController extends Controller
         $data['longitude'] = $flat_infos['results'][0]['position']['lon'];
         $data['address'] = $flat_infos['results'][0]['address']['freeformAddress'];
 
-        // Non faccio controlli poiché l'immagine è obbligatoria, quindi avrò per forza il dato dell'immagine
-        $data['image'] = Storage::putFile('flat_images', $data['image']);
+        if (Arr::exists($data, 'image')) {
+            $data['image'] = Storage::putFile('flat_images', $data['image']);
+        }
 
         // Do il valore booleano alla visibilità
         $data['is_visible'] = Arr::exists($data, 'is_visible');
@@ -103,7 +105,7 @@ class FlatController extends Controller
         $new_flat->fill($data);
         $new_flat->save();
 
-        // creo la realzione tra progetto e tecnologia
+        // Creo la relazione tra progetto e tecnologia
         if (Arr::exists($data, 'services')) $new_flat->services()->attach($data['services']);
 
         return to_route('admin.flats.index')->with('message', 'Pogretto creato con successo')->with('type', 'success');
@@ -143,7 +145,7 @@ class FlatController extends Controller
                 'bathroom' => 'required|min:1|numeric',
                 'sq_m' => 'required|min:0|numeric',
                 'is_visible' => 'nullable|boolean',
-                'services' => 'nullable|exists:services,id',
+                'services' => 'required|exists:services,id',
             ],
             [
                 'title.required' => 'Devi inserire un nome all\'appartamento',
@@ -163,7 +165,8 @@ class FlatController extends Controller
                 'sq_m.required' => 'Devi inserire la metratura dell\'appartamento',
                 'sq_m.min' => 'Devo essere maggiore di 0',
                 'sq_m.numeric' => 'Il valore inserito deve essere un numero',
-                'services.exists' => 'I tag selezionati non sono validi'
+                'services.exists' => 'I tag selezionati non sono validi',
+                'services.required' => 'Devi selezionare almeno un servizio'
             ]
         );
         $data = $request->all();
