@@ -29,7 +29,8 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware('verified')->group(function () {
 
-    Route::get('/', AdminHomeController::class)->name('home'); // Rotta per la home di un admin
+    Route::get('/', [AdminHomeController::class, 'home'])->name('home'); // Rotta per la home di un admin
+    Route::get('/not-found', [AdminHomeController::class, 'notFound'])->name('not-found'); // Rotta per la pagina non trovata
 
     // Rotte per implementare la Soft Delete
     Route::get('/flats/trash', [FlatController::class, 'trash'])->name('flats.trash')->withTrashed(); // Rotta per la pagina dove vedere i flat eliminati
