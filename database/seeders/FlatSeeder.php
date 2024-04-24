@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Flat;
+use App\Models\Service;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -147,11 +148,17 @@ class FlatSeeder extends Seeder
             ],
         ];
 
+
+        $services_ids = Service::pluck('id')->toArray();
+
         foreach ($flats as $flat) {
             $new_flat = new Flat();
             $new_flat->fill($flat);
-            $new_flat->slug =  Str::slug($flat['title']);
+            $new_flat->slug = Str::slug($flat['title']);
             $new_flat->save();
+
+            $flat_services = array_filter($services_ids, fn () => rand(0, 1));
+            $new_flat->services()->attach($flat_services);
         }
     }
 }
