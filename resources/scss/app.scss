@@ -1,10 +1,11 @@
 @use 'guest-index';
 @use 'not-found';
-@use 'index';
-@use 'show';
 
 @import '~bootstrap/scss/bootstrap';
 @import '~tomtom/web-sdk-plugin-searchbox/dist/SearchBox.css';
+// TOFIX
+@import 'index';
+@import 'show';
 
 
 
