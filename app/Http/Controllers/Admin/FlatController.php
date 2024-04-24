@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flat;
 use App\Models\Service;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -21,8 +22,13 @@ class FlatController extends Controller
     {
         // recupero il termine della ricerca dalla request
         $search = $request->query('search');
-        // aggiungo il termine alla query
-        $flats = Flat::where('title', 'LIKE', "%$search%")->get();
+        // Recupero l'utente attivo
+        $user_id = auth()->user()->id;
+
+        // Creo la query
+        $query = Flat::where('title', 'LIKE', "%$search%")->whereUserId($user_id);
+
+        $flats = $query->get();
         return view('admin.flats.index', compact('flats', 'search'));
     }
 
@@ -122,6 +128,9 @@ class FlatController extends Controller
      */
     public function edit(Flat $flat)
     {
+        // Recupero l'utente attivo
+        $user_id = auth()->user()->id;
+        if ($user_id !== $flat->user->id) return to_route('admin.flats.index');
         $prev_services = $flat->services->pluck('id')->toArray();
         $services = Service::all();
         return view('admin.flats.edit', compact('flat', 'services', 'prev_services'));
@@ -216,11 +225,11 @@ class FlatController extends Controller
     /**
      * Funzione per implementare la strong delete
      */
-    public function drop(Flat $flat)
-    {
-        $flat->forceDelete();
-        return to_route('admin.flats.index')->with('type', 'warning')->with('message', "$flat->title eliminato definitivamente");
-    }
+    // public function drop(Flat $flat)
+    // {
+    //     $flat->forceDelete();
+    //     return to_route('admin.flats.index')->with('type', 'warning')->with('message', "$flat->title eliminato definitivamente");
+    // }
 
     /**
      * Funzione per implementare il restore del flat trashed

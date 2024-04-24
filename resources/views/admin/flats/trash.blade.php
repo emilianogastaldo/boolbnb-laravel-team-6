@@ -33,11 +33,11 @@
                 {{-- Edit --}}
                 <a href="{{route('admin.flats.edit', $flat->id)}}"><i class="fa-solid fa-pencil"></i></a>
                 {{-- Drop --}}
-                <form action="{{route('admin.flats.drop', $flat->id)}}" method="POST">                           
+                {{-- <form action="{{route('admin.flats.drop', $flat->id)}}" method="POST">                           
                   @csrf
                   @method('DELETE')
                   <button type="submit"><i class="fa-solid fa-trash"></i></button>
-                </form>
+                </form> --}}
                 {{-- Restore --}}
                 <form action="{{route('admin.flats.restore', $flat->id)}}" method="POST">                           
                   @csrf
