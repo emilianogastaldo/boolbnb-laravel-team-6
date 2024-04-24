@@ -15,6 +15,9 @@ class FlatController extends Controller
     {
         // query per la pagina iniziale
         $flats = Flat::select('id', 'title', 'slug', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->get();
+        foreach($flats as $flat){
+            if($flat->image) $flat->image = url('storage/' . $flat->image);
+        }
 
         return response()->json($flats);
 
