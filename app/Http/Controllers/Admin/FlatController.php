@@ -120,6 +120,13 @@ class FlatController extends Controller
      */
     public function show(Flat $flat)
     {
+        // Recupero l'utente attivo
+        $user_id = auth()->user()->id;
+
+        // Se l'id dell'utente è diverso dall'id dell'utente che ha creato l'appartamento vai alla pagina not-found
+        if ($user_id !== $flat->user->id) return to_route('admin.not-found');
+
+        // Ritorno la vista con l'appartamento
         return view('admin.flats.show', compact('flat'));
     }
 
@@ -130,7 +137,7 @@ class FlatController extends Controller
     {
         // Recupero l'utente attivo
         $user_id = auth()->user()->id;
-        if ($user_id !== $flat->user->id) return to_route('admin.flats.index');
+        if ($user_id !== $flat->user->id) return to_route('admin.not-found');
         $prev_services = $flat->services->pluck('id')->toArray();
         $services = Service::all();
         return view('admin.flats.edit', compact('flat', 'services', 'prev_services'));
