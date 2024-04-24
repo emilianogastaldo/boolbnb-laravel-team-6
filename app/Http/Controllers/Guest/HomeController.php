@@ -8,20 +8,9 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    
-    public function index()
+
+    public function __invoke()
     {
-
-        $flats = Flat::orderByDesc('created_at')->get();
-
-        return view('guest.home', compact('flats'));
+        return view('auth.login');
     }
-
-    public function show(Flat $flat)
-    {
-
-        return view('guest.flats.show', compact('flat'));
-    }
-    
-    
 }
