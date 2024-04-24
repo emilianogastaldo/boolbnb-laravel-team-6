@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Flat;
 use App\Models\User;
+use App\Models\Service;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
@@ -151,6 +152,7 @@ class FlatSeeder extends Seeder
 
         $user_ids = User::pluck('id')->toArray();
 
+        $services_ids = Service::pluck('id')->toArray();
 
         foreach ($flats as $flat) {
             $new_flat = new Flat();
@@ -158,6 +160,9 @@ class FlatSeeder extends Seeder
             $new_flat->user_id = Arr::random($user_ids);
             $new_flat->slug = Str::slug($flat['title']);
             $new_flat->save();
+
+            $flat_services = array_filter($services_ids, fn () => rand(0, 1));
+            $new_flat->services()->attach($flat_services);
         }
     }
 }

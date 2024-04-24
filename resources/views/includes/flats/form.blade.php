@@ -74,7 +74,7 @@
         {{-- Image --}}
         <div class="col-6">
                 <!-- Input Change image -->
-                <div class="input-group @if(!$flat->printImage()) d-none @endif" id="previous-image-field">
+                <div class="input-group @if(!$flat->image) d-none @endif" id="previous-image-field">
                     <button class="btn btn-outline-secondary" type="button" id="change-image-button">Cambia Immagine</button>
                     <input type="text" class="form-control" value="{{old('image', $flat->image)}}" disabled>
                 </div>
@@ -119,11 +119,16 @@
         {{-- Checkbox per i servizi --}}
         <div class="mb-3">
             @foreach ($services as $service)
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
-                <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
-            </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
+                    <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
+                </div>
             @endforeach
+            
+            {{-- Alert Error --}}
+            @error('services')
+                <div class="text-danger">{{$message}}</div>
+            @enderror
         </div>
 
     </div>
