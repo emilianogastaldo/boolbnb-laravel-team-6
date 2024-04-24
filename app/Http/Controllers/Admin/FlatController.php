@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Flat;
 use App\Models\Service;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
@@ -92,8 +93,15 @@ class FlatController extends Controller
         $data['longitude'] = $flat_infos['results'][0]['position']['lon'];
         $data['address'] = $flat_infos['results'][0]['address']['freeformAddress'];
 
+        $new_flat->slug = Str::slug($data['title']);
+
         if (Arr::exists($data, 'image')) {
-            $data['image'] = Storage::putFile('flat_images', $data['image']);
+            // Recupero l'estensione del file
+            $extension = $data['image']->extension();
+
+            // Creo l'url per visualizzare l'immagine con asset
+            $img_url = Storage::putFileAs('flat_images', $data['image'], "$new_flat->slug.$extension");
+            $new_flat->image = $img_url;
         }
 
         // Do il valore booleano alla visibilità
@@ -171,10 +179,20 @@ class FlatController extends Controller
         );
         $data = $request->all();
 
+        // Creo lo slug
+        $flat->slug = Str::slug($data['title']);
+
         // Cancello e metto la nuova immagine
         if (Arr::exists($data, 'image')) {
+            // Recupero l'estensione del file
+            $extension = $data['image']->extension();
+
+            // Cancello l'immagine
             Storage::delete($flat->image);
-            $data['image'] = Storage::putFile('flat_images', $data['image']);
+
+            // Creo l'url per visualizzare l'immagine con asset
+            $img_url = Storage::putFileAs('flat_images', $data['image'], "$flat->slug.$extension");
+            $flat->image = $img_url;
         }
 
         // Riassegno l'essere visibile o meno
