@@ -1,14 +1,15 @@
 @use 'guest-index';
+@use 'not-found';
+
 @import '~bootstrap/scss/bootstrap';
 @import '~tomtom/web-sdk-plugin-searchbox/dist/SearchBox.css';
+// TOFIX
+@import 'index';
+@import 'show';
 
-@import '../scss/index';
-@import '../scss/show';
 
 
 body {
     visibility: visible;
     background-color: #FFFAF0;
-
-
 }
