@@ -74,7 +74,7 @@
         {{-- Image --}}
         <div class="col-6">
                 <!-- Input Change image -->
-                <div class="input-group @if(!$flat->printImage()) d-none @endif" id="previous-image-field">
+                <div class="input-group @if(!$flat->image) d-none @endif" id="previous-image-field">
                     <button class="btn btn-outline-secondary" type="button" id="change-image-button">Cambia Immagine</button>
                     <input type="text" class="form-control" value="{{old('image', $flat->image)}}" disabled>
                 </div>
