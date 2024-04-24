@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [GuestHomeController::class, 'index'])->name('guest.index');
-Route::get('/flats/{flat}', [GuestHomeController::class, 'show'])->name('guest.flats.show');
-
+Route::get('/', GuestHomeController::class)->name('guest.index'); // Rotta per la home dei guest
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,7 +32,6 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware('verifie
 
     // Rotte per implementare la Soft Delete
     Route::get('/flats/trash', [FlatController::class, 'trash'])->name('flats.trash')->withTrashed(); // Rotta per la pagina dove vedere i flat eliminati
-    // Route::delete('/flats/{flat}/drop', [FlatController::class, 'drop'])->name('flats.drop')->withTrashed(); // Rotta per la strong delete
     Route::patch('/flats/{flat}/restore', [FlatController::class, 'restore'])->name('flats.restore')->withTrashed(); //  Rotta per il restore
 
     // Rotte CRUD classiche
