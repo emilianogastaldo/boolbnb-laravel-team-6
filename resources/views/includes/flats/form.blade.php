@@ -119,11 +119,16 @@
         {{-- Checkbox per i servizi --}}
         <div class="mb-3">
             @foreach ($services as $service)
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
-                <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
-            </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
+                    <input class="form-check-input" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
+                </div>
             @endforeach
+            
+            {{-- Alert Error --}}
+            @error('services')
+                <div class="text-danger">{{$message}}</div>
+            @enderror
         </div>
 
     </div>
