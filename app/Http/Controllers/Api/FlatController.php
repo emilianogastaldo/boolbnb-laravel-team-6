@@ -15,19 +15,21 @@ class FlatController extends Controller
     {
         // query per la pagina iniziale
         $flats = Flat::select('id', 'title', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->get();
-        
 
-        
-        foreach($flats as $flat){
-            if($flat->image) $flat->image = url('storage/' . $flat->image);
+        foreach ($flats as $flat) {
+            if ($flat->image) $flat->image = url('storage/' . $flat->image);
         }
 
-        
-
         return response()->json($flats);
-
     }
 
+    public function filteredIndex(string $address)
+    {
+        return response()->json("ciao");
+        $flats = Flat::select('id', 'title', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->where('address', 'LIKE', "%$address%")->get();
+        // address={address}?&rooms={room}?&bathrooms={bathroom}?&services={services}
+        return response()->json($flats);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -51,7 +53,7 @@ class FlatController extends Controller
     {
         $flat = Flat::select('*')->whereSlug($slug)->first();
 
-        if(!$flat) return response (null, 404);
+        if (!$flat) return response(null, 404);
 
         return response()->json($flat);
     }
