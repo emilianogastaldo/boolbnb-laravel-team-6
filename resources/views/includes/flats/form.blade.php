@@ -12,7 +12,7 @@
             <div class="row g-4">
                 {{-- Input per il titolo della casa --}}
                 <div class="col-12">
-                    <div class="form-floating">
+                    <div class="form-floating">                        
                         <input type="text" class="form-control @error('title') is-invalid @elseif(old('title', '')) is-valid @enderror" name="title" id="title" value="{{old('title', $flat->title)}}" placeholder="">    
                         <label for="title" class="form-label">Dai un nome all'appartamento<span class="text-danger"> * </span></label>
                         @error('title')
@@ -21,16 +21,19 @@
                     </div>
                 </div>
 
+                {{-- Input per la via della casa --}}
                 <div class="col-12">                    
-                    {{-- Input per la via della casa --}}
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="input-address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
+                        {{-- Input che invierò al controller --}}
+                        <input type="text" class="d-none" name="address" id="form-address">
+                        {{-- Input visibile all'utente --}}
+                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="input-address" value="{{old('address', $flat->address)}}" placeholder="">
                         <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> * </span></label>
                         <ul class="list-group" id="flats-list"></ul>
                     </div>
 
                     {{-- SearchBox --}}
-                    <div id="ricerca" class="form-floating mb-3"></div>
+                    {{-- <div id="ricerca" class="form-floating mb-3"></div> --}}
                 </div>
 
                 {{-- Input di stanze, letti, bagni, metratura, --}}
@@ -140,30 +143,30 @@
 
 <script type="module">
     // Ricerca TomTom
-    const ricerca = document.getElementById('ricerca');
-    const options = {
-        searchOptions: {
-            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
-            language: "en-GB",
-            countrySet: "IT",
-            limit: 5,
-        },
-        autocompleteOptions: {
-            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
-            language: "en-GB",
-        },    
-    };
-    const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
-    const searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+    // const ricerca = document.getElementById('ricerca');
+    // const options = {
+    //     searchOptions: {
+    //         key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+    //         language: "en-GB",
+    //         countrySet: "IT",
+    //         limit: 5,
+    //     },
+    //     autocompleteOptions: {
+    //         key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
+    //         language: "en-GB",
+    //     },    
+    // };
+    // const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
+    // const searchBoxHTML = ttSearchBox.getSearchBoxHTML();
     
-    ricerca.appendChild(searchBoxHTML);
+    // ricerca.appendChild(searchBoxHTML);
     
-    // Aggiorna il valore dell'input quando viene selezionato un indirizzo nella searchbox
-    ttSearchBox.on('tomtom.searchbox.resultselected', e => {
-        console.log(ttSearchBox)
-        const addressInput = document.getElementById('address');
-        addressInput.value = e.data.result.address.freeformAddress;
-    });
+    // // Aggiorna il valore dell'input quando viene selezionato un indirizzo nella searchbox
+    // ttSearchBox.on('tomtom.searchbox.resultselected', e => {
+    //     console.log(ttSearchBox)
+    //     const addressInput = document.getElementById('address');
+    //     addressInput.value = e.data.result.address.freeformAddress;
+    // });
 
     //? TODO Mettere un placeholder e tenere l'old 
 
@@ -177,7 +180,10 @@
 
     const flatsList = document.getElementById("flats-list");
     const inputAddress = document.getElementById("input-address");
+    const formAddress = document.getElementById("form-address");
+
     inputAddress.addEventListener('input', () => {
+            // inputAddress.value = null;
             if (inputAddress.value != '') getApiFlats(inputAddress.value);
         });
 
@@ -197,8 +203,12 @@
                 address.addEventListener('click', () => {                    
                     console.log('ciao');
                     inputAddress.value = address.innerText;               
+                    formAddress.value = address.innerText;               
                 })
             }
+        })
+        .catch( err => {
+            console.error('Si è verificato un errore durante il recupero dei dati dall\'API:', err);
         })
     }
 </script>
