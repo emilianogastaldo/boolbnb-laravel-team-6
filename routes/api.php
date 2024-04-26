@@ -19,8 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// rotte api per la home e per la show
+// Rotte api per la home e per la show
 Route::get('/flats', [FlatController::class, 'index']);
-// http://localhost:8000/api/flats/?address={address}&rooms={room}&bathrooms={bathroom}&services={services}
-Route::get('/flats/?address={address}', [FlatController::class, 'filteredIndex']);
+
+// Rotta per gli appartamenti filtrati
+Route::get('/flats', [FlatController::class, 'filteredIndex']);
+
+// Rotta per la show degli appartamenti
 Route::get('/flats/{slug}', [FlatController::class, 'show']);
