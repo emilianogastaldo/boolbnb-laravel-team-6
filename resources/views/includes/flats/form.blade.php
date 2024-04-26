@@ -12,7 +12,7 @@
             <div class="row g-4">
                 {{-- Input per il titolo della casa --}}
                 <div class="col-12">
-                    <div class="form-floating">
+                    <div class="form-floating">                        
                         <input type="text" class="form-control @error('title') is-invalid @elseif(old('title', '')) is-valid @enderror" name="title" id="title" value="{{old('title', $flat->title)}}" placeholder="">    
                         <label for="title" class="form-label">Dai un nome all'appartamento<span class="text-danger"> * </span></label>
                         @error('title')
@@ -21,14 +21,16 @@
                     </div>
                 </div>
 
+                {{-- Input per la via della casa --}}
                 <div class="col-12">                    
-                    {{-- Input per la via della casa --}}
-                    <div class="form-floating mb-3 d-none">
-                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="address" name="address" value="{{old('address', $flat->address)}}" placeholder="">
-                        <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> * </span></label>
+                    <div class="form-floating mb-3">
+                        {{-- Input che invierò al controller --}}
+                        <input type="text" class="" name="address" id="form-address" value="{{old('address', $flat->address)}}">
+                        {{-- Input visibile all'utente --}}
+                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="input-address" value="{{old('address', $flat->address)}}" placeholder="">
+                        {{-- <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> *</span> (es: Via Vittorio Veneto 4, 00187 Roma)</label> --}}
+                        <ul class="list-group" id="flats-list"></ul>
                     </div>
-                    {{-- SearchBox --}}
-                    <div id="ricerca" class="form-floating mb-3"></div>
                 </div>
 
                 {{-- Input di stanze, letti, bagni, metratura, --}}
@@ -137,32 +139,62 @@
 </form>
 
 <script type="module">
-    // Ricerca TomTom
-    const ricerca = document.getElementById('ricerca');
-    const options = {
-        searchOptions: {
-            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
-            language: "en-GB",
-            countrySet: "IT",
-            limit: 5,
-        },
-        autocompleteOptions: {
-            key: "MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF",
-            language: "en-GB",
-        },    
-    };
-    const ttSearchBox = new tt.plugins.SearchBox(tt.services, options)
-    const searchBoxHTML = ttSearchBox.getSearchBoxHTML();
-    
-    ricerca.appendChild(searchBoxHTML);
+    // Script per visualizzare gli appartamenti ricevuti dalla chiamata API
+    const keyApi = 'MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF';
+    // Coordinate di Roma <3
+    const lat = '41.9027835';
+    const lon = '12.4963655';
+    const radius = '20000';
 
-    // Aggiorna il valore dell'input quando viene selezionato un indirizzo nella searchbox
-    ttSearchBox.on('tomtom.searchbox.resultselected', (e) => {
-        const addressInput = document.getElementById('address');
-        addressInput.value = e.data.result.address.freeformAddress;
+    // Recupero gli elementi dal form
+    const flatsList = document.getElementById("flats-list");
+    const inputAddress = document.getElementById("input-address");
+    const formAddress = document.getElementById("form-address");
+    
+    // Evento per far apparire la tendina
+    inputAddress.addEventListener('input', () => {
+            formAddress.value = null;
+            flatsList.classList.remove('d-none');            
+            if (inputAddress.value != '') getApiFlats(inputAddress.value);
+        });
+    // Evento per far sparire la tendina se si preme al di fuori di essa
+    window.addEventListener('click', () =>{
+        flatsList.classList.add('d-none');              
+
     });
 
-    //? TODO Mettere un placeholder e tenere l'old 
+    // Funzione per recuperare gli appartamenti
+    function getApiFlats(address) {
+        fetch(`https://api.tomtom.com/search/2/search/${address}.json?key=${keyApi}&countrySet=IT&limit=5&lat=${lat}&lon=${lon}&radius=${radius}`)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data.results);
+            let message = '';
+            data.results.forEach(flat => {
+                message += `<li class="list-group-item" role="button"> ${flat.address.freeformAddress} </li>`;
+            });
+            // Se non trovo appartamenti stampo un messaggio di avviso
+            if(!message) message = `<li class="list-group-item"> Non ci sono appartamenti </li>`;            
+            flatsList.innerHTML = message;
 
-    //! AddEventListener non funziona con gli oggetti di eventi personalizzati come 'tomtom.searchbox.resultselected' si deve usare .on
+            // Salvo il nome della via solo al click sulla tendina
+            const addresses = document.querySelectorAll('li');
+            for (const address of addresses) {
+                address.addEventListener('click', () => {   
+                    //  Se preme il messaggio di avviso, svuoto l'input
+                    if(address.innerText === 'Non ci sono appartamenti'){
+                        inputAddress.value = '';              
+                        flatsList.classList.add('d-none'); 
+                    } else {
+                        inputAddress.value = address.innerText;               
+                        formAddress.value = address.innerText;
+                        flatsList.classList.add('d-none');               
+                    }
+                })
+            }
+        })
+        .catch( err => {
+            console.error('Si è verificato un errore durante il recupero dei dati dall\'API:', err);
+        })
+    }
 </script>
