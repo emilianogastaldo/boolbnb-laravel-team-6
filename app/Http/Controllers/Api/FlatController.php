@@ -23,11 +23,17 @@ class FlatController extends Controller
         return response()->json($flats);
     }
 
-    public function filteredIndex(string $address)
+    public function filteredIndex(Request $request)
     {
-        return response()->json("ciao");
-        $flats = Flat::select('id', 'title', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->where('address', 'LIKE', "%$address%")->get();
-        // address={address}?&rooms={room}?&bathrooms={bathroom}?&services={services}
+        // Recupero l'address dalla query nella request
+        $address = $request->query('address');
+
+        // Creo una query per filtrare
+        $flats = Flat::select('id', 'title', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')
+            ->where('address', 'LIKE', "%$address%")
+            ->get();
+
+        // Ritorno $flats
         return response()->json($flats);
     }
     /**
