@@ -12,7 +12,8 @@ export default defineConfig({
                 'resources/scss/app.scss',
                 'resources/js/app.js',
                 'resources/js/image_preview.js',
-                'resources/js/password_validation.js'
+                'resources/js/password_validation.js',
+                'resources/js/autocomplete_dropdown.js'
             ],
             refresh: true,
         }),
