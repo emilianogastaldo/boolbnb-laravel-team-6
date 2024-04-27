@@ -22,8 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Rotte api per la home e per la show
 Route::get('/flats', [FlatController::class, 'index']);
 
-// Rotta per gli appartamenti filtrati
-Route::get('/flats', [FlatController::class, 'filteredIndex']);
-
 // Rotta per la show degli appartamenti
 Route::get('/flats/{slug}', [FlatController::class, 'show']);
