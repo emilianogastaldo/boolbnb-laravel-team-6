@@ -16,7 +16,8 @@ class FlatController extends Controller
     public function index()
     {
         // query per la pagina iniziale
-        $flats = Flat::whereIsVisible(true)->select('id', 'title', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->get();
+        $flats = Flat::whereIsVisible(true)->select('id', 'title', 'slug', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->get();
+
 
         foreach ($flats as $flat) {
             if ($flat->image) $flat->image = url('storage/' . $flat->image);
