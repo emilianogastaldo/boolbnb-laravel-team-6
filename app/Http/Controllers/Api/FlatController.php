@@ -6,6 +6,7 @@ use App\Models\Service;
 use App\Models\Flat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class FlatController extends Controller
 {
@@ -15,33 +16,37 @@ class FlatController extends Controller
     public function index()
     {
         // query per la pagina iniziale
-        $flats = Flat::select('id', 'title', 'slug', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->get();
+        $flats = Flat::whereIsVisible(true)->select('id', 'title', 'slug', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->get();
+
 
         foreach ($flats as $flat) {
             if ($flat->image) $flat->image = url('storage/' . $flat->image);
         }
 
-        return response()->json($flats);
-    }
+        if (request()->input('address')) {
 
-    public function filteredIndex(Request $request)
-    {
-        // Recupero l'address dalla query nella request
-        $address = $request->query('address');
-        // Recupero le camere dalla request
-        $rooms = $request->query('rooms');
-        // Recupero i bagni dalla request
-        $bathrooms = $request->query('bathrooms');
-        // Recupero i servizi dalla request
-        $services = $request->query('services');
+            // Recupero l'address dalla query nella request
+            $address = request()->query('address');
+            // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
+            $response = Http::withoutVerifying()->get("https://api.tomtom.com/search/2/geocode/{$address}.json?storeResult=false&countrySet=IT&view=Unified&key=7HTi0jsdt2LOACuuEHuHjOPmcdLsmvEw"); //! QUERY DI PROVA 
+            $flat_infos = $response->json();
 
-        // Creo una query per filtrare
-        $flats = Flat::select('id', 'title', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->with('services')
-            ->where('address', 'LIKE', "%$address%")->get();
+            // Riassegnamento latitude, longitute e via con le informazioni ottenute dalla chiamata
+            $lat = $flat_infos['results'][0]['position']['lat'];
+            $lon = $flat_infos['results'][0]['position']['lon'];
+            $range = 20;
 
+            // Creo una query per filtrare
+            $flats = Flat::whereIsVisible(true)
+                ->whereRaw("(6371 * acos(cos(radians(" . $lat . ")) * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $lon . ")) + sin(radians(" . $lat . ")) * sin(radians(latitude)))) <=" . $range)
+                ->orderByRaw("(6371 * acos(cos(radians(" . $lat . ")) * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $lon . ")) + sin(radians(" . $lat . ")) * sin(radians(latitude)))) asc")
+                ->with('services')
+                ->get();
+        }
         // Ritorno $flats
         return response()->json($flats);
     }
+
     /**
      * Show the form for creating a new resource.
      */
