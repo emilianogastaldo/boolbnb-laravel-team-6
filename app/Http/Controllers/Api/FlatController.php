@@ -68,7 +68,7 @@ class FlatController extends Controller
      */
     public function show(string $slug)
     {
-        $flat = Flat::whereIsVisible(true)->whereSlug($slug)->first();
+        $flat = Flat::whereIsVisible(true)->whereSlug($slug)->with('services')->first();
 
         if (!$flat) return response(null, 404);
         if ($flat->image) $flat->image = url('storage/' . $flat->image);
