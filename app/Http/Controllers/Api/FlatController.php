@@ -17,7 +17,7 @@ class FlatController extends Controller
     {
         // query per la pagina iniziale
         $flats = Flat::whereIsVisible(true)->select('id', 'title', 'slug', 'description', 'address', 'room', 'bed', 'bathroom', 'sq_m', 'image')->get();
-
+        $services = Service::all();
 
         foreach ($flats as $flat) {
             if ($flat->image) $flat->image = url('storage/' . $flat->image);
@@ -28,8 +28,8 @@ class FlatController extends Controller
             // Recupero l'address dalla query nella request
             $address = request()->query('address');
             // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
-            $response = Http::withoutVerifying()->get("https://api.tomtom.com/search/2/search/{$address}.json?key=MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF&countrySet=IT&municipality=Roma");
-            $flat_infos = $response->json();
+            $flatResponse = Http::withoutVerifying()->get("https://api.tomtom.com/search/2/search/{$address}.json?key=MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF&countrySet=IT&municipality=Roma");
+            $flat_infos = $flatResponse->json();
 
             // Riassegnamento latitude, longitute e via con le informazioni ottenute dalla chiamata
             $lat = $flat_infos['results'][0]['position']['lat'];
@@ -43,8 +43,12 @@ class FlatController extends Controller
                 ->with('services')
                 ->get();
         }
-        // Ritorno $flats
-        return response()->json($flats);
+        // Ritorno $flats e i servizi
+        $response = [
+            'flats' => $flats,
+            'services' => $services
+        ];
+        return response()->json(compact('flats', 'services'));
     }
 
     /**
