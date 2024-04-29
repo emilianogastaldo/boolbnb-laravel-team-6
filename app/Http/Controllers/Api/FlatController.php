@@ -28,7 +28,7 @@ class FlatController extends Controller
             // Recupero l'address dalla query nella request
             $address = request()->query('address');
             // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
-            $response = Http::withoutVerifying()->get("https://api.tomtom.com/search/2/geocode/{$address}.json?storeResult=false&countrySet=IT&view=Unified&key=7HTi0jsdt2LOACuuEHuHjOPmcdLsmvEw"); //! QUERY DI PROVA 
+            $response = Http::withoutVerifying()->get("https://api.tomtom.com/search/2/search/{$address}.json?key=MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF&countrySet=IT");
             $flat_infos = $response->json();
 
             // Riassegnamento latitude, longitute e via con le informazioni ottenute dalla chiamata
