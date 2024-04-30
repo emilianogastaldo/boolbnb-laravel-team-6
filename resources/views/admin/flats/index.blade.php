@@ -44,7 +44,7 @@
             <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-sm btn-warning">
               {{-- <i class="fas fa-pencil"></i> --}} MODIFICA
             </a>
-            <form action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
+            <form class="delete" action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
               @csrf
               @method('DELETE')
               <button class="btn btn-sm btn-danger" type="submit">
@@ -59,4 +59,8 @@
     @endforelse
   </div>
 </div>
+@endsection
+
+@section('scripts')
+@vite('resources/js/delete-confirmation.js')
 @endsection
