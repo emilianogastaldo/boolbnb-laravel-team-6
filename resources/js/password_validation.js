@@ -19,7 +19,7 @@ form.addEventListener('submit', function (e) {
         alert.classList.remove('d-none');
 
         // Scrivo il testo dell'alert
-        alert.innerText = 'Entrambi i campi devono essere compilati';
+        alert.innerText = 'Entrambi i campi password devono essere compilati';
       
       // Se invece i value delle due password sono diverse
     } else if(passwordValue !== confPasswordValue){
