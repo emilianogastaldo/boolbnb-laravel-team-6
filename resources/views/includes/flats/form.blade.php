@@ -143,4 +143,5 @@
 
 @section('scripts')
     @vite('resources/js/autocomplete_dropdown.js')
+    @vite('resources/js/image_preview.js')
 @endsection
