@@ -1,9 +1,9 @@
 <span>I campi con <span class="text-danger">*</span> sono obbligatori </span>
 @if ($flat->exists)
-    <form action="{{route('admin.flats.update', $flat)}}" enctype="multipart/form-data" method="POST">
+    <form id="form" action="{{route('admin.flats.update', $flat)}}" enctype="multipart/form-data" method="POST">
         @method('PUT')
     @else
-    <form action="{{route('admin.flats.store')}}" enctype="multipart/form-data" method="POST"> 
+    <form id="form" action="{{route('admin.flats.store')}}" enctype="multipart/form-data" method="POST"> 
 @endif
     @csrf
     {{-- @dd($flat) --}}
@@ -13,8 +13,13 @@
                 {{-- Input per il titolo della casa --}}
                 <div class="col-12">
                     <div class="form-floating">                        
-                        <input type="text" class="form-control @error('title') is-invalid @elseif(old('title', '')) is-valid @enderror" name="title" id="title" value="{{old('title', $flat->title)}}" placeholder="">    
+                        <input type="text" class="form-control @error('title') is-invalid @elseif(old('title', '')) is-valid @enderror" name="title" id="title" value="{{old('title', $flat->title)}}">    
                         <label for="title" class="form-label">Dai un nome all'appartamento<span class="text-danger"> * </span></label>
+                        {{--Client Side Alert --}}
+                        <span role="alert">
+                            <strong id="title-alert" class="d-none text-danger"></strong>
+                        </span>
+                        {{-- Server Side Alert --}}
                         @error('title')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror
@@ -27,8 +32,13 @@
                         {{-- Input che invierò al controller --}}
                         <input type="text" class="d-none" name="address" id="form-address" value="{{old('address', $flat->address)}}">
                         {{-- Input visibile all'utente --}}
-                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="input-address" value="{{old('address', $flat->address)}}" placeholder="">
+                        <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="input-address" value="{{old('address', $flat->address)}}">
                         <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> *</span> (es: Via Vittorio Veneto 4, 00187 Roma)</label>
+                        {{--Client Side Alert --}}
+                        <span role="alert">
+                            <strong id="address-alert" class="d-none text-danger"></strong>
+                        </span>
+                        {{-- Server Side Alert --}}
                         @error('address')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror 
@@ -40,16 +50,26 @@
                 <div class="col-6 ">
                     {{-- stanze --}}
                     <div class="form-floating mb-4">
-                        <input type="number" min="1" max="255" class="form-control @error('room') is-invalid @elseif(old('room', '')) is-valid @enderror" id="room" name="room" value="{{old('room', $flat->room)}}" placeholder="">
+                        <input type="number" min="1" max="255" class="form-control @error('room') is-invalid @elseif(old('room', '')) is-valid @enderror" id="room" name="room" value="{{old('room', $flat->room)}}">
                         <label for="room" class="form-label">Inserisci numero stanze<span class="text-danger"> * </span></label>
+                        {{--Client Side Alert --}}
+                        <span role="alert">
+                            <strong id="room-alert" class="d-none text-danger"></strong>
+                        </span>
+                        {{-- Server Side Alert --}}
                         @error('room')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror
                     </div>
                     {{-- bagni --}}
                     <div class="form-floating">
-                        <input type="number" min="1" max="255" class="form-control @error('bathroom') is-invalid @elseif(old('bathroom', '')) is-valid @enderror" id="bathroom" name="bathroom" value="{{old('bathroom', $flat->bathroom)}}" placeholder="">
+                        <input type="number" min="1" max="255" class="form-control @error('bathroom') is-invalid @elseif(old('bathroom', '')) is-valid @enderror" id="bathroom" name="bathroom" value="{{old('bathroom', $flat->bathroom)}}">
                         <label for="bathroom" class="form-label">Inserisci numero bagni<span class="text-danger"> * </span></label>
+                        {{--Client Side Alert --}}
+                        <span role="alert">
+                            <strong id="bathroom-alert" class="d-none text-danger"></strong>
+                        </span>
+                        {{-- Server Side Alert --}}
                         @error('bathroom')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror
@@ -58,16 +78,26 @@
                 <div class="col-6">
                     {{-- letti --}}
                     <div class="form-floating mb-4">
-                        <input type="number" min="1" max="255" class="form-control @error('bed') is-invalid @elseif(old('bed', '')) is-valid @enderror" id="bed" name="bed" value="{{old('bed', $flat->bed)}}" placeholder="">
+                        <input type="number" min="1" max="255" class="form-control @error('bed') is-invalid @elseif(old('bed', '')) is-valid @enderror" id="bed" name="bed" value="{{old('bed', $flat->bed)}}">
                         <label for="bed" class="form-label">Inserisci posti letto<span class="text-danger"> * </span></label>
+                        {{--Client Side Alert --}}
+                        <span role="alert">
+                            <strong id="bed-alert" class="d-none text-danger"></strong>
+                        </span>
+                        {{-- Server Side Alert --}}
                         @error('bed')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror
                     </div>
                     {{-- metratura --}}
                     <div class="form-floating">
-                        <input type="number" min="0" max="65535" class="form-control @error('sq_m') is-invalid @elseif(old('sq_m', '')) is-valid @enderror" id="sq_m" name="sq_m" value="{{old('sq_m', $flat->sq_m)}}" placeholder="Inserisci metratura">
+                        <input type="number" min="0" max="65535" class="form-control @error('sq_m') is-invalid @elseif(old('sq_m', '')) is-valid @enderror" id="sq_m" name="sq_m" value="{{old('sq_m', $flat->sq_m)}}">
                         <label for="sq_m">Metratura in m<sup>2</sup> <span class="text-danger"> * </span></label>
+                        {{--Client Side Alert --}}
+                        <span role="alert">
+                            <strong id="sq-alert" class="d-none text-danger"></strong>
+                        </span>
+                        {{-- Server Side Alert --}}
                         @error('sq_m')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror
@@ -85,11 +115,13 @@
                 </div>
                 <!-- Input Select image -->
                 <input type="file" name="image" class="form-control @if($flat->image) d-none @endif @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" id="image" placeholder="http:// or https://">
-
                 {{-- Label --}}
                 <label class="mt-2" for="image">Carica un'immagine (che sia .png o .jpg) <span class="text-danger"> * </span></label>
-
-                {{-- Error --}}
+                {{--Client Side Alert --}}
+                <span role="alert">
+                    <strong id="image-alert" class="d-none text-danger"></strong>
+                </span>
+                {{-- Server Side Alert --}}
                 @error('image')
                     <div class="invalid-feedback">
                         {{$message}}
@@ -104,8 +136,13 @@
         {{-- Input descrizione dell'appartamento --}}
         <div class="col-12">
             <div class="form-floating">
-                <textarea class="form-control @error('sq_m') is-invalid @elseif(old('sq_m', '')) is-valid @enderror" placeholder="" id="description" name="description" style="height: 150px">{{old('description', $flat->description)}}</textarea>
+                <textarea class="form-control @error('description') is-invalid @elseif(old('description', '')) is-valid @enderror" id="description" name="description" style="height: 150px">{{old('description', $flat->description)}}</textarea>
                 <label for="description">Scrivi una descrizione dell'appartamento <span class="text-danger"> * </span></label>
+                {{--Client Side Alert --}}
+                <span role="alert">
+                    <strong id="description-alert" class="d-none text-danger"></strong>
+                </span>
+                {{-- Server Side Alert --}}
                 @error('description')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
@@ -144,4 +181,5 @@
 @section('scripts')
     @vite('resources/js/autocomplete_dropdown.js')
     @vite('resources/js/image_preview.js')
+    @vite('resources/js/form_client_validation.js')
 @endsection
