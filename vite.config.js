@@ -13,7 +13,8 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/image_preview.js',
                 'resources/js/password_validation.js',
-                'resources/js/autocomplete_dropdown.js'
+                'resources/js/autocomplete_dropdown.js',
+                'resources/js/form_client_validation.js'
             ],
             refresh: true,
         }),
