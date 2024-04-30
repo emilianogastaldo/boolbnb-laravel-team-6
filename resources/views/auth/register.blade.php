@@ -83,10 +83,8 @@
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
 
-                                {{-- Alert --}}
-                                <span role="alert">
-                                    <strong id="psw-alert" class="d-none text-danger"></strong>
-                                </span>
+                                {{-- Alert --}}           
+                                    <div id="psw-alert" class="d-none text-danger p-1 rounded mt-1" style="background-color: #f0c0c1"></div>
                             </div>
                        </div>
 
