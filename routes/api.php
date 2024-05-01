@@ -28,7 +28,7 @@ Route::get('/flats', [FlatController::class, 'index']);
 Route::get('/flats/{slug}', [FlatController::class, 'show']);
 
 // Rotta per l'invio di email
-Route::post('/contact-mail', [MailController::class, 'message']);
+Route::post('/contact-mail', [MailController::class, 'store']);
 
 // rotta per scollegarsi
 Route::get('logout/', [AuthController::class, 'logout']);
