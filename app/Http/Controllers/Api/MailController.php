@@ -27,16 +27,34 @@ class MailController extends Controller
 
     public function store(Request $request)
     {
-        // TODO: Validazione
-        $data = $request->all();
+        $data = $request->validate(
+            [
+                'flat_id' => 'required|string',
+                'first_name' => 'required|string',
+                'last_name'  => 'required|string',
+                'email_sender' => 'required|string|regex:/^([a-z0-9+-]+)(.[a-z0-9+-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix',
+                'text'  => 'required|string',
+            ],
+            [
+                'flat_id.required' => 'Bisogna inserire l\'id dell\'appartamento',
+                'first_name.required' => 'Nome obbligatorio',
+                'last_name.required' => 'Cognome obbligatorio',
+                'email_sender.required' => 'Email obbligatoria',
+                'email_sender.regex' => 'Email non valida',
+                'text.required' => 'Messaggio obbligatorio',
+            ]
+        );
+
+        // Creo un nuovo messaggio e lo salvo nel database
         $new_message = new Message();
         $new_message->fill($data);
         $new_message->save();
 
-        $flat = Flat::find($data['flat_id']);
-        $ownerEmail = $flat->user->email;
-        $mail = new ContactMessageMail($data['flat_id'], $data['first_name'], $data['last_name'], $data['email_sender'], $data['text']);
-        Mail::to($ownerEmail)->send($mail);
+        // Queste righe servono per inviare effetivamente la email, che poi vado a bloccare con Mailtrap
+        // $flat = Flat::find($data['flat_id']);
+        // $ownerEmail = $flat->user->email;
+        // $mail = new ContactMessageMail($data['flat_id'], $data['first_name'], $data['last_name'], $data['email_sender'], $data['text']);
+        // Mail::to($ownerEmail)->send($mail);
         return response(null, 204);
     }
 }
