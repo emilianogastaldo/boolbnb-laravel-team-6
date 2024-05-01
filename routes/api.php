@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\FlatController;
+use App\Http\Controllers\Api\MailController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,9 @@ Route::get('/flats', [FlatController::class, 'index']);
 
 // Rotta per la show degli appartamenti
 Route::get('/flats/{slug}', [FlatController::class, 'show']);
+
+// Rotta per l'invio di email
+Route::post('/contact-mail', [MailController::class, 'message']);
 
 // rotta per scollegarsi
 Route::get('logout/', [AuthController::class, 'logout']);
