@@ -27,9 +27,11 @@ class MailController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(
+        $request->validate(
             [
-                'flat_id' => 'required|string',
+                // Ho problemi con la validazione di flat_id: se metto string mi da errore 422
+                //  se metto number errore 500 (quest'ultimo ho capito perché) 
+                'flat_id' => 'required',
                 'first_name' => 'required|string',
                 'last_name'  => 'required|string',
                 'email_sender' => 'required|string|regex:/^([a-z0-9+-]+)(.[a-z0-9+-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix',
@@ -44,7 +46,7 @@ class MailController extends Controller
                 'text.required' => 'Messaggio obbligatorio',
             ]
         );
-
+        $data = $request->all();
         // Creo un nuovo messaggio e lo salvo nel database
         $new_message = new Message();
         $new_message->fill($data);
@@ -55,6 +57,6 @@ class MailController extends Controller
         // $ownerEmail = $flat->user->email;
         // $mail = new ContactMessageMail($data['flat_id'], $data['first_name'], $data['last_name'], $data['email_sender'], $data['text']);
         // Mail::to($ownerEmail)->send($mail);
-        return response(null, 204);
+        return response(null);
     }
 }
