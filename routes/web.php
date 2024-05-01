@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\FlatController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,8 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware('verifie
     Route::get('/flats/trash', [FlatController::class, 'trash'])->name('flats.trash')->withTrashed(); // Rotta per la pagina dove vedere i flat eliminati
     Route::patch('/flats/{flat}/restore', [FlatController::class, 'restore'])->name('flats.restore')->withTrashed(); //  Rotta per il restore
 
+    // Rotta per i messaggi
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     // Rotte CRUD classiche
     Route::get('/flats', [FlatController::class, 'index'])->name('flats.index'); // Rotta per la lista dei flats
     Route::post('/flats', [FlatController::class, 'store'])->name('flats.store'); // Rotta per il salvataggio su db di un flat
