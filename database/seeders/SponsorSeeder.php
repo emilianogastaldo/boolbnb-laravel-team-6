@@ -16,28 +16,27 @@ class SponsorSeeder extends Seeder
         // creo un array per le sponsorizzazioni
         $sponsorships = [
             [
-                'name'=> 'Argento',
-                'price'=> '2.99',
-                'duration'=> '24',
+                'name' => 'argento',
+                'price' => '2.99',
+                'duration' => '24',
             ],
             [
-                'name'=> 'Oro',
-                'price'=> '5.99',
-                'duration'=> '72',
+                'name' => 'oro',
+                'price' => '5.99',
+                'duration' => '72',
             ],
             [
-                'name'=> 'Platino',
-                'price'=> '9.99',
-                'duration'=> '144',
+                'name' => 'platino',
+                'price' => '9.99',
+                'duration' => '144',
             ]
         ];
 
         // faccio un ciclo sull'array per creare le sponsorizzazioni
-        foreach($sponsorships as $sponsorship) {
+        foreach ($sponsorships as $sponsorship) {
             $new_sponsorship = new Sponsorship();
             $new_sponsorship->fill($sponsorship);
             $new_sponsorship->save();
-
         }
     }
 }
