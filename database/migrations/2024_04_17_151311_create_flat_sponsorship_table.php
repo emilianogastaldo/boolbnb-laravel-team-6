@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Flat::class)->constrained()->cascadeOnDelete();
             //ID proveniente dalla tabella services
             $table->foreignIdFor(Sponsorship::class)->constrained()->cascadeOnDelete();
-            $table->dateTime('expiration_date');
+            $table->dateTime('expiration_date')->default(now());
             $table->timestamps();
         });
     }
