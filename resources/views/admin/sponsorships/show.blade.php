@@ -6,6 +6,7 @@
 <div class="sponsorships-container d-flex align-items-center justify-content-center flex-column gap-4" style="height: 80vh"> <!-- style provvisorio -->
     <div class="row">
         <div class="col-4">
+            {{-- Card sponsorizzazione --}}
             <div class="card text-center">
                 <div class="card-header">
                     {{ucfirst($sponsorship->name)}}
@@ -20,6 +21,9 @@
             </div>
         </div> 
         <div class="col-8">
+            {{-- I tuoi Appartamenti --}}
+            <h2 class="">I tuoi appartamenti</h2>
+            {{-- Tabella --}}
             <table class="table">
                 <thead>
                     <tr>
@@ -45,6 +49,7 @@
                     </tr>
                      
                     @empty
+                    {{-- Se vuoto --}}
                     <tr>
                         <td colspan="4">
                             Non ci sono appartamenti
@@ -54,6 +59,7 @@
                 </tbody>
             </table>
         </div>
+        {{-- Disclaimer --}}
         <div id="pippo" class="d-flex align-items-center justify-content-center mt-4">
             <p class="mb-0">Terminato il periodo di sponsorizzazione, l'appartamento tornerà ad essere
                 visualizzato normalmente, senza alcuna particolarità *</p>
