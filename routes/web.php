@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\FlatController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+use App\Http\Controllers\SponsorshipController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,12 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware('verifie
 
     // Rotta per i messaggi
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+
+    // Rotta per le sponsorizzazioni
+    Route::get('/sponsorships', [SponsorshipController::class, 'index'])->name('sponsorships.index');
+    Route::get('/sponsorships/{name}', [SponsorshipController::class, 'show'])->name('sponsorships.show');
+    Route::post('/sponsorships', [SponsorshipController::class, 'payment'])->name('sponsorships.payment');
+
     // Rotte CRUD classiche
     Route::get('/flats', [FlatController::class, 'index'])->name('flats.index'); // Rotta per la lista dei flats
     Route::post('/flats', [FlatController::class, 'store'])->name('flats.store'); // Rotta per il salvataggio su db di un flat
