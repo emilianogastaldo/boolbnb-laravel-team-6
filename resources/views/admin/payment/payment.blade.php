@@ -2,8 +2,10 @@
 @section('title', 'Pagamento')
 
 @section('cdns')
-    <script src="https://js.braintreegateway.com/web/dropin/1.24.0/js/dropin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {{-- <script src="https://js.braintreegateway.com/web/dropin/1.24.0/js/dropin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
+    <script src="https://js.braintreegateway.com/web/dropin/1.42.0/js/dropin.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 @endsection
 
 @section('content')
@@ -57,7 +59,7 @@
 
 
 
-@section('javascript')
+@section('scripts')
     <script>
         // prendiamo il button
         // var buttonCarta = document.querySelector('#submit-carta');
@@ -87,6 +89,7 @@
                         flat
 
                     }, function(response) {
+                        console.log(response)
                         if (response.success) {
                             // messaggio di successo
                             $('#isSent').removeClass('d-none').addClass('d-flex');
@@ -98,10 +101,6 @@
                             setTimeout(function() {
                                 window.location.replace('/admin/dashboard');
                             }, 5000);
-
-                            // window.location.replace('{{ route('admin.sponsorships.index') }}'); 
-                            // alert('Pagamento avvenuto con successo!');
-
                         } else {
                             $('#isSentNone').removeClass('d-none').addClass('d-flex');
 

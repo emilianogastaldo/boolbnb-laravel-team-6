@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\FlatController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SponsorshipController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,10 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware('verifie
     Route::get('/sponsorships', [SponsorshipController::class, 'index'])->name('sponsorships.index');
     Route::get('/sponsorships/{name}', [SponsorshipController::class, 'show'])->name('sponsorships.show');
     Route::post('/sponsorships', [SponsorshipController::class, 'payment'])->name('sponsorships.payment');
+
+    // Rotte per i pagamenti
+    Route::any('/payment/token', [PaymentController::class, 'token'])->name('payment.token');
+    Route::get('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
 
     // Rotte CRUD classiche
     Route::get('/flats', [FlatController::class, 'index'])->name('flats.index'); // Rotta per la lista dei flats

@@ -25,7 +25,7 @@ class SponsorshipController extends Controller
 
         $flat = Flat::find($data['flat_id']);
 
-        $today = Carbon::today();
+        $today = Carbon::now('Europe/Rome');
 
         $data['expiration_date'] = $today;
 
