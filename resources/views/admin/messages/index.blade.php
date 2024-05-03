@@ -32,4 +32,5 @@
         @endforelse
     </tbody>
 </table>
+<a href="{{route('admin.flats.index')}}" class="btn index">Torna indietro</a>
 @endsection
