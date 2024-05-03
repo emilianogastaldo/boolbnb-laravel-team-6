@@ -39,6 +39,7 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware('verifie
 
     // Rotta per i messaggi
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{flat}', [MessageController::class, 'messagesFlat'])->name('messages.flat');
 
     // Rotta per le sponsorizzazioni
     Route::get('/sponsorships', [SponsorshipController::class, 'index'])->name('sponsorships.index');

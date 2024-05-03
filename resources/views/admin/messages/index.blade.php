@@ -7,7 +7,8 @@
     <thead>
         <tr>
             <th scope="col">Appartamento</th>
-            <th scope="col">Nome e Cognome</th>
+            <th scope="col">Nome e cognome</th>
+            <th scope="col">Ricevuto il</th>
             <th scope="col">Email</th>
             <th scope="col">Messaggio</th>
         </tr>
@@ -17,6 +18,7 @@
         <tr>
             <td>{{$message->flat->title}}</td>            
             <td>{{"$message->first_name $message->last_name"}}</td>
+            <td>{{$message->getDate('d/m/y h:m')}}</td>
             <td>{{$message->email_sender}}</td>
             <td>{{$message->text}}</td>
         </tr>

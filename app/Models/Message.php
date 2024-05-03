@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,5 +21,11 @@ class Message extends Model
     public function flat()
     {
         return $this->belongsTo(Flat::class);
+    }
+
+    // Metodo getter per la data
+    public function getDate($format = 'd/m/y h:i:s')
+    {
+        return Carbon::create($this->created_at)->format($format);
     }
 }

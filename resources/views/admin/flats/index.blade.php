@@ -43,7 +43,8 @@
               <td>{{$flat->bed}}</td>
               <td>{{$flat->bathroom}}</td>
               <td>{{$flat->sq_m}}</td>
-              <td class="d-flex gap-2">
+              <td>
+                <div class="row"></div>
                 <a href="{{route('admin.flats.show', $flat->id)}}" class="btn btn-sm btn-primary">
                   {{-- <i class="fas fa-eye"></i> --}} VISUALIZZA
                 </a>
@@ -57,7 +58,7 @@
                     {{-- <i class="fas fa-trash-can"></i> --}} ELIMINA
                   </button>
                 </form>
-                <a class="btn btn-sm btn-info" href="">MESSAGGI</a>
+                <a href="{{route('admin.messages.flat', $flat)}}" class="btn btn-sm btn-info" href="">MESSAGGI</a>
               </td>
           </tr>
               
