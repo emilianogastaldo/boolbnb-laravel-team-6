@@ -29,7 +29,7 @@ class PaymentController extends Controller
                 'privateKey' => env("BRAINTREE_PRIVATE_KEY")
             ]);
             $clientToken = $gateway->clientToken()->generate();
-            return view('admin.payment.payment', ['token' => $clientToken]);
+            return view('admin.payment.payment', ['token' => $clientToken, 'sponsorship_id' => $sponsorshipId]);
         } else {
             return to_route('admin.sponsorships.index')->with('type', 'danger')->with('message', 'Ci dispiace, la pagina non esiste, riprova di nuovo.');
         }
@@ -66,11 +66,14 @@ class PaymentController extends Controller
             ]);
 
             if ($result->success) {
-                $flat = Flat::find($flatId);
-                $today = Carbon::now('Europe/Rome');
-                $flat->sponsorships()->attach($sponsorshipId, ['expiration_date' => $today]);
 
-                return response()->json(['success' => true, 'message' => 'Pagamento completato con successo']);
+                $flat = Flat::find($flatId);
+
+                $today = Carbon::now('Europe/Rome');
+                $expiration_date = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($today)));
+                $flat->sponsorships()->attach($sponsorshipId, ['expiration_date' => $expiration_date]);
+
+                return response()->json(['success' => true, 'message' => 'Pagamento completato con successo', 'expiration_date' => $expiration_date]);
             } else {
                 return response()->json(['success' => false, 'message' => 'Errore durante il pagamento'], 400);
             }
