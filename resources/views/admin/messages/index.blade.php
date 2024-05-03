@@ -10,6 +10,7 @@
             <th scope="col">Nome e Cognome</th>
             <th scope="col">Email</th>
             <th scope="col">Messaggio</th>
+            <th scope="col">Ricevuto</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +20,7 @@
             <td>{{"$message->first_name $message->last_name"}}</td>
             <td>{{$message->email_sender}}</td>
             <td>{{$message->text}}</td>
+            <td>{{$message->created_at}}</td>
         </tr>
             
         @empty
