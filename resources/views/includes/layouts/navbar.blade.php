@@ -18,9 +18,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.flats.index') }}">{{ __('Appartamenti') }}</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.messages.index') }}">{{ __('Messaggi') }}</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.sponsorships.index') }}">{{ __('Sponsorizzazioni') }}</a>
                     </li>
