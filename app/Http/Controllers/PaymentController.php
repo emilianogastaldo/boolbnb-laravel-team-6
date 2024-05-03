@@ -35,31 +35,121 @@ class PaymentController extends Controller
         }
     }
 
+    // public function process(Request $request)
+    // {
+    //     $payload = $request->input('payload', false);
+    //     $nonce = $payload['nonce'];
+    //     $sponsorshipId = request()->input('sponsorship');
+    //     $flatId = request()->input('flat');
+    //     $sponsorship = Sponsorship::where('id', $sponsorshipId)->first();
+
+    //     $status = Transaction::sale([
+    //         'amount' => $sponsorship->price,
+    //         'paymentMethodNonce' => $nonce,
+    //         'options' => [
+    //             'submitForSettlement' => True
+    //         ]
+    //     ]);
+    //     return view('admin.home');
+    //     $currentDate = date("Y-m-d H:i:s");
+    //     $currentDateMin = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($currentDate)));
+
+    //     $flat = Flat::find($flatId);
+    //     $today = Carbon::now('Europe/Rome');
+
+    //     $data['expiration_date'] = $today;
+    //     $flat->sponsorships()->attach($data['sponsorship_id']);
+    //     return response()->json($status);
+    // }
+
+    //     public function process(Request $request)
+    //     {
+    //         $payload = $request->input('payload', false);
+
+    //         // Verifica se il payload è un array e se contiene la chiave 'nonce'
+    //         if ($payload && isset($payload['nonce'])) {
+    //             $nonce = $payload['nonce'];
+    //             $sponsorshipId = $request->input('sponsorship');
+    //             $flatId = $request->input('flat');
+    //             // Recupera la sponsorship
+    //             $sponsorship = Sponsorship::find($sponsorshipId);
+    //             dd($sponsorship);
+
+    //             // Controlla se la sponsorship esiste
+    //             if (!$sponsorship) {
+    //                 return response()->json(['success' => false, 'message' => 'Sponsorship non valida'], 400);
+    //             }
+
+    //             // Effettua la transazione
+    //             $status = Transaction::sale([
+    //                 'amount' => $sponsorship->price,
+    //                 'paymentMethodNonce' => $nonce,
+    //                 'options' => [
+    //                     'submitForSettlement' => true
+    //                 ]
+    //             ]);
+
+    //             // Verifica lo status della transazione
+    //             if ($status->success) {
+    //                 // Aggiungi la sponsorship al flat
+    //                 $flat = Flat::find($flatId);
+    //                 $today = Carbon::now('Europe/Rome');
+    //                 $flat->sponsorships()->attach($sponsorshipId, ['expiration_date' => $today]);
+
+    //                 // Ritorna una risposta JSON di successo
+    //                 return response()->json(['success' => true, 'message' => 'Pagamento completato con successo']);
+    //             } else {
+    //                 // Ritorna una risposta JSON di errore
+    //                 return response()->json(['success' => false, 'message' => 'Errore durante il pagamento'], 400);
+    //             }
+    //         } else {
+    //             // Ritorna una risposta JSON di errore se il payload è mancante o non contiene la chiave 'nonce'
+    //             return response()->json(['success' => false, 'message' => 'Payload non valido'], 400);
+    //         }
+    //     }
+    // 
+
     public function process(Request $request)
     {
         $payload = $request->input('payload', false);
-        $nonce = $payload['nonce'];
-        $sponsorshipId = request()->input('sponsorship');
-        $flatId = request()->input('flat');
-        $sponsorship = Sponsorship::where('id', $sponsorshipId)->first();
 
-        $status = Transaction::sale([
-            'amount' => $sponsorship->price,
-            'paymentMethodNonce' => $nonce,
-            'options' => [
-                'submitForSettlement' => True
-            ]
-        ]);
+        if ($payload && isset($payload['nonce'])) {
+            $nonce = $payload['nonce'];
+            $sponsorshipId = $request->input('sponsorship');
+            $flatId = $request->input('flat');
 
-        // $currentDate = date("Y-m-d H:i:s");
-        // $currentDateMin = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($currentDate)));
+            $sponsorship = Sponsorship::find($sponsorshipId);
 
-        $flat = Flat::find($flatId);
-        $today = Carbon::now('Europe/Rome');
+            if (!$sponsorship) {
+                return response()->json(['success' => false, 'message' => 'Sponsorship non valida'], 400);
+            }
 
-        $data['expiration_date'] = $today;
-        $flat->sponsorships()->attach($data['sponsorship_id']);
+            $gateway = new \Braintree\Gateway([
+                'environment' => env("BRAINTREE_ENV"),
+                'merchantId' => env("BRAINTREE_MERCHANT_ID"),
+                'publicKey' => env("BRAINTREE_PUBLIC_KEY"),
+                'privateKey' => env("BRAINTREE_PRIVATE_KEY")
+            ]);
 
-        return response()->json($status);
+            $result = $gateway->transaction()->sale([
+                'amount' => $sponsorship->price,
+                'paymentMethodNonce' => $nonce,
+                'options' => [
+                    'submitForSettlement' => true
+                ]
+            ]);
+
+            if ($result->success) {
+                $flat = Flat::find($flatId);
+                $today = Carbon::now('Europe/Rome');
+                $flat->sponsorships()->attach($sponsorshipId, ['expiration_date' => $today]);
+
+                return response()->json(['success' => true, 'message' => 'Pagamento completato con successo']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Errore durante il pagamento'], 400);
+            }
+        } else {
+            return response()->json(['success' => false, 'message' => 'Payload non valido'], 400);
+        }
     }
 }
