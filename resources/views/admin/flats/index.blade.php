@@ -21,9 +21,54 @@
         {{-- <i class="fas fa-plus me-2"></i>--}} Aggiungi appartamento
     </a>
   </div>
-  <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
-    @forelse ($flats as $flat)
-      <div class="col mb-5">
+  <table class="table table-dark table-striped">
+    <tr>
+      <th>Titolo</th>
+      <th>Descrizione</th>
+      <th>Indirizzo</th>
+      <th>Camere</th>
+      <th>Posti letto</th>
+      <th>Bagni</th>
+      <th>Metratura</th>
+      <th>Immagine</th>
+      <th>Visibile</th>
+      <th>Creato</th>
+      <th>Aggiornato</th>
+      <th>Azioni</th>
+    </tr>  
+    <tr>
+      @forelse ($flats as $flat)
+        <td>{{ $flat->title}}</td>
+        <td>{{ $flat->abstract()}}</td>
+        <td>{{ $flat->address}}</td>
+        <td>{{ $flat->room}}</td>
+        <td>{{ $flat->bed}}</td>
+        <td>{{ $flat->bathroom}}</td>
+        <td>{{ $flat->sq_m}}</td>
+        <td>{{ $flat->image}}</td>
+        <td>{{ $flat->is_visible}}</td>
+        <td>{{ $flat->created_at}}</td>
+        <td>{{ $flat->updated_at}}</td>
+        <td>
+          <div class="d-flex gap-1">
+            <a href="{{route('admin.flats.show', $flat->id)}}" class="btn btn-sm btn-primary">
+                <i class="fas fa-eye"></i>
+            </a>
+            <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-sm btn-warning">
+              <i class="fas fa-pencil"></i> 
+            </a>
+            <form class="delete" action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-danger" type="submit">
+                <i class="fas fa-trash-can"></i>
+                </button>
+            </form>
+          </div>
+        </td>
+    </tr>
+</table>
+      <!-- <div class="col mb-5">
         <div class="card">
             {{-- <img src="{{$flat->printImage()}}" class="card-img-top img-fluid" alt="{{$flat->name}}">--}}
           <div class="card-body">
@@ -53,9 +98,10 @@
             </form>
           </div>
         </div>
-      </div>
+      </div> -->
     @empty
         <h1>NON CI SONO APPARTAMENTI</h1>
+        <!-- <h1>Crea un nuovo appartamento</h1>  -->
     @endforelse
   </div>
 </div>
