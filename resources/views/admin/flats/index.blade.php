@@ -22,6 +22,54 @@
     </a>
   </div>
   <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+    <table class="table">
+      <thead>
+          <tr>
+              <th scope="col">Appartamento</th>
+              <th scope="col">Indirizzo</th>
+              <th scope="col">Stanze</th>
+              <th scope="col">Letti</th>
+              <th scope="col">Bagni</th>
+              <th scope="col">Metratura</th>
+              <th scope="col">Azioni</th>
+          </tr>
+      </thead>
+      <tbody>
+          @forelse ($flats as $flat)
+          <tr>
+              <td>{{$flat->title}}</td>            
+              <td>{{$flat->address}}</td>
+              <td>{{$flat->room}}</td>
+              <td>{{$flat->bed}}</td>
+              <td>{{$flat->bathroom}}</td>
+              <td>{{$flat->sq_m}}</td>
+              <td class="d-flex gap-2">
+                <a href="{{route('admin.flats.show', $flat->id)}}" class="btn btn-sm btn-primary">
+                  {{-- <i class="fas fa-eye"></i> --}} VISUALIZZA
+                </a>
+                <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-sm btn-warning">
+                  {{-- <i class="fas fa-pencil"></i> --}} MODIFICA
+                </a>
+                <form class="delete" action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn btn-sm btn-danger" type="submit">
+                    {{-- <i class="fas fa-trash-can"></i> --}} ELIMINA
+                  </button>
+                </form>
+                <a class="btn btn-sm btn-info" href="">MESSAGGI</a>
+              </td>
+          </tr>
+              
+          @empty
+          <tr>
+              <td colspan="4">
+                  Non ci sono messaggi
+              </td>
+          </tr>
+          @endforelse
+      </tbody>
+  </table>
     @forelse ($flats as $flat)
       <div class="col mb-5">
         <div class="card">
