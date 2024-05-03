@@ -2,58 +2,72 @@
 @section('title', 'Pagamento')
 
 @section('cdns')
-    {{-- <script src="https://js.braintreegateway.com/web/dropin/1.24.0/js/dropin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
     <script src="https://js.braintreegateway.com/web/dropin/1.42.0/js/dropin.min.js"></script>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 
 @section('content')
-    <div id="payment_container" class="container-fluid my-5">
-        <div class="row">
-            <div class="col position-relative">
-                <div id="isSent" class="text-bg-success message success d-none align-items-center justify-content-center">
-                    <i class="fa-solid fa-circle-check fa-fade"></i>
-                    <span class="ms-2 me-4">Pagamento effettuato con successo! <br> Sarai renderizzato tra 5 secondi...</span>
-                </div>
-                <div id="isSentNone" class="text-bg-danger message danger d-none align-items-center justify-content-center">
-                    <i class="fa-solid fa-circle-check fa-fade"></i>
-                    <span class="ms-2 me-4">Pagamento fallito!</span>
-                </div>
+    <div id="payment_container" class="container">
+        {{-- <div class="col-12">
+            {{-- <div id="isSent" class="text-bg-success message success d-none align-items-center justify-content-center">
+                <i class="fa-solid fa-circle-check fa-fade"></i>
+                <span class="ms-2 me-4">Pagamento effettuato con successo! <br> Sarai renderizzato tra 5 secondi...</span>
+            </div> --}}
+            <div id="isSentNone" class="text-bg-danger message danger d-none align-items-center justify-content-center">
+                <i class="fa-solid fa-circle-check fa-fade"></i>
+                <span class="ms-2 me-4">Pagamento fallito!</span>
             </div>
         </div>
-
-        <div class="row row-cols-1 mb-5">
-            <div class="col">
-                <h1>
-                    <span class="icon-section me-2">
-                        <i class="fa-solid fa-building fa-sm"></i>
-                    </span>
-                    Pagamento
-                </h1>
-
-            </div>
-            <div class="col">
-                <a href="{{ route('admin.flats.index') }}" class="back">
+        
+        <div class="col-12">
+            <h1>
+                <span class="icon-section me-2">
+                    <i class="fa-solid fa-building fa-sm"></i>
+                </span>
+                Pagamento
+            </h1>   
+            <div class="d-flex justify-content-start">
+                <a class="btn btn-secondary mb-2" href="{{ url()->previous() }}">
                     Torna Indietro
                     <i class="fa-solid fa-rotate-left"></i>
                 </a>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-6 offset-3">
-                @csrf
-                {{-- Stile fornito da Braintree --}}
-                <div id="dropin-container"></div>
-                
-                <div class="info-payment text-center">
-                    <a id="submit-button" class="btn btn-sm btn-success">
-                        Procedi al pagamento
-                    </a>
+        <div class="row d-flex align-items-center justify-content-center" id="payment-row">
+            <div class="col-4 d-none" id="isSent" class="col-12 d-flex align-items-center justify-content-center flex-column gap-2 d-none">
+                <div class="card" style="width: 400px;">
+                    <div class="card-body">
+                        @if($sponsorship_id == 1)
+                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione Argento.</h5>
+                        @elseif ($sponsorship_id == 2)
+                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione Oro.</h5>
+                        @elseif ($sponsorship_id == 3)
+                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione Platino.</h5>
+                        @endif
+                        <p class="card-text">Il tuo appartamento sarà visibile in home page in una sezione dedicata fino al <span id="expiration"></span>.</p>
+                        <div class="text-center">
+                            <a class="btn btn-primary mb-2" href="{{ route('admin.flats.index') }}">
+                                Torna alla home
+                                <i class="fa-solid fa-house"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            <div class="col-4">
+                <div class="d-flex align-items-center justify-content-center flex-column">
+                    @csrf
+                    {{-- Stile fornito da Braintree --}}
+                    <div id="dropin-container" style="width: 300px"></div>
+                    
+                    <div class="info-payment text-center">
+                        <a id="submit-button" class="btn btn-sm btn-success">
+                            Procedi al pagamento
+                        </a>
+                    </div>
+                </div>
+            </div>   
         </div>
     </div>
 @endsection
@@ -64,6 +78,7 @@
     <script>
         
         const button = document.querySelector('#submit-button');
+        const expirationField = document.getElementById('expiration');
 
         const urlParams = new URLSearchParams(window.location.search);
         let sponsorship = urlParams.get('sponsorship_id');
@@ -83,6 +98,7 @@
             // Creo la richiesta per la rotta process
             button.addEventListener('click', function() {
                 instance.requestPaymentMethod(function(err, payload) {
+                    console.log('ciao')
                     $.get('{{ route('admin.payment.process') }}', {
                         payload,
                         sponsorship,
@@ -91,15 +107,9 @@
                     }, function(response) {
                         if (response.success) {
                             // Messaggio di successo
-                            $('#isSent').removeClass('d-none').addClass('d-flex');
                             $('#submit-button').addClass('d-none');
-                            setTimeout(function() {
-                                $('#isSent').removeClass('d-flex').addClass(
-                                    'd-none');
-                            }, 3000);
-                            setTimeout(function() {
-                                window.location.replace('/admin/flats');
-                            }, 5000);
+                            $('#isSent').removeClass('d-none');
+                            expirationField.innerText = response.expiration_date;
                         } else {
                             // Messaggio di pagamento fallito
                             $('#isSentNone').removeClass('d-none').addClass('d-flex');
