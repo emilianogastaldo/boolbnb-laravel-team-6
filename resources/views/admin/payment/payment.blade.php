@@ -6,6 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
     <script src="https://js.braintreegateway.com/web/dropin/1.42.0/js/dropin.min.js"></script>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 
 @section('content')
@@ -61,16 +62,14 @@
 
 @section('scripts')
     <script>
-        // prendiamo il button
-        // var buttonCarta = document.querySelector('#submit-carta');
-        var button = document.querySelector('#submit-button');
+        
+        const button = document.querySelector('#submit-button');
 
-        var instance; // define instance variable outside the function
         const urlParams = new URLSearchParams(window.location.search);
         let sponsorship = urlParams.get('sponsorship_id');
         let flat = urlParams.get('flat_id');
 
-        // controllo carta
+        // Creo la tendina
         braintree.dropin.create({
             authorization: '{{ $token }}',
             container: '#dropin-container'
@@ -79,8 +78,9 @@
                 console.error(createErr);
                 return;
             }
-            instance = dropinInstance; // assign dropinInstance to instance variable
+            const instance = dropinInstance;
 
+            // Creo la richiesta per la rotta process
             button.addEventListener('click', function() {
                 instance.requestPaymentMethod(function(err, payload) {
                     $.get('{{ route('admin.payment.process') }}', {
@@ -89,9 +89,8 @@
                         flat
 
                     }, function(response) {
-                        console.log(response)
                         if (response.success) {
-                            // messaggio di successo
+                            // Messaggio di successo
                             $('#isSent').removeClass('d-none').addClass('d-flex');
                             $('#submit-button').addClass('d-none');
                             setTimeout(function() {
@@ -99,9 +98,10 @@
                                     'd-none');
                             }, 3000);
                             setTimeout(function() {
-                                window.location.replace('/admin/dashboard');
+                                window.location.replace('/admin/flats');
                             }, 5000);
                         } else {
+                            // Messaggio di pagamento fallito
                             $('#isSentNone').removeClass('d-none').addClass('d-flex');
 
                             setTimeout(function() {
