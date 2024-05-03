@@ -16,7 +16,7 @@
                     <p class="card-text">
                         Il tuo appartamento apparirà in Homepage nella sezione “Appartamenti in Evidenza” per <span class="text-success">{{$sponsorship->duration}} ore</span>.
                     </p>
-                    <a href="#" class="btn btn-primary">Acquista</a>
+                    <!-- <a href="#" class="btn btn-primary">Acquista</a> -->
                 </div>
             </div>
         </div> 
