@@ -21,50 +21,57 @@
         {{-- <i class="fas fa-plus me-2"></i>--}} Aggiungi appartamento
     </a>
   </div>
-  <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
-    <table class="table">
+  <div class="table-responsive">
+    <table class="table align-middle">
       <thead>
           <tr>
+              <th scope="col">Foto</th>
               <th scope="col">Appartamento</th>
               <th scope="col">Indirizzo</th>
+              <th scope="col">Pubblico</th>
               <th scope="col">Stanze</th>
               <th scope="col">Letti</th>
               <th scope="col">Bagni</th>
               <th scope="col">Metratura</th>
-              <th scope="col">Azioni</th>
+              <th scope="col" class="text-center">Azioni</th>
           </tr>
       </thead>
       <tbody>
         @forelse ($flats as $flat)
-          <tr>
+          <tr >
+              <td>
+                <img class="img-fluid" src="{{$flat->printImage()}}" alt="{{$flat->title}}" style="width: 200px">
+              </td>            
               <td>{{$flat->title}}</td>            
               <td>{{$flat->address}}</td>
+              <td>{{$flat->is_visible ? 'Pubblico' : 'Privato'}}</td>
               <td>{{$flat->room}}</td>
               <td>{{$flat->bed}}</td>
               <td>{{$flat->bathroom}}</td>
               <td>{{$flat->sq_m}}</td>
               <td>
-                <div class="row"></div>
-                <a href="{{route('admin.flats.show', $flat->id)}}" class="btn btn-sm btn-primary">
-                  {{-- <i class="fas fa-eye"></i> --}} VISUALIZZA
-                </a>
-                <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-sm btn-warning">
-                  {{-- <i class="fas fa-pencil"></i> --}} MODIFICA
-                </a>
-                <form class="delete" action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn btn-sm btn-danger" type="submit">
-                    {{-- <i class="fas fa-trash-can"></i> --}} ELIMINA
-                  </button>
-                </form>
-                <a href="{{route('admin.messages.flat', $flat)}}" class="btn btn-sm btn-info" href="">MESSAGGI</a>
+                <div class="d-flex gap-2 flex-column align-items-center ">
+                  <a href="{{route('admin.flats.show', $flat->id)}}" class="btn btn-sm btn-primary" style="width: 92px">
+                    {{-- <i class="fas fa-eye"></i> --}} VISUALIZZA
+                  </a>
+                  <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-sm btn-warning" style="width: 92px">
+                    {{-- <i class="fas fa-pencil"></i> --}} MODIFICA
+                  </a>
+                  <form class="delete" action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-sm btn-danger" type="submit" style="width: 92px">
+                      {{-- <i class="fas fa-trash-can"></i> --}} ELIMINA
+                    </button>
+                  </form>
+                  <a href="{{route('admin.messages.flat', $flat)}}" class="btn btn-sm btn-info" href="" style="width: 92px">MESSAGGI</a>
+                </div>
               </td>
           </tr>
               
           @empty
           <tr>
-              <td colspan="4">
+              <td colspan="7">
                   Non ci sono messaggi
               </td>
           </tr>
