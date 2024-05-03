@@ -38,12 +38,10 @@
                         <td>{{$flat->title}}</td>            
                         <td>{{$flat->address}}</td>
                         <td>
-                            <form action="{{route('admin.sponsorships.payment')}}" method="POST">
-                            @csrf
-                            <input type="text" class="d-none" value="{{$flat->id}}" name="flat_id" id="flat_id">
-                            <input type="text" class="d-none" value="{{$sponsorship->id}}" name="sponsorship_id" id="sponsorship_id">
-                                <button class="btn btn-primary">Paga</button>
-                            </form>
+                            <a href="{{ route('admin.payment.token', ['sponsorship_id' => $sponsorship->id, 'flat_id' => $flat->id]) }}"
+                                class="btn btn-primary">
+                                Paga
+                            </a>
                         </td>
                         {{-- <td>{{$flat->image}}</td> --}}
                     </tr>
