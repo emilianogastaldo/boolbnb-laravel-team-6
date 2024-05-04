@@ -27,16 +27,16 @@ class FlatController extends Controller
         }
 
         // Recupero gli input
-        $address = $request->query('address');
-        $distance = $request->query('distance');
-        $room = $request->query('room');
-        $bed = $request->query('bed');
-        $services = $request->query('services');
+        $addressInput = $request->query('address');
+        $distanceInput = $request->query('distance');
+        $roomInput = $request->query('room');
+        $bedInput = $request->query('bed');
+        $servicesInput = $request->query('services');
 
         // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
-        $response = Http::withoutVerifying()->get('https://api.tomtom.com/search/2/geocode/' . urlencode($address) . '.json?key=MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF');
 
-        if ($response->successful() && isset($response->json()['results']) && !empty($response->json()['results'])) {
+        if ($addressInput) {
+            $response = Http::withoutVerifying()->get('https://api.tomtom.com/search/2/geocode/' . urlencode($addressInput) . '.json?key=MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF');
             $coordinates = $response->json()['results'][0]['position'];
 
             $latitude = $coordinates['lat'];
@@ -63,20 +63,22 @@ class FlatController extends Controller
                 ->with('user')
                 ->with('services');
             // Se ho dei filtri, filtro la ricerca
-            if ($distance) $query->having('distance', '<', $distance)->orderBy('distance');
-            if ($room) $query->whereRoom($room);
-            if ($bed) $query->whereBed($bed);
-            if ($services) $query->whereHas('services', function ($query) use ($services) {
+            if ($distanceInput) $query->having('distance', '<', $distanceInput)->orderBy('distance');
+            if ($roomInput) $query->whereRoom($roomInput);
+            if ($bedInput) $query->whereBed($bedInput);
+            if ($servicesInput) $query->whereHas('services', function ($query) use ($servicesInput) {
                 // Ricerca nella colonna id della tabella services i servizi che ho passato
-                $query->where('services.id', $services);
+                $query->where('services.id', $servicesInput);
             });
 
             $flats = $query->get();
             return response()->json(compact('flats', 'services'));
-        } else {
-            // Gestisci il caso in cui non ci sono risultati dalla geocodifica
-            return response()->json(['error' => 'Nessun risultato trovato per l\'indirizzo specificato.']);
         }
+        // else {
+        //     // Gestisci il caso in cui non ci sono risultati dalla geocodifica
+        //     return response()->json(['error' => 'Nessun risultato trovato per l\'indirizzo specificato.']);
+        // }
+        return response()->json(compact('flats', 'services'));
     }
 
     /**
