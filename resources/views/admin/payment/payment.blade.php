@@ -98,7 +98,6 @@
             // Creo la richiesta per la rotta process
             button.addEventListener('click', function() {
                 instance.requestPaymentMethod(function(err, payload) {
-                    console.log('ciao')
                     $.get('{{ route('admin.payment.process') }}', {
                         payload,
                         sponsorship,
