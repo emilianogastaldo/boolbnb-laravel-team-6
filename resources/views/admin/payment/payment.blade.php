@@ -26,7 +26,7 @@
                 </span>
                 Pagamento
             </h1>   
-            <div class="d-flex justify-content-start">
+            <div class="d-flex justify-content-start" id="goBack">
                 <a class="btn btn-secondary mb-2" href="{{ url()->previous() }}">
                     Torna Indietro
                     <i class="fa-solid fa-rotate-left"></i>
@@ -109,6 +109,7 @@
                             // Messaggio di successo
                             $('#submit-button').addClass('d-none');
                             $('#isSent').removeClass('d-none');
+                            $('#goBack').addClass('d-none');
                             expirationField.innerText = response.expiration_date;
                         } else {
                             // Messaggio di pagamento fallito
