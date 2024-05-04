@@ -61,9 +61,10 @@ class FlatController extends Controller
                 ->whereNull('deleted_at')
                 ->whereIsVisible(true)
                 ->with('user')
-                ->with('services');
+                ->with('services')
+                ->orderBy('distance');
             // Se ho dei filtri, filtro la ricerca
-            if ($distanceInput) $query->having('distance', '<', $distanceInput)->orderBy('distance');
+            if ($distanceInput) $query->having('distance', '<', $distanceInput);
             if ($roomInput) $query->whereRoom($roomInput);
             if ($bedInput) $query->whereBed($bedInput);
             if ($servicesInput) $query->whereHas('services', function ($query) use ($servicesInput) {
