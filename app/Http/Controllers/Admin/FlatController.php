@@ -30,6 +30,15 @@ class FlatController extends Controller
         $query = Flat::where('title', 'LIKE', "%$search%")->whereUserId($user_id);
 
         $flats = $query->get();
+        $today = date('Y-m-d H:i:s');
+        foreach ($flats as $flat) {
+            if (count($flat->sponsorships)) {
+                $dateLastSponsorship = $flat->sponsorships()->max('expiration_date');
+                if ($dateLastSponsorship >= $today) {
+                    $flat->sponsored = true;
+                }
+            }
+        }
         return view('admin.flats.index', compact('flats', 'search'));
     }
 
