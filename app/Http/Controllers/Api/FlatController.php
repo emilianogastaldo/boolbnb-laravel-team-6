@@ -28,11 +28,12 @@ class FlatController extends Controller
 
         // Recupero gli input
         $addressInput = $request->query('address');
-        $distanceInput = $request->query('distance');
-        $roomInput = $request->query('room');
-        $bedInput = $request->query('bed');
+        $distanceInput = intval($request->query('distance'));
+        $roomInput = (int)$request->query('room');
+        $bedInput = (int) $request->query('bed');
         $servicesInput = $request->query('services');
-
+        $arrServices = explode(",", $servicesInput);
+        $arrServices = array_map('intval', $arrServices);
         // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
 
         if ($addressInput) {
@@ -65,20 +66,14 @@ class FlatController extends Controller
                 ->orderBy('distance');
             // Se ho dei filtri, filtro la ricerca
             if ($distanceInput) $query->having('distance', '<', $distanceInput);
-            if ($roomInput) $query->whereRoom($roomInput);
-            if ($bedInput) $query->whereBed($bedInput);
-            if ($servicesInput) $query->whereHas('services', function ($query) use ($servicesInput) {
+            if ($roomInput) $query->where('room', '>=', $roomInput);
+            if ($bedInput) $query->where('bed', '>=', $bedInput);
+            if ($servicesInput && count($arrServices)) $query->whereHas('services', function ($query) use ($arrServices) {
                 // Ricerca nella colonna id della tabella services i servizi che ho passato
-                $query->where('services.id', $servicesInput);
-            });
-
+                $query->whereIn('services.id', $arrServices);
+            }, '=', count($arrServices));
             $flats = $query->get();
-            return response()->json(compact('flats', 'services'));
         }
-        // else {
-        //     // Gestisci il caso in cui non ci sono risultati dalla geocodifica
-        //     return response()->json(['error' => 'Nessun risultato trovato per l\'indirizzo specificato.']);
-        // }
         return response()->json(compact('flats', 'services'));
     }
 
