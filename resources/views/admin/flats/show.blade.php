@@ -30,8 +30,8 @@
     </div>
     <div class="d-flex justify-content-between">
         {{-- Go Back Button --}}
-        <a href="{{route('admin.flats.index')}}" class="btn index">Torna Indietro</a>
-        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn edit">MODIFICA</a>
+        <a href="{{route('admin.flats.index')}}" class="btn index">Torna alla Home</a>
+        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn edit">Modifica</a>
     </div>
 </div>   
 
