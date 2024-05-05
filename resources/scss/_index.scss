@@ -1,19 +1,27 @@
-.trash {
-    background-color: #18171C;
-    color: white;
+.table-responsive{
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
 }
 
-.create {
-    background-color: #1e4d2b;
+.orange{
+    background-color: #ED7802;
     color: white;
+    &:hover{
+        background-color: #ce6700;
+        color: white;
+    }
 }
 
-.trash:hover {
-    background-color: #18171C;
-    color: white;
+.width-92{
+    width: 92px;
 }
 
-.create:hover {
-    background-color: #1e4d2b;
-    color: white;
+.gold{
+    display: inline-block;
+    color: #ffd700;
+    background-color: #141155;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
 }
