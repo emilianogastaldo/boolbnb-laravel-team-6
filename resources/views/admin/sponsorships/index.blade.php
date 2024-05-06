@@ -8,9 +8,11 @@
         @foreach ($sponsorships as $sponsorship) 
         <div class="col-4 " >
             <div class="card text-center shadow-sm">
-                <h4 class="mt-3 text-{{$sponsorship->name}}">
-                    {{ucfirst($sponsorship->name)}}
-                </h4>                    
+                <div class="bg-{{$sponsorship->name}}">
+                    <h4 class="mt-3 text-white">
+                        {{ucfirst($sponsorship->name)}}
+                    </h4>                    
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">Prezzo: €{{$sponsorship->price}}</h5>
                     <p class="card-text">

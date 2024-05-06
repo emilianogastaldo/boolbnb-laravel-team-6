@@ -44,10 +44,11 @@
               <td>
                 <img class="img-fluid rounded-3" src="{{$flat->printImage()}}" alt="{{$flat->title}}" style="width: 200px">
               </td>            
-              <td>{{$flat->title}}
+              <td>
                 @if ($flat->sponsored)
                 <span class="gold"><i class="fa-solid fa-crown"></i></span>
                 @endif              
+                {{$flat->title}}
               </td>            
               <td>{{$flat->address}}</td>
               <td>{{$flat->is_visible ? 'Pubblico' : 'Privato'}}</td>
