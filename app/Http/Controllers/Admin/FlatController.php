@@ -220,7 +220,8 @@ class FlatController extends Controller
 
             // Creo l'url per visualizzare l'immagine con asset
             $img_url = Storage::putFileAs('flat_images', $data['image'], "$flat->slug.$extension");
-            $flat->image = $img_url;
+            // $flat->image = $img_url;
+            $data['image'] = $img_url;
         }
 
         // Riassegno l'essere visibile o meno
@@ -276,8 +277,6 @@ class FlatController extends Controller
      */
     public function restore(Flat $flat)
     {
-        // Cancello l'immagine dallo Storage
-        if ($flat->image) Storage::delete($flat->image);
         $flat->restore();
         return to_route('admin.flats.index')->with('type', 'info')->with('message', "L'appartamento $flat->title è stato ripristinato");
     }
