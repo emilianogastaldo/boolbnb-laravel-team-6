@@ -66,13 +66,26 @@ class PaymentController extends Controller
             ]);
 
             if ($result->success) {
-
                 $flat = Flat::find($flatId);
-
-                $today = Carbon::now('Europe/Rome');
-                $expiration_date = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($today)));
+                $today = date('Y-m-d H:i:s');
+                // $today = Carbon::now('Europe/Rome');
+                // Controllo se ho delle vecchie sposorizzazioni, altrimenti la faccio nuova
+                if (count($flat->sponsorships)) {
+                    $dateLastSponsorship = $flat->sponsorships()->max('expiration_date');
+                    // Se la sponsorship è ancora attiva la prolungo, altrimenti la faccio nuova
+                    if ($dateLastSponsorship >= $today) {
+                        $expiration_date = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($dateLastSponsorship)));
+                        // $expiration_date = Carbon::now($dateLastSponsorship)->addHour($sponsorship->duration);
+                    } else {
+                        $expiration_date = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($today)));
+                        // $expiration_date = Carbon::now('Europe/Rome')->addHour($sponsorship->duration);
+                    }
+                    // $date = Carbon::parse('2016-11-24 11:59:56')->addHour();
+                } else {
+                    $expiration_date = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($today)));
+                    // $expiration_date = Carbon::now('Europe/Rome')->addHour($sponsorship->duration);
+                }
                 $flat->sponsorships()->attach($sponsorshipId, ['expiration_date' => $expiration_date]);
-
                 return response()->json(['success' => true, 'message' => 'Pagamento completato con successo', 'expiration_date' => $expiration_date]);
             } else {
                 return response()->json(['success' => false, 'message' => 'Errore durante il pagamento'], 400);

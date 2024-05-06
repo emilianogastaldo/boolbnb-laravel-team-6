@@ -71,8 +71,8 @@
               
           @empty
           <tr>
-              <td colspan="7">
-                  Non ci sono messaggi
+              <td colspan="11">
+                  Non ci sono appartamenti
               </td>
           </tr>
         @endforelse
