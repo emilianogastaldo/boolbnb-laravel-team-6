@@ -96,6 +96,10 @@
 
         {{-- Image --}}
         <div class="col-6">
+            {{-- Preview --}}
+                <div class="mb-3 ">
+                    <img src="{{asset('storage/' . old('image', $flat->image) ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" alt="{{$flat->title}}" id="preview" class="img-fluid shadow rounded-3">
+                </div>
                 <!-- Input Change image -->
                 <div class="input-group @if(!$flat->image) d-none @endif" id="previous-image-field">
                     <button class="btn btn-outline-secondary" type="button" id="change-image-button">Cambia Immagine</button>
@@ -113,10 +117,7 @@
                         {{$message}}
                     </div>
                 @enderror
-                {{-- Preview --}}
-                <div class="mt-3">
-                    <img src="{{asset('storage/' . old('image', $flat->image) ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" alt="{{$flat->title}}" id="preview" class="img-fluid">
-                </div>
+                
         </div>
 
         {{-- Input descrizione dell'appartamento --}}
@@ -159,8 +160,11 @@
         </div>
 
     </div>
-    <button type="submit" class="btn btn-success">Salva</button>
-    <a class="btn btn-primary" href="{{route('admin.flats.index')}}">Torna indietro</a>
+    <div class="d-flex justify-content-between">
+        <a href="{{route('admin.flats.index')}}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-2"></i>Torna indietro</a>
+        <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk me-2"></i>Salva</button>
+    </div>
+
 </form>
 
 @section('scripts')

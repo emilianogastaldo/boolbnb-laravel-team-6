@@ -30,6 +30,15 @@ class FlatController extends Controller
         $query = Flat::where('title', 'LIKE', "%$search%")->whereUserId($user_id);
 
         $flats = $query->get();
+        $today = date('Y-m-d H:i:s');
+        foreach ($flats as $flat) {
+            if (count($flat->sponsorships)) {
+                $dateLastSponsorship = $flat->sponsorships()->max('expiration_date');
+                if ($dateLastSponsorship >= $today) {
+                    $flat->sponsored = true;
+                }
+            }
+        }
         return view('admin.flats.index', compact('flats', 'search'));
     }
 
@@ -211,7 +220,8 @@ class FlatController extends Controller
 
             // Creo l'url per visualizzare l'immagine con asset
             $img_url = Storage::putFileAs('flat_images', $data['image'], "$flat->slug.$extension");
-            $flat->image = $img_url;
+            // $flat->image = $img_url;
+            $data['image'] = $img_url;
         }
 
         // Riassegno l'essere visibile o meno
@@ -267,9 +277,7 @@ class FlatController extends Controller
      */
     public function restore(Flat $flat)
     {
-        // Cancello l'immagine dallo Storage
-        if ($flat->image) Storage::delete($flat->image);
         $flat->restore();
-        return to_route('admin.flats.index')->with('type', 'info')->with('message', "L'appartamento $flat->title è stato ripristinato");
+        return to_route('admin.flats.index')->with('type', 'success')->with('message', "L'appartamento $flat->title è stato ripristinato");
     }
 }

@@ -22,10 +22,6 @@ class FlatController extends Controller
         // Recupero i servizi
         $services = Service::all();
 
-        foreach ($flats as $flat) {
-            if ($flat->image) $flat->image = url('storage/' . $flat->image);
-        }
-
         // Recupero gli input
         $addressInput = $request->query('address');
         $distanceInput = intval($request->query('distance'));
@@ -34,8 +30,8 @@ class FlatController extends Controller
         $servicesInput = $request->query('services');
         $arrServices = explode(",", $servicesInput);
         $arrServices = array_map('intval', $arrServices);
-        // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
 
+        // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
         if ($addressInput) {
             $response = Http::withoutVerifying()->get('https://api.tomtom.com/search/2/geocode/' . urlencode($addressInput) . '.json?key=MZLTSagj2eSVFwXRWk7KqzDDNLrEA6UF');
             $coordinates = $response->json()['results'][0]['position'];
@@ -73,6 +69,20 @@ class FlatController extends Controller
                 $query->whereIn('services.id', $arrServices);
             }, '=', count($arrServices));
             $flats = $query->get();
+        }
+
+        // Recupero la data di oggi
+        $today = date('Y-m-d H:i:s');
+        // Aggiungo dati agli appartamenti
+        foreach ($flats as $flat) {
+            if ($flat->image) $flat->image = url('storage/' . $flat->image);
+            if (count($flat->sponsorships)) {
+                $dateLastSponsorship = $flat->sponsorships()->max('expiration_date');
+                if ($dateLastSponsorship >= $today) {
+                    $flat->sponsored = true;
+                    $flat->expiration_date = $dateLastSponsorship;
+                }
+            }
         }
         return response()->json(compact('flats', 'services'));
     }

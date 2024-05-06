@@ -17,7 +17,7 @@
             <h4>{{$flat->address}}</h4>
             <h5>Numero stanze: {{$flat->bed}}</h5>
             <h5>Numero bagni: {{$flat->bathroom}}</h5>
-            <h5>Metratura: {{$flat->sq_m}}</h5>
+            <h5>Metratura: {{$flat->sq_m}} m<sup>2</sup></h5>
             {{-- servizi --}}
             <h5>Servizi offerti:</h5>
             @forelse($flat->services as $service)
@@ -28,11 +28,10 @@
             @endforelse
         </div>
     </div>
+    {{-- Buttons --}}
     <div class="d-flex justify-content-between">
-        {{-- Go Back Button --}}
-        <a href="{{route('admin.flats.index')}}" class="btn index">Torna alla Home</a>
-        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn edit">Modifica</a>
+        <a href="{{route('admin.flats.index')}}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-2"></i>Torna indietro</a>
+        <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-warning"><i class="fa-solid fa-pencil me-2"></i>Modifica</a>
     </div>
-</div>   
-
+</div>
 @endsection

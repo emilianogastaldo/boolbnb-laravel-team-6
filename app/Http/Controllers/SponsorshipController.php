@@ -15,7 +15,11 @@ class SponsorshipController extends Controller
     public function index()
     {
         $sponsorships = Sponsorship::all();
-
+        foreach ($sponsorships as $sponsorship) {
+            if ($sponsorship->duration === 24) $sponsorship->days = '1';
+            if ($sponsorship->duration === 72) $sponsorship->days = '3';
+            if ($sponsorship->duration === 144) $sponsorship->days = '6';
+        }
         return view('admin.sponsorships.index', compact('sponsorships'));
     }
 
@@ -37,7 +41,9 @@ class SponsorshipController extends Controller
     public function show(String $name)
     {
         $sponsorship = Sponsorship::whereName($name)->first();
-
+        if ($sponsorship->duration === 24) $sponsorship->days = '1';
+        if ($sponsorship->duration === 72) $sponsorship->days = '3';
+        if ($sponsorship->duration === 144) $sponsorship->days = '6';
         $user_id = auth()->user()->id;
 
         $flats = Flat::whereUserId($user_id)->get();
