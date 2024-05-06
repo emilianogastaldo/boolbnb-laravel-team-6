@@ -16,13 +16,13 @@
             <ul class="navbar-nav me-auto">
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.flats.index') }}">{{ __('Appartamenti') }}</a>
+                        <a class="nav-link @if(Request::is('admin/flats*')) active @endif"  href="{{route('admin.flats.index') }}">{{ __('Appartamenti') }}</a>
                     </li>
                     {{-- <li class="nav-item">
                         <a class="nav-link" href="{{route('admin.messages.index') }}">{{ __('Messaggi') }}</a>
                     </li> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.sponsorships.index') }}">{{ __('Sponsorizzazioni') }}</a>
+                        <a class="nav-link @if(Request::is('admin/sponsorship*')) active @endif" href="{{route('admin.sponsorships.index') }}">{{ __('Sponsorizzazioni') }}</a>
                     </li>
                 @endauth
             

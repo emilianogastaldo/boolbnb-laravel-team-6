@@ -20,18 +20,13 @@
         </div>
         
         <div class="col-12">
-            <h1>
+            <h1 class="back-gold mb-4">
                 <span class="icon-section me-2">
-                    <i class="fa-solid fa-building fa-sm"></i>
+                    <i class="fa-solid fa-crown fa-sm"></i>
                 </span>
                 Pagamento
             </h1>   
-            <div class="d-flex justify-content-start" id="goBack">
-                <a class="btn btn-secondary mb-2" href="{{ url()->previous() }}">
-                    Torna Indietro
-                    <i class="fa-solid fa-rotate-left"></i>
-                </a>
-            </div>
+            
         </div>
         <div class="row d-flex align-items-center justify-content-center" id="payment-row">
             <div class="col-4 d-none" id="isSent" class="col-12 d-flex align-items-center justify-content-center flex-column gap-2 d-none">
@@ -68,6 +63,11 @@
                     </div>
                 </div>
             </div>   
+        </div>
+        <div class="d-flex justify-content-start" id="goBack">
+            <a class="btn btn-secondary mb-2" href="{{ route('admin.sponsorships.index') }}">
+                <i class="fa-solid fa-arrow-left"></i> Torna alle sponsorizzazioni
+            </a>
         </div>
     </div>
 @endsection

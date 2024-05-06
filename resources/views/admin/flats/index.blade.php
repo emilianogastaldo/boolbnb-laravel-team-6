@@ -54,7 +54,7 @@
               <td>{{$flat->room}}</td>
               <td>{{$flat->bed}}</td>
               <td>{{$flat->bathroom}}</td>
-              <td>{{$flat->sq_m}}</td>
+              <td>{{$flat->sq_m}} m<sup>2</sup></td>
               <td>
                 <div class="d-flex gap-2 flex-column align-items-center ">
                   <a href="{{route('admin.flats.show', $flat->id)}}" class="btn btn-sm btn-primary width-92">

@@ -24,7 +24,7 @@
         <td>{{$flat->title}}</td>
         <td>{{$flat->description}}</td>
         <td>{{$flat->address}}</td>
-        <td>{{$flat->sq_m}}</td>
+        <td>{{$flat->sq_m}} m<sup>2</sup></td>
         <td>{{$flat->bed}}</td>
         <td>{{$flat->bathroom}}</td>
         <td>
@@ -44,5 +44,6 @@
     </tbody>
   </table>
 </div>
+<a href="{{route('admin.flats.index')}}" class="btn btn-secondary mt-3"><i class="fa-solid fa-arrow-left me-2"></i>Torna indietro</a>
 
 @endsection
