@@ -33,11 +33,11 @@
                 <div class="card" style="width: 400px;">
                     <div class="card-body">
                         @if($sponsorship_id == 1)
-                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-argento"> Argento</span>.</h5>
+                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-argento"> Argento <i class="fa-solid fa-crown fa-sm"></i></span>.</h5>
                         @elseif ($sponsorship_id == 2)
-                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-oro"> Oro</span>.</h5>
+                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-oro"> Oro <i class="fa-solid fa-crown fa-sm"></i></span>.</h5>
                         @elseif ($sponsorship_id == 3)
-                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-platino"> Platino</span>.</h5>
+                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-platino"> Platino <i class="fa-solid fa-crown fa-sm"></i></span>.</h5>
                         @endif
                         <p class="card-text">Il tuo appartamento sarà visibile in home page in una sezione dedicata fino al <span id="expiration"></span>.</p>
                         <div class="text-center">
