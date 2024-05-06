@@ -57,7 +57,8 @@
             @yield('content')
         </main>
     </div>
-
+    {{-- Modale --}}
+    @include('includes.flats.modal')
     {{-- Scripts --}}
     @yield('scripts')
 </body>
