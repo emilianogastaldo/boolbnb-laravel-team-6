@@ -278,6 +278,6 @@ class FlatController extends Controller
     public function restore(Flat $flat)
     {
         $flat->restore();
-        return to_route('admin.flats.index')->with('type', 'info')->with('message', "L'appartamento $flat->title è stato ripristinato");
+        return to_route('admin.flats.index')->with('type', 'success')->with('message', "L'appartamento $flat->title è stato ripristinato");
     }
 }
