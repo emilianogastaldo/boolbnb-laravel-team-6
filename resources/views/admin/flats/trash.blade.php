@@ -3,23 +3,24 @@
 @section('title', 'Cestino')
 
 @section('content')
-<table class="table table-dark table-striped container my-5">
+<div class="table-responsive">
+<table class="table align-middle m-0">
     {{-- Thead --}}
     <thead>
-      <tr>
+      <tr class="text-center">
         <th scope="col">Titolo</th>
         <th scope="col">Descrizione</th>
         <th scope="col">Indirizzo</th>
         <th scope="col">Dimensioni</th>
         <th scope="col">Bagni</th>
         <th scope="col">Stanze</th>
-        <th></th>
+        <th scope="col">Azioni</th>
       </tr>
     </thead>
     {{-- Tbody --}}
     <tbody>
       @forelse ($flats as $flat)
-      <tr>
+      <tr class="text-center">
         <td>{{$flat->title}}</td>
         <td>{{$flat->description}}</td>
         <td>{{$flat->address}}</td>
@@ -27,19 +28,21 @@
         <td>{{$flat->bed}}</td>
         <td>{{$flat->bathroom}}</td>
         <td>
-            <div class="d-flex justify-content-end gap-3">
-                {{-- Restore --}}
-                <form action="{{route('admin.flats.restore', $flat->id)}}" method="POST">                           
-                  @csrf
-                  @method('PATCH')
-                  <button type="submit"><i class="fas fa-arrow-rotate-left"></i></button>
-                </form>
-            </div>
+          {{-- Restore --}}
+          <form action="{{route('admin.flats.restore', $flat->id)}}" method="POST">                           
+            @csrf
+            @method('PATCH')
+            <button class="btn btn-sm btn-success" type="submit"><i class="fas fa-arrow-rotate-left"></i></button>
+          </form>            
         </td>
-       </tr>
+      </tr>
       @empty
-          <h1>Non ci sono appartamenti</h1>
+      <tr>
+        <td colspan="7">Non ci sono appartamenti</td>
+      </tr>
       @endforelse
     </tbody>
   </table>
+</div>
+
 @endsection

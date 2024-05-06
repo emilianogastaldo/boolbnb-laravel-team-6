@@ -35,7 +35,7 @@
               <th scope="col">Letti</th>
               <th scope="col">Bagni</th>
               <th scope="col">Metratura</th>
-              <th scope="col" class="text-center">Azioni</th>
+              <th scope="col">Azioni</th>
           </tr>
       </thead>
       <tbody>
