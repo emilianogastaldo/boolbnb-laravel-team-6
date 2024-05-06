@@ -64,7 +64,7 @@
                   <a href="{{route('admin.flats.edit', $flat->id)}}" class="btn btn-sm btn-warning width-92">
                     {{-- <i class="fas fa-pencil"></i> --}} MODIFICA
                   </a>
-                  <form class="delete" action="{{route('admin.flats.destroy', $flat->id)}}" method="POST">                           
+                  <form action="{{route('admin.flats.destroy', $flat->id)}}" method="POST" class="delete-form" data-bs-toggle="modal" data-bs-target="#modal">                           
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-sm btn-danger width-92" type="submit">
@@ -89,5 +89,5 @@
 @endsection
 
 @section('scripts')
-@vite('resources/js/delete-confirmation.js')
+@vite('resources/js/delete_confirmation.js')
 @endsection
