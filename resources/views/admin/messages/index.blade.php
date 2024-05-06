@@ -2,8 +2,9 @@
 @section('title', 'Lista messaggi')
 
 @section('content')
-<h1>PROVA</h1>
-<table class="table">
+<h1>Messaggi</h1>
+<div class="table-responsive my-4">
+<table class="table m-0 text-center">
     <thead>
         <tr>
             <th scope="col">Appartamento</th>
@@ -27,12 +28,13 @@
             
         @empty
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 Non ci sono messaggi
             </td>
         </tr>
         @endforelse
     </tbody>
 </table>
-<a href="{{route('admin.flats.index')}}" class="btn index">Torna indietro</a>
+</div>
+<a href="{{route('admin.flats.index')}}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-2"></i>Torna indietro</a>
 @endsection
