@@ -34,7 +34,7 @@
                         <tr>
                             <th scope="col">Appartamento</th>
                             <th scope="col">Indirizzo</th>
-                            <th scope="col">Paga</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +45,7 @@
                             <td>
                                 <a href="{{ route('admin.payment.token', ['sponsorship_id' => $sponsorship->id, 'flat_id' => $flat->id]) }}"
                                     class="btn btn-gold shadow">
-                                    Paga <i class="fa-solid fa-crown"></i>
+                                    Acquista <i class="fa-solid fa-crown"></i>
                                 </a>
                             </td>
                             {{-- <td>{{$flat->image}}</td> --}}
