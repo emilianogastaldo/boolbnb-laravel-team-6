@@ -29,7 +29,7 @@ class PaymentController extends Controller
                 'privateKey' => env("BRAINTREE_PRIVATE_KEY")
             ]);
             $clientToken = $gateway->clientToken()->generate();
-            return view('admin.payment.payment', ['token' => $clientToken, 'sponsorship_id' => $sponsorshipId]);
+            return view('admin.payment.payment', ['token' => $clientToken, 'sponsorship_id' => $sponsorshipId, 'flat' => $flat]);
         } else {
             return to_route('admin.sponsorships.index')->with('type', 'danger')->with('message', 'Ci dispiace, la pagina non esiste, riprova di nuovo.');
         }
