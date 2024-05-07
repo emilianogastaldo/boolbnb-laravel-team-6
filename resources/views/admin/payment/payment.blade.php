@@ -18,20 +18,17 @@
                 <span class="ms-2 me-4">Pagamento fallito!</span>
             </div>
         </div>
-        
-        <div class="col-12">
-            <h1 class="back-gold mb-4">
-                <span class="icon-section me-2">
-                    <i class="fa-solid fa-crown fa-sm"></i>
-                </span>
-                Pagamento
-            </h1>   
-            
-        </div>
-        <div class="row d-flex align-items-center justify-content-center" id="payment-row">
-            <div class="col-4"  class="col-12 d-flex align-items-center justify-content-center flex-column gap-2 d-none">
+        <h1 class="back-gold mb-4">
+            <span class="icon-section me-2">
+                <i class="fa-solid fa-crown fa-sm"></i>
+            </span>
+            Pagamento
+        </h1>   
+        <div class="row row-cols-sm-1 row-cols-md-2 align-items-center justify-content-center mb-4" id="payment-row">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        <h3>{{$flat->title}}</h3>
                         @if($sponsorship_id == 1)
                             <h4 class="card-title">Pacchetto sponsorizzazione <span class="text-argento"> Argento <i class="fa-solid fa-crown fa-sm"></i></span></h5>
                                 
@@ -43,21 +40,19 @@
                                 
                         @endif
                         <p class="card-text d-none" id="isSent">Grazie per aver sponsorizzato il tuo appartamento. Sarà visibile in home page in una sezione dedicata fino al <span id="expiration"></span></p>
-                        <div class="text-center">
-                            <a class="btn btn-primary mb-2" href="{{ route('admin.flats.index') }}">
-                                Torna alla home
-                                <i class="fa-solid fa-house"></i>
-                            </a>
-                        </div>
+                        <a class="btn btn-primary mb-2 text-center" href="{{ route('admin.flats.index') }}">
+                            Torna alla home
+                            <i class="fa-solid fa-house"></i>
+                        </a>                        
                     </div>
                 </div>
             </div>
             
-            <div class="col-4">
-                <div class="d-flex align-items-center justify-content-center flex-column">
+            <div class="col-12">
+                <div class="d-flex align-items-start justify-content-center flex-column">
                     @csrf
                     {{-- Stile fornito da Braintree --}}
-                    <div id="dropin-container" style="width: 300px"></div>
+                    <div id="dropin-container"></div>
                     
                     <div class="info-payment text-center">
                         <a id="submit-button" class="btn btn-sm btn-success">
