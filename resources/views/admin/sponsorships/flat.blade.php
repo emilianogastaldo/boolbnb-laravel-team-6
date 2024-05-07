@@ -8,13 +8,11 @@
         <div class="col-12 col-lg-4">
             {{-- Card appartamento --}}
             <div class="card  text-center shadow-sm">                
-                    <h4 class="mt-3">
-                        {{$flat->title}}
-                    </h4>
-                    <div>{{$flat->address}}</div>
-                    <div class="p-3">
-                        <img class="img-fluid rounded-3" src="{{$flat->printImage()}}" alt="{{$flat->title}}">
-                    </div>                                   
+                <h4 class="mt-3">{{$flat->title}}</h4>
+                <div>{{$flat->address}}</div>
+                <div class="p-3">
+                   <img class="img-fluid rounded-3" src="{{$flat->printImage()}}" alt="{{$flat->title}}">
+                </div>                                   
             </div>
         </div> 
         <div class="col-12">

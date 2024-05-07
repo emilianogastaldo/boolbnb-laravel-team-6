@@ -6,7 +6,6 @@
     <form id="form" action="{{route('admin.flats.store')}}" enctype="multipart/form-data" method="POST"> 
 @endif
     @csrf
-    {{-- @dd($flat) --}}
     <div class="row row-cols-1 row-cols-lg-2 my-3 g-4">
         <div class="col">
             <div class="row g-4">
@@ -95,11 +94,7 @@
         </div>
 
         {{-- Image --}}
-        <div class="col">
-            {{-- Preview --}}
-                <div class="mb-3 ">
-                    <img src="{{asset('storage/' . old('image', $flat->image) ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" alt="{{$flat->title}}" id="preview" class="img-fluid shadow rounded-3">
-                </div>
+        <div class="col">                
                 <!-- Input Change image -->
                 <div class="input-group @if(!$flat->image) d-none @endif" id="previous-image-field">
                     <button class="btn btn-outline-secondary" type="button" id="change-image-button">Cambia Immagine</button>
@@ -117,7 +112,10 @@
                         {{$message}}
                     </div>
                 @enderror
-                
+                {{-- Preview --}}
+                <div class="mb-3 ">
+                    <img src="{{asset('storage/' . old('image', $flat->image) ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" alt="{{$flat->title}}" id="preview" class="img-fluid shadow rounded-3">
+                </div>                
         </div>
 
         {{-- Input descrizione dell'appartamento --}}
@@ -136,12 +134,17 @@
 
         {{-- Checkbox per i servizi --}}
         <div class="col">
-            @foreach ($services as $service)
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
-                    <input class="form-check-input services" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
+            <p>Aggiungi i servizi che l'appartamento offre</p>
+            <div class="row row-cols-3 row-cols-md-4">
+                @foreach ($services as $service)
+                <div class="col">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>                        
+                        <input class="form-check-input services" type="checkbox" id="{{"service-$service->id"}}" value="{{$service->id}}" name="services[]" @if(in_array($service->id, old('services', $prev_services ?? []))) checked @endif>
+                    </div>
                 </div>
                 @endforeach
+            </div>
                 {{--Client Side Alert --}}
                 <div id="services-alert" class="d-none text-danger"></div>
             {{-- Alert Error --}}
@@ -153,18 +156,16 @@
         {{-- Input bozza o pubblico --}}
         <div class="col">
             <div class="form-check form-switch">
-                {{-- @dd($flat->is_visible) --}}
                 <input class="form-check-input" type="checkbox" role="switch" name="is_visible" id="is_visible" value="" @if (old('is_visible', $flat->is_visible)) checked @endif>
                 <label class="form-check-label" for="is_visible">Pubblicato</label>
             </div>
         </div>
-
     </div>
+
     <div class="d-flex justify-content-between">
         <a href="{{route('admin.flats.index')}}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left me-2"></i>Torna indietro</a>
         <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk me-2"></i>Salva</button>
     </div>
-
 </form>
 
 @section('scripts')

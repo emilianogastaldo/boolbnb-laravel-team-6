@@ -4,31 +4,26 @@
 
 @section('content')
 <div class="container">
-    <div class="row gap-5 mb-4">
-        <div class="col col-12 col-lg-6">
-            <div class="card text-center flex-shrink-0">
-                <img src="{{$flat->printImage()}}" class="card-img-top" alt="{{$flat->title}}">
-                <div class="card-body">
-                  <h1 class="card-title">{{$flat->title}}</h1>
-                  <p class="card-text">{{$flat->description}}</p>
-                  {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
-                </div>
-            </div>
+    <div class="row g-5 mb-4">
+        <div class="col-12 col-lg-6">
+            <img src="{{$flat->printImage()}}" class="img-shadow img-fluid rounded-3" alt="{{$flat->title}}">                   
         </div>
-        <div class="col">
-            <h4>{{$flat->address}}</h4>
+        <div class="col-12 col-lg-6">
+            <h2>{{$flat->title}}</h2>
+            <p>{{$flat->description}}</p>
+            <h4>Indirizzo: {{$flat->address}}</h4>
             <h5>Numero stanze: {{$flat->bed}}</h5>
             <h5>Numero bagni: {{$flat->bathroom}}</h5>
             <h5>Metratura: {{$flat->sq_m}} m<sup>2</sup></h5>
             {{-- servizi --}}
             <h5>Servizi offerti:</h5>
-            <ul class="list-unstyled">
+            <div class="row row-cols-1 row-cols-sm-2">
                 @forelse($flat->services as $service)
-                <li class="">{{$service->name}}: <i class="{{$service->icon}}" style="color: {{$service->color}}"></i></li>   
+                    <div class="col">{{$service->name}}: <i class="{{$service->icon}}" style="color: {{$service->color}}"></i></div>   
                 @empty
-                <li>Nessun Servizio</li>
+                    <div class="col">Nessun Servizio</div>
                 @endforelse
-            </ul>            
+            </div>            
         </div>
     </div>
     {{-- Buttons --}}

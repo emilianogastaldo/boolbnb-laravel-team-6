@@ -3,17 +3,15 @@
 @section('title', 'Selezione Appartamento')
 
 @section('content')
-<div class="sponsorships-container d-flex align-items-center justify-content-center flex-column gap-4  mt-5"> <!-- style provvisorio -->
+<div class="sponsorships-container d-flex align-items-center justify-content-center flex-column gap-4  mt-5">
     <div class="row row-cols-1 row-cols-lg-2 align-items-center justify-content-center">
         <div class="col-12 col-lg-4">
             {{-- Card sponsorizzazione --}}
-            <div class="card text-center shadow-sm">
-                
-                    <h4 class="mt-3 text-{{$sponsorship->name}}">
-                        {{ucfirst($sponsorship->name)}}
-                        <i class="fa-solid fa-crown fa-sm"></i>
-                    </h4>                    
-                
+            <div class="card text-center shadow-sm">                
+                <h4 class="mt-3 text-{{$sponsorship->name}}">
+                    {{ucfirst($sponsorship->name)}}
+                    <i class="fa-solid fa-crown fa-sm"></i>
+                </h4>   
                 <div class="card-body">
                     <h5 class="card-title">Prezzo: €{{$sponsorship->price}}</h5>
                     <p class="card-text">
@@ -24,7 +22,7 @@
         </div> 
         <div class="col-12">
             {{-- I tuoi Appartamenti --}}
-            <h2 class="text-center">I tuoi appartamenti</h2>
+            <h2 class="text-center my-4">I tuoi appartamenti</h2>
             {{-- Tabella --}}
             <div class="table-responsive">
                 <table class="table align-middle m-0">
