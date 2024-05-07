@@ -26,10 +26,8 @@ class FlatController extends Controller
         $addressInput = $request->query('address');
         $distanceInput = intval($request->query('distance'));
         $roomInput = (int)$request->query('room');
-        $bedInput = (int) $request->query('bed');
-        $servicesInput = $request->query('services');
-        $arrServices = explode(",", $servicesInput);
-        $arrServices = array_map('intval', $arrServices);
+        $bathroomInput = (int) $request->query('bathroom');
+        $servicesInput = json_decode($request->query('services'));
 
         // Chiamata per raccogliere le informazioni sull' appartamento inserito dall'utente
         if ($addressInput) {
@@ -63,11 +61,11 @@ class FlatController extends Controller
             // Se ho dei filtri, filtro la ricerca
             if ($distanceInput) $query->having('distance', '<', $distanceInput);
             if ($roomInput) $query->where('room', '>=', $roomInput);
-            if ($bedInput) $query->where('bed', '>=', $bedInput);
-            if ($servicesInput && count($arrServices)) $query->whereHas('services', function ($query) use ($arrServices) {
+            if ($bathroomInput) $query->where('bed', '>=', $bathroomInput);
+            if ($servicesInput && count($servicesInput)) $query->whereHas('services', function ($query) use ($servicesInput) {
                 // Ricerca nella colonna id della tabella services i servizi che ho passato
-                $query->whereIn('services.id', $arrServices);
-            }, '=', count($arrServices));
+                $query->whereIn('services.id', $servicesInput);
+            }, '=', count($servicesInput));
             $flats = $query->get();
         }
 
@@ -81,7 +79,11 @@ class FlatController extends Controller
                 if ($dateLastSponsorship >= $today) {
                     $flat->sponsored = true;
                     $flat->expiration_date = $dateLastSponsorship;
+                } else {
+                    $flat->sponsored = false;
                 }
+            } else {
+                $flat->sponsored = false;
             }
         }
         return response()->json(compact('flats', 'services'));
