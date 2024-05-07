@@ -29,17 +29,20 @@
             
         </div>
         <div class="row d-flex align-items-center justify-content-center" id="payment-row">
-            <div class="col-4 d-none" id="isSent" class="col-12 d-flex align-items-center justify-content-center flex-column gap-2 d-none">
-                <div class="card" style="width: 400px;">
+            <div class="col-4"  class="col-12 d-flex align-items-center justify-content-center flex-column gap-2 d-none">
+                <div class="card">
                     <div class="card-body">
                         @if($sponsorship_id == 1)
-                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-argento"> Argento <i class="fa-solid fa-crown fa-sm"></i></span>.</h5>
+                            <h4 class="card-title">Pacchetto sponsorizzazione <span class="text-argento"> Argento <i class="fa-solid fa-crown fa-sm"></i></span></h5>
+                                
                         @elseif ($sponsorship_id == 2)
-                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-oro"> Oro <i class="fa-solid fa-crown fa-sm"></i></span>.</h5>
+                            <h4 class="card-title">Pacchetto sponsorizzazione <span class="text-oro"> Oro <i class="fa-solid fa-crown fa-sm"></i></span></h5>
+                              
                         @elseif ($sponsorship_id == 3)
-                            <h4 class="card-title">Grazie per aver acquistato il pacchetto sponsorizzazione <span class="text-platino"> Platino <i class="fa-solid fa-crown fa-sm"></i></span>.</h5>
+                            <h4 class="card-title">Pacchetto sponsorizzazione <span class="text-platino"> Platino <i class="fa-solid fa-crown fa-sm"></i></span></h5>
+                                
                         @endif
-                        <p class="card-text">Il tuo appartamento sarà visibile in home page in una sezione dedicata fino al <span id="expiration"></span>.</p>
+                        <p class="card-text d-none" id="isSent">Grazie per aver sponsorizzato il tuo appartamento. Sarà visibile in home page in una sezione dedicata fino al <span id="expiration"></span></p>
                         <div class="text-center">
                             <a class="btn btn-primary mb-2" href="{{ route('admin.flats.index') }}">
                                 Torna alla home
