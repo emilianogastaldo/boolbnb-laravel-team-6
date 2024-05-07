@@ -18,9 +18,7 @@
                     <h5 class="card-title">Prezzo: €{{$sponsorship->price}}</h5>
                     <p class="card-text">
                         Il tuo appartamento apparirà in Homepage nella sezione “Appartamenti in Evidenza” per <span class="text-gold text-decoration-underline">{{$sponsorship->days == '1' ? 'un giorno' : "$sponsorship->days giorni" }}</span>*
-                    </p>
-                        {{-- <a href="{{route('admin.sponsorships.show', $sponsorship->name)}}" class="btn btn-gold shadow">Acquista <i class="fa-solid fa-crown"></i></a> --}}
-                    
+                    </p>                    
                 </div>
             </div>
         </div> 
@@ -48,9 +46,7 @@
                                     Acquista <i class="fa-solid fa-crown"></i>
                                 </a>                                
                             </td>
-                            {{-- <td>{{$flat->image}}</td> --}}
-                        </tr>
-                        
+                        </tr>                        
                         @empty
                         {{-- Se vuoto --}}
                         <tr>

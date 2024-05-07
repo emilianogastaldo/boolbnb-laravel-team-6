@@ -45,6 +45,7 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware('verifie
     // Rotta per le sponsorizzazioni
     Route::get('/sponsorships', [SponsorshipController::class, 'index'])->name('sponsorships.index');
     Route::get('/sponsorships/{name}', [SponsorshipController::class, 'show'])->name('sponsorships.show');
+    Route::get('/sponsorship/{flat}', [SponsorshipController::class, 'buySponsorship'])->name('sponsorships.flat');
     Route::post('/sponsorships', [SponsorshipController::class, 'payment'])->name('sponsorships.payment');
 
     // Rotte per i pagamenti

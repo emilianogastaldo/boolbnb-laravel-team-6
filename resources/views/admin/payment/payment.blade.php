@@ -49,7 +49,7 @@
             </div>
             
             <div class="col-12">
-                <div class="d-flex align-items-start justify-content-center flex-column">
+                <div class="d-flex align-items-start justify-content-center flex-column" style="width: 300px">
                     @csrf
                     {{-- Stile fornito da Braintree --}}
                     <div id="dropin-container"></div>

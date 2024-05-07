@@ -50,4 +50,15 @@ class SponsorshipController extends Controller
 
         return view('admin.sponsorships.show', compact('flats', 'sponsorship'));
     }
+
+    public function buySponsorship(Flat $flat)
+    {
+        $sponsorships = Sponsorship::all();
+        foreach ($sponsorships as $sponsorship) {
+            if ($sponsorship->duration === 24) $sponsorship->days = '1';
+            if ($sponsorship->duration === 72) $sponsorship->days = '3';
+            if ($sponsorship->duration === 144) $sponsorship->days = '6';
+        }
+        return view('admin.sponsorships.flat', compact('flat', 'sponsorships'));
+    }
 }
