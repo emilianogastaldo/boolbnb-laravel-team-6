@@ -4,8 +4,8 @@
 
 @section('content')
 <div class="sponsorships-container d-flex align-items-center justify-content-center flex-column gap-4  mt-5"> <!-- style provvisorio -->
-    <div class="row align-items-center justify-content-center">
-        <div class="col-4">
+    <div class="row row-cols-1 row-cols-lg-2 align-items-center justify-content-center">
+        <div class="col-12 col-lg-4">
             {{-- Card sponsorizzazione --}}
             <div class="card text-center shadow-sm">
                 
@@ -24,9 +24,9 @@
                 </div>
             </div>
         </div> 
-        <div class="col-7">
+        <div class="col-12">
             {{-- I tuoi Appartamenti --}}
-            <h2 class="text-center mb-4">I tuoi appartamenti</h2>
+            <h2 class="text-center">I tuoi appartamenti</h2>
             {{-- Tabella --}}
             <div class="table-responsive">
                 <table class="table align-middle m-0">
@@ -46,7 +46,7 @@
                                 <a href="{{ route('admin.payment.token', ['sponsorship_id' => $sponsorship->id, 'flat_id' => $flat->id]) }}"
                                     class="btn btn-gold shadow">
                                     Acquista <i class="fa-solid fa-crown"></i>
-                                </a>
+                                </a>                                
                             </td>
                             {{-- <td>{{$flat->image}}</td> --}}
                         </tr>
@@ -63,11 +63,11 @@
                 </table>
             </div>
         </div>
-        {{-- Disclaimer --}}
-        <div id="pippo" class="d-flex align-items-center justify-content-center mt-4">
-            <p class="mb-0">Terminato il periodo di sponsorizzazione, l'appartamento tornerà ad essere
-                visualizzato normalmente, senza alcuna particolarità *</p>
-        </div>
+    </div>
+     {{-- Disclaimer --}}
+     <div id="pippo" class="d-flex align-items-center justify-content-center mt-4">
+        <p class="mb-0">Terminato il periodo di sponsorizzazione, l'appartamento tornerà ad essere
+            visualizzato normalmente, senza alcuna particolarità *</p>
     </div>
 </div>
 <a class="btn btn-secondary mt-3 mb-2" href="{{ route('admin.sponsorships.index') }}">
