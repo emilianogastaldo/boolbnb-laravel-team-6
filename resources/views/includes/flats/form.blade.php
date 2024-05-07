@@ -7,8 +7,8 @@
 @endif
     @csrf
     {{-- @dd($flat) --}}
-    <div class="row my-3 g-4">
-        <div class="col-6">
+    <div class="row row-cols-1 row-cols-lg-2 my-3 g-4">
+        <div class="col">
             <div class="row g-4">
                 {{-- Input per il titolo della casa --}}
                 <div class="col-12">
@@ -31,7 +31,7 @@
                         <input type="text" class="d-none" name="address" id="form-address" value="{{old('address', $flat->address)}}">
                         {{-- Input visibile all'utente --}}
                         <input type="text" class="form-control @error('address') is-invalid @elseif(old('address', '')) is-valid @enderror" id="input-address" value="{{old('address', $flat->address)}}">
-                        <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger"> *</span> (es: Via Vittorio Veneto 4, 00187 Roma)</label>
+                        <label for="address" class="form-label">Scrivi la via dell'appartamento<span class="text-danger">*</span><span class="d-none d-lg-inline">(es: Via Vittorio Veneto 4, 00187 Roma)</span></label>
                         {{--Client Side Alert --}}
                             <div id="address-alert" class="d-none text-danger"></div>
                         {{-- Server Side Alert --}}
@@ -95,7 +95,7 @@
         </div>
 
         {{-- Image --}}
-        <div class="col-6">
+        <div class="col">
             {{-- Preview --}}
                 <div class="mb-3 ">
                     <img src="{{asset('storage/' . old('image', $flat->image) ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" alt="{{$flat->title}}" id="preview" class="img-fluid shadow rounded-3">
@@ -121,7 +121,7 @@
         </div>
 
         {{-- Input descrizione dell'appartamento --}}
-        <div class="col-12">
+        <div class="col">
             <div class="form-floating">
                 <textarea class="form-control @error('description') is-invalid @elseif(old('description', '')) is-valid @enderror" id="description" name="description" style="height: 150px">{{old('description', $flat->description)}}</textarea>
                 <label for="description">Scrivi una descrizione dell'appartamento <span class="text-danger"> * </span></label>
@@ -135,7 +135,7 @@
         </div>
 
         {{-- Checkbox per i servizi --}}
-        <div class="col-12">
+        <div class="col">
             @foreach ($services as $service)
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="{{"service-$service->id"}}">{{$service->name}}</label>
@@ -151,7 +151,7 @@
         </div>
 
         {{-- Input bozza o pubblico --}}
-        <div class="col-6">
+        <div class="col">
             <div class="form-check form-switch">
                 {{-- @dd($flat->is_visible) --}}
                 <input class="form-check-input" type="checkbox" role="switch" name="is_visible" id="is_visible" value="" @if (old('is_visible', $flat->is_visible)) checked @endif>
