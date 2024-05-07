@@ -87,8 +87,8 @@ class PaymentController extends Controller
                     $expiration_date = date("Y-m-d H:i:s", strtotime('+' . $sponsorship->duration . 'hours', strtotime($today)));
                     // $expiration_date = Carbon::now('Europe/Rome')->addHour($sponsorship->duration);
                 }
-                $expiration_date = Carbon::create($expiration_date)->format('d/m/y H:i');
                 $flat->sponsorships()->attach($sponsorshipId, ['expiration_date' => $expiration_date]);
+                $expiration_date = Carbon::create($expiration_date)->format('d/m/y H:i');
                 return response()->json(['success' => true, 'message' => 'Pagamento completato con successo', 'expiration_date' => $expiration_date]);
             } else {
                 return response()->json(['success' => false, 'message' => 'Errore durante il pagamento'], 400);
