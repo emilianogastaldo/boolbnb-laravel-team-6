@@ -12,7 +12,6 @@
             <th scope="col">Ricevuto il</th>
             <th scope="col">Email</th>
             <th scope="col">Messaggio</th>
-            {{-- <th scope="col">Ricevuto</th> --}}
         </tr>
     </thead>
     <tbody>
@@ -23,14 +22,10 @@
             <td>{{$message->getDate('d/m/y h:i')}}</td>
             <td>{{$message->email_sender}}</td>
             <td>{{$message->text}}</td>
-            {{-- <td>{{$message->created_at}}</td> --}}
-        </tr>
-            
+        </tr>            
         @empty
         <tr>
-            <td colspan="5">
-                Non ci sono messaggi
-            </td>
+            <td class="py-3" colspan="5">Non ci sono messaggi</td>
         </tr>
         @endforelse
     </tbody>

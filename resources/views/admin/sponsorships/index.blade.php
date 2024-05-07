@@ -4,14 +4,12 @@
 
 @section('content')
 <div class="sponsorships-container d-flex align-items-center justify-content-center flex-column gap-4 my-5">
-    <div class="row">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach ($sponsorships as $sponsorship) 
-        <div class="col-4 " >
+        <div class="col-12">
             <div class="card text-center shadow-sm">
-                <div class="bg-{{$sponsorship->name}}">
-                    <h4 class="mt-3 text-white">
-                        {{ucfirst($sponsorship->name)}}
-                    </h4>                    
+                <div class="card-header border-0 bg-{{$sponsorship->name}}">
+                    <h4 class="mt-3 text-white">{{ucfirst($sponsorship->name)}}</h4>                    
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Prezzo: €{{$sponsorship->price}}</h5>

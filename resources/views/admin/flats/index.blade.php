@@ -104,10 +104,8 @@
           </tr>
               
           @empty
-          <tr>
-              <td colspan="11">
-                  Non ci sono appartamenti
-              </td>
+          <tr class="text-center">
+              <td class="py-3" colspan="11">Non ci sono appartamenti</td>
           </tr>
         @endforelse
       </tbody>

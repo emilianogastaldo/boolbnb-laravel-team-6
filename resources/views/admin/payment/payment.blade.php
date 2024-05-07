@@ -7,40 +7,29 @@
 @endsection
 
 @section('content')
-    <div id="payment_container" class="container">
-        {{-- <div class="col-12">
-            {{-- <div id="isSent" class="text-bg-success message success d-none align-items-center justify-content-center">
-                <i class="fa-solid fa-circle-check fa-fade"></i>
-                <span class="ms-2 me-4">Pagamento effettuato con successo! <br> Sarai renderizzato tra 5 secondi...</span>
-            </div> --}}
-            <div id="isSentNone" class="text-bg-danger message danger d-none align-items-center justify-content-center">
-                <i class="fa-solid fa-circle-check fa-fade"></i>
-                <span class="ms-2 me-4">Pagamento fallito!</span>
-            </div>
-        </div>
+    <div id="payment_container" class="container ">
         <h1 class="back-gold mb-4">
             <span class="icon-section me-2">
                 <i class="fa-solid fa-crown fa-sm"></i>
             </span>
             Pagamento
         </h1>   
-        <div class="row row-cols-sm-1 row-cols-md-2 align-items-center justify-content-center mb-4" id="payment-row">
+        <div class="row row-cols-sm-1 row-cols-md-2 align-items-center justify-content-center my-4" id="payment-row" >
             <div class="col-12">
-                <div class="card">
+                <div class="card mx-auto" style="width: 300px">
                     <div class="card-body">
                         <h3>{{$flat->title}}</h3>
                         @if($sponsorship_id == 1)
-                            <h4 class="card-title">Pacchetto sponsorizzazione <span class="text-argento"> Argento <i class="fa-solid fa-crown fa-sm"></i></span></h5>
-                                
+                            <h5 class="card-title">Pacchetto sponsorizzazione:</h5> <div class="h5 text-argento mt-2"> Argento <i class="fa-solid fa-crown fa-sm"></i></div>                                
                         @elseif ($sponsorship_id == 2)
-                            <h4 class="card-title">Pacchetto sponsorizzazione <span class="text-oro"> Oro <i class="fa-solid fa-crown fa-sm"></i></span></h5>
-                              
+                            <h5 class="card-title">Pacchetto sponsorizzazione:</h5> <div class="h5 text-oro mt-2"> Oro <i class="fa-solid fa-crown fa-sm"></i></div>                              
                         @elseif ($sponsorship_id == 3)
-                            <h4 class="card-title">Pacchetto sponsorizzazione <span class="text-platino"> Platino <i class="fa-solid fa-crown fa-sm"></i></span></h5>
-                                
+                            <h5 class="card-title">Pacchetto sponsorizzazione:</h5> <div class="h5 text-platino mt-2"> Platino <i class="fa-solid fa-crown fa-sm"></i></div>                                
                         @endif
-                        <p class="card-text d-none" id="isSent">Grazie per aver sponsorizzato il tuo appartamento. Sarà visibile in home page in una sezione dedicata fino al <span id="expiration"></span></p>
-                        <a class="btn btn-primary mb-2 text-center" href="{{ route('admin.flats.index') }}">
+                        <div class="card-text d-none" id="isSent">
+                            Grazie per aver sponsorizzato il tuo appartamento. <br> Sarà visibile in home page in una sezione dedicata fino al <span id="expiration"></span>
+                        </div>
+                        <a class="btn btn-primary mt-4 text-center" href="{{ route('admin.flats.index') }}">
                             Torna alla home
                             <i class="fa-solid fa-house"></i>
                         </a>                        
@@ -62,7 +51,11 @@
                 </div>
             </div>   
         </div>
-        <div class="d-flex justify-content-start" id="goBack">
+        <div class="d-none d-flex justify-content-center align-items-center" id="spin" style="height: 300px">
+            <div class="spinner-border text-primary">               
+            </div>
+        </div>
+        <div class="d-flex justify-content-start">
             <a class="btn btn-secondary mb-2" href="{{ route('admin.sponsorships.index') }}">
                 <i class="fa-solid fa-arrow-left"></i> Torna alle sponsorizzazioni
             </a>
@@ -77,8 +70,9 @@
         
         const button = document.querySelector('#submit-button');
         const expirationField = document.getElementById('expiration');
-
+        const paymentAll = document.getElementById('payment-row');
         const urlParams = new URLSearchParams(window.location.search);
+        const spin = document.getElementById('spin');
         let sponsorship = urlParams.get('sponsorship_id');
         let flat = urlParams.get('flat_id');
 
@@ -95,6 +89,8 @@
 
             // Creo la richiesta per la rotta process
             button.addEventListener('click', function() {
+                paymentAll.classList.add('d-none');
+                spin.classList.remove('d-none');
                 instance.requestPaymentMethod(function(err, payload) {
                     $.get('{{ route('admin.payment.process') }}', {
                         payload,
@@ -106,18 +102,11 @@
                             // Messaggio di successo
                             $('#submit-button').addClass('d-none');
                             $('#isSent').removeClass('d-none');
-                            $('#goBack').addClass('d-none');
                             expirationField.innerText = response.expiration_date;
+                            paymentAll.classList.remove('d-none');
+                            spin.classList.add('d-none');
                         } else {
                             // Messaggio di pagamento fallito
-                            $('#isSentNone').removeClass('d-none').addClass('d-flex');
-
-                            setTimeout(function() {
-                                $('#isSentNone').removeClass('d-flex').addClass(
-                                    'd-none');
-                            }, 5000);
-                            
-
                             alert('Pagamento fallito. Riprova');
                         }
                     }, 'json');
