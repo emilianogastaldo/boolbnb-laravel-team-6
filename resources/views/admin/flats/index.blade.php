@@ -53,7 +53,7 @@
                     {{$flat->title}}
                   </div>
                   <div>
-                    <a class="btn btn-sm btn-primary mt-2">Sponsorizza</a>
+                    <a href="{{route('admin.sponsorships.flat', $flat)}}" class="btn btn-sm btn-primary mt-2">Sponsorizza</a>
                   </div>
                 </div>
               </td>            
