@@ -19,7 +19,7 @@
         <tr>
             <td>{{$message->flat->title}}</td>            
             <td>{{"$message->first_name $message->last_name"}}</td>
-            <td>{{$message->getDate('d/m/y h:i')}}</td>
+            <td>{{$message->getDate('d/m/y H:i')}}</td>
             <td>{{$message->email_sender}}</td>
             <td>{{$message->text}}</td>
         </tr>            
