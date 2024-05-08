@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="{{asset('storage/app_icon/logo.png')}}" />
 
     <style>
         body{
@@ -16,6 +17,7 @@
 
     <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -25,6 +27,14 @@
 
     {{-- CDNS --}}
     @yield('cdns')
+
+    
+    <style lang="scss">
+        body{
+            visibility: hidden;
+        }
+
+    </style>
     
     {{-- Vite --}}
     @vite(['resources/js/app.js'])
@@ -35,12 +45,15 @@
 
 <body>
     <div id="app">
+
         {{-- Navbar --}}
         @include('includes.layouts.navbar')
+
         <!-- Main -->
         <main class="container py-3">
             {{-- Alerts --}}
             @include('includes.alerts')
+
             {{-- Content --}}
             @yield('content')
         </main>
