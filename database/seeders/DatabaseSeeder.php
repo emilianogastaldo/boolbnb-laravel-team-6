@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory(5)->create();
 
-        $this->call([ServiceSeeder::class, SponsorSeeder::class, FlatSeeder::class]);
+        $this->call([ServiceSeeder::class, SponsorSeeder::class, FlatSeeder::class, MessageSeeder::class]);
 
         \App\Models\User::factory()->create([
             'first_name' => 'Test',

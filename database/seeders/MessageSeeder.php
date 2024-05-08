@@ -286,13 +286,11 @@ class MessageSeeder extends Seeder
         foreach ($messages as $key => $message) {
             Message::create([
                 "flat_id" => $message["flat_id"],
-                "sender_email" => $faker->email(),
-                "sender_name" => $faker->firstName(),
-                "sender_surname" => $faker->lastName(),
-                "object" => $message['object'],
-                "sender_text" => $message['sender_text'],
+                "email_sender" => $message["sender_email"],
+                "first_name" => $message["sender_name"],
+                "last_name" => $message["sender_surname"],
+                "text" => $message['sender_text'],
                 "created_at" => $faker->dateTimeBetween('-4 months', '-1 days')
-
             ]);
         }
     }
